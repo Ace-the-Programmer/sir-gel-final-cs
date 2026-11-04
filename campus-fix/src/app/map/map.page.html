@@ -1,0 +1,61 @@
+<ion-header [translucent]="true" class="map-header">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>LocaRate Map</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="search-toolbar">
+    <ion-grid class="search-grid">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-sm="10" size-md="6" size-lg="5" size-xl="4">
+          <ion-searchbar
+            placeholder="Search location"
+            class="map-searchbar"
+          ></ion-searchbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="map-content">
+  <!-- Map container for Leaflet tiles -->
+  <ion-grid id="map-container" class="leaflet-map-grid"></ion-grid>
+
+  <!-- Bottom Floating Route Estimation Card -->
+  <ion-grid class="estimation-card-grid">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-sm="10" size-md="6" size-lg="5" size-xl="4">
+        <ion-card class="estimation-card">
+          <ion-card-content class="estimation-card-content">
+            <ion-grid>
+              <ion-row class="ion-align-items-center ion-justify-content-between">
+                <!-- Left: Turn Arrow + Distance + ETA -->
+                <ion-col size="7">
+                  <ion-text class="distance-heading">
+                    <ion-icon name="arrow-redo" class="turn-arrow-icon"></ion-icon>
+                    <ion-text class="distance-val">3 km</ion-text>
+                  </ion-text>
+
+                  <ion-text class="duration-val">
+                    08: 00 mins
+                  </ion-text>
+                </ion-col>
+
+                <!-- Right: Weather Info -->
+                <ion-col size="5" class="ion-text-end">
+                  <ion-text class="weather-text">
+                    39°, Sunny
+                  </ion-text>
+                  <ion-icon name="partly-sunny" class="weather-icon"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

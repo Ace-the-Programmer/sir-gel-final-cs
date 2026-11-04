@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border get-started-header">
+  <ion-toolbar class="transparent-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="get-started-content">
+  <ion-grid class="get-started-grid">
+    <!-- Top Area: Logo & App Title -->
+    <ion-row class="brand-row ion-justify-content-center ion-align-items-center">
+      <ion-col size="12" size-sm="10" size-md="8" size-lg="6" size-xl="4" class="ion-text-center">
+        <ion-img
+          src="assets/icon/locarate-logo.svg"
+          alt="LocaRate Logo"
+          class="get-started-logo"
+        ></ion-img>
+
+        <ion-text class="brand-title">
+          <ion-text class="brand-loca">Loca</ion-text>
+          <ion-text class="brand-rate">Rate</ion-text>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <!-- Bottom Area: Buttons & Agreement -->
+    <ion-row class="actions-row ion-justify-content-center">
+      <ion-col size="12" size-sm="10" size-md="6" size-lg="5" size-xl="4" class="ion-text-center">
+        <!-- 1. Get Started Button -->
+        <ion-button
+          expand="block"
+          shape="round"
+          class="btn-slate"
+          (click)="onGetStarted()"
+        >
+          <ion-text class="btn-text-white">Get Started</ion-text>
+        </ion-button>
+
+        <!-- 2. Login Button -->
+        <ion-button
+          expand="block"
+          shape="round"
+          class="btn-light"
+          (click)="onLogin()"
+        >
+          <ion-text class="btn-text-dark">Login</ion-text>
+        </ion-button>
+
+        <!-- 3. Continue as Guest Button -->
+        <ion-button
+          expand="block"
+          shape="round"
+          class="btn-slate"
+          (click)="onContinueGuest()"
+        >
+          <ion-text class="btn-text-white">Continue as Guest</ion-text>
+        </ion-button>
+
+        <!-- Terms & Privacy Note -->
+        <ion-text class="terms-text">
+          <ion-text class="terms-muted">By continuing you agree to LocaRate's</ion-text>
+          <ion-text class="terms-links">
+            <ion-text class="link-item">Terms of Service</ion-text>
+            <ion-text class="terms-muted"> and </ion-text>
+            <ion-text class="link-item">Privacy Policy</ion-text>
+          </ion-text>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

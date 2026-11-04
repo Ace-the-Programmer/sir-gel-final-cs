@@ -1,0 +1,130 @@
+.get-started-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: transparent;
+
+  ion-toolbar {
+    --background: transparent;
+    --border-color: transparent;
+    --min-height: 52px;
+    padding-top: 6px;
+    padding-left: 8px;
+  }
+
+  ion-back-button {
+    --color: #ffffff;
+    font-size: 16px;
+  }
+}
+
+.get-started-content {
+  --background: #17355c url('/assets/icon/map-bg.svg') no-repeat bottom center / cover;
+  height: 100%;
+}
+
+.get-started-grid {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(36px, 6vh, 60px) 16px clamp(14px, 3vh, 28px) 16px;
+}
+
+.brand-row {
+  margin-top: clamp(8px, 2vh, 24px);
+}
+
+.get-started-logo {
+  width: 220px;
+  max-width: min(60vw, 260px);
+  max-height: 28vh;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+}
+
+.brand-title {
+  display: block;
+  font-size: clamp(30px, 6vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-top: 12px;
+}
+
+.brand-loca {
+  color: #ffffff;
+}
+
+.brand-rate {
+  color: #38b6ff;
+}
+
+.actions-row {
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+/* Slate Blue Button (Get Started & Continue as Guest) */
+.btn-slate {
+  --background: #395f8e;
+  --color: #ffffff;
+  --border-radius: 26px;
+  height: clamp(48px, 6vh, 54px);
+  font-size: clamp(15px, 3.8vw, 17px);
+  font-weight: 700;
+  text-transform: none;
+  margin-bottom: clamp(10px, 1.8vh, 14px);
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Light Cream/White Button (Login) */
+.btn-light {
+  --background: #f6f8fa;
+  --color: #1c3960;
+  --border-radius: 26px;
+  height: clamp(48px, 6vh, 54px);
+  font-size: clamp(15px, 3.8vw, 17px);
+  font-weight: 700;
+  text-transform: none;
+  margin-bottom: clamp(10px, 1.8vh, 14px);
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-text-white {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.btn-text-dark {
+  color: #1c3960;
+  font-weight: 700;
+}
+
+.terms-text {
+  display: block;
+  margin-top: clamp(8px, 1.5vh, 16px);
+  margin-bottom: 4px;
+  font-size: clamp(11px, 2.8vw, 13px);
+  line-height: 1.45;
+}
+
+.terms-muted {
+  color: #9ab4d6;
+  display: block;
+}
+
+.terms-links {
+  display: block;
+  margin-top: 2px;
+}
+
+.link-item {
+  color: #38b6ff;
+  text-decoration: underline;
+  cursor: pointer;
+}

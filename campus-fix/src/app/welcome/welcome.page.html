@@ -1,0 +1,152 @@
+<ion-content [fullscreen]="true" class="welcome-content">
+  <ion-grid class="welcome-grid">
+    <!-- Top Greeting Area -->
+    <ion-row class="top-row ion-justify-content-center ion-text-center">
+      <ion-col size="12" size-sm="10" size-md="8" size-lg="6" size-xl="5">
+        <ion-text class="welcome-heading">
+          <ion-text class="welcome-title">Welcome to</ion-text>
+          <ion-text class="welcome-brand">
+            <ion-text class="welcome-loca">Loca</ion-text>
+            <ion-text class="welcome-rate">Rate</ion-text>
+          </ion-text>
+        </ion-text>
+
+        <ion-text class="welcome-subtitle">
+          Smart Location, Perfect Estimation
+        </ion-text>
+
+        <!-- Search Bar -->
+        <ion-searchbar
+          placeholder="Search location"
+          class="custom-searchbar"
+          (ionFocus)="goToMap()"
+        ></ion-searchbar>
+      </ion-col>
+    </ion-row>
+
+    <!-- Bottom Sheet / Centered Card: LocaRate Account Setup -->
+    <ion-row class="bottom-card-row ion-justify-content-center">
+      <ion-col size="12" size-sm="10" size-md="7" size-lg="5" size-xl="4">
+        <ion-card class="account-card">
+          <ion-card-content class="account-card-content">
+            <!-- Header Row with Back Button & Title -->
+            <ion-row class="card-header-row ion-align-items-center">
+              <ion-col size="2" class="ion-text-start">
+                <ion-button
+                  fill="clear"
+                  size="small"
+                  class="btn-card-back"
+                  (click)="onBack()"
+                >
+                  <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="8" class="ion-text-center">
+                <ion-text class="card-heading">
+                  Create your LocaRate account
+                </ion-text>
+              </ion-col>
+              <ion-col size="2"></ion-col>
+            </ion-row>
+
+            <!-- Step 0: Social Signup Options -->
+            <ion-row *ngIf="step === 0" class="step-container ion-justify-content-center">
+              <ion-col size="12">
+                <ion-button
+                  expand="block"
+                  shape="round"
+                  class="btn-social"
+                  (click)="goToGoogleAuth()"
+                >
+                  <ion-icon slot="start" name="logo-google" class="icon-google"></ion-icon>
+                  <ion-text>Sign up with Google</ion-text>
+                </ion-button>
+
+                <ion-button
+                  expand="block"
+                  shape="round"
+                  class="btn-social"
+                  (click)="goToGoogleAuth()"
+                >
+                  <ion-icon slot="start" name="logo-facebook" class="icon-facebook"></ion-icon>
+                  <ion-text>Sign up with Facebook</ion-text>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <!-- Step 1: Create Username -->
+            <ion-row *ngIf="step === 1" class="step-container ion-justify-content-center">
+              <ion-col size="12">
+                <ion-item lines="none" class="input-pill-item">
+                  <ion-input
+                    type="text"
+                    placeholder="Create your username"
+                    [(ngModel)]="username"
+                    class="pill-input"
+                  ></ion-input>
+                </ion-item>
+
+                <ion-button
+                  expand="block"
+                  shape="round"
+                  class="btn-navy-next"
+                  (click)="onNext()"
+                >
+                  <ion-text class="btn-next-text">Next</ion-text>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <!-- Step 2: Create Password -->
+            <ion-row *ngIf="step === 2" class="step-container ion-justify-content-center">
+              <ion-col size="12">
+                <ion-item lines="none" class="input-pill-item">
+                  <ion-input
+                    type="password"
+                    placeholder="Create your password"
+                    [(ngModel)]="password"
+                    class="pill-input"
+                  ></ion-input>
+                </ion-item>
+
+                <ion-button
+                  expand="block"
+                  shape="round"
+                  class="btn-navy-next"
+                  (click)="onNext()"
+                >
+                  <ion-text class="btn-next-text">Next</ion-text>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <!-- Step 3: Birthday -->
+            <ion-row *ngIf="step === 3" class="step-container ion-justify-content-center">
+              <ion-col size="12">
+                <ion-item lines="none" class="input-pill-item">
+                  <ion-input
+                    type="text"
+                    placeholder="Birthday"
+                    [(ngModel)]="birthday"
+                    class="pill-input"
+                  ></ion-input>
+                  <ion-icon slot="end" name="calendar-outline" class="calendar-icon"></ion-icon>
+                </ion-item>
+
+                <ion-button
+                  expand="block"
+                  shape="round"
+                  class="btn-navy-next"
+                  (click)="onNext()"
+                >
+                  <ion-text class="btn-next-text">Next</ion-text>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

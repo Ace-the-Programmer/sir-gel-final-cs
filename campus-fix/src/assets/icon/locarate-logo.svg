@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="100%" height="100%">
+  <!-- Route Path -->
+  <path
+    d="M 110,175
+       L 230,175
+       A 25,25 0 0,1 230,225
+       L 130,225
+       A 25,25 0 0,0 130,275
+       L 260,275"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Top-Left Pin (Blue) -->
+  <g transform="translate(100, 140)">
+    <!-- Pin Body (Teardrop pointing down-right) -->
+    <path
+      d="M 0,-40
+         C 22,-40 40,-22 40,0
+         C 40,25 0,55 0,55
+         C 0,55 -40,25 -40,0
+         C -40,-22 -22,-40 0,-40 Z"
+      fill="#38b6ff"
+      stroke="#ffffff"
+      stroke-width="7"
+      stroke-linejoin="round"
+    />
+    <!-- Pin Center Hole -->
+    <circle cx="0" cy="0" r="14" fill="#183661" stroke="#ffffff" stroke-width="7" />
+  </g>
+
+  <!-- Bottom-Right Pin (Orange/Yellow) -->
+  <g transform="translate(260, 240)">
+    <!-- Pin Body -->
+    <path
+      d="M 0,-40
+         C 22,-40 40,-22 40,0
+         C 40,25 0,55 0,55
+         C 0,55 -40,25 -40,0
+         C -40,-22 -22,-40 0,-40 Z"
+      fill="#ffb247"
+      stroke="#ffffff"
+      stroke-width="7"
+      stroke-linejoin="round"
+    />
+    <!-- Pin Center Hole -->
+    <circle cx="0" cy="0" r="14" fill="#183661" stroke="#ffffff" stroke-width="7" />
+  </g>
+</svg>
+

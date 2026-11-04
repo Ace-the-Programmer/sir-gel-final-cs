@@ -1,0 +1,125 @@
+.map-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  ion-toolbar {
+    --background: transparent;
+  }
+
+  .search-toolbar {
+    padding: 0 10px;
+  }
+}
+
+.search-grid {
+  padding: 0;
+  width: 100%;
+}
+
+.map-searchbar {
+  --background: #ffffff;
+  --color: #1a1a1a;
+  --placeholder-color: #555555;
+  --icon-color: #153258;
+  --border-radius: 26px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  padding: 0;
+  width: 100%;
+}
+
+.map-content {
+  position: relative;
+  height: 100%;
+}
+
+.leaflet-map-grid {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #e5e3df;
+}
+
+.estimation-card-grid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0;
+  pointer-events: none;
+}
+
+.estimation-card {
+  pointer-events: auto;
+  margin: 0;
+  background: #ffffff;
+}
+
+/* Mobile: Bottom edge-to-edge sheet */
+@media (max-width: 576px) {
+  .estimation-card {
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* Desktop Web: Centered floating card */
+@media (min-width: 577px) {
+  .estimation-card-grid {
+    bottom: 24px;
+    padding: 0 16px;
+  }
+
+  .estimation-card {
+    border-radius: 24px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.estimation-card-content {
+  padding: 16px 20px clamp(16px, 3vh, 22px) 20px;
+}
+
+.distance-heading {
+  display: flex;
+  align-items: center;
+}
+
+.turn-arrow-icon {
+  font-size: clamp(24px, 5vw, 28px);
+  color: #0099ff;
+  margin-right: 6px;
+  transform: rotate(-45deg);
+}
+
+.distance-val {
+  font-size: clamp(26px, 6vw, 32px);
+  font-weight: 900;
+  color: #000000;
+  letter-spacing: -0.5px;
+}
+
+.duration-val {
+  display: block;
+  font-size: clamp(18px, 4.5vw, 22px);
+  font-weight: 800;
+  color: #000000;
+  margin-top: 2px;
+}
+
+.weather-text {
+  display: block;
+  font-size: clamp(13px, 3vw, 15px);
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 2px;
+}
+
+.weather-icon {
+  font-size: clamp(32px, 7vw, 40px);
+  color: #ffb74d;
+}

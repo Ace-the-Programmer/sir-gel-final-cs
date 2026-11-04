@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border google-auth-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/get-started" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-icon name="logo-google" class="google-logo-icon"></ion-icon>
+    <ion-text class="header-title">Sign up with Google</ion-text>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="google-auth-content">
+  <ion-grid class="google-auth-grid">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-sm="10" size-md="7" size-lg="5" size-xl="4" class="auth-column">
+        <!-- Top Brand & Heading -->
+        <ion-row class="brand-row ion-justify-content-center ion-text-center">
+          <ion-col size="12">
+            <ion-img
+              src="assets/icon/locarate-logo.svg"
+              alt="LocaRate Logo"
+              class="center-logo"
+            ></ion-img>
+
+            <ion-text class="choose-title">
+              Choose an account
+            </ion-text>
+
+            <ion-text class="choose-subtitle">
+              to continue to <ion-text class="brand-name">LocaRate</ion-text>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Account List -->
+        <ion-row class="accounts-row ion-justify-content-center">
+          <ion-col size="12">
+            <ion-list lines="inset" class="account-list">
+              <ion-item
+                *ngFor="let acc of accounts"
+                button="true"
+                detail="false"
+                class="account-item"
+                (click)="selectAccount(acc)"
+              >
+                <ion-avatar slot="start" class="account-avatar" [style.background]="acc.avatarColor">
+                  <ion-text class="avatar-initials">{{ acc.initials }}</ion-text>
+                </ion-avatar>
+
+                <ion-label class="ion-text-wrap">
+                  <ion-text class="account-name">{{ acc.name }}</ion-text>
+                  <ion-text class="account-email">{{ acc.email }}</ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+
+        <!-- Bottom Disclaimer -->
+        <ion-row class="disclaimer-row ion-justify-content-center ion-text-center">
+          <ion-col size="12">
+            <ion-text class="disclaimer-text">
+              Before using this app, you can review LocaRate's
+              <ion-text class="disclaimer-link">privacy policy</ion-text>
+              and
+              <ion-text class="disclaimer-link">Terms of Service</ion-text>.
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

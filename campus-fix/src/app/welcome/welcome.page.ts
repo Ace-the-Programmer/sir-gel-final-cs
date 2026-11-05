@@ -12,6 +12,8 @@ import {
   IonIcon,
   IonInput,
   IonItem,
+  IonCard,
+  IonCardContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -41,6 +43,8 @@ import {
     IonIcon,
     IonInput,
     IonItem,
+    IonCard,
+    IonCardContent,
   ],
 })
 export class WelcomePage implements OnInit {

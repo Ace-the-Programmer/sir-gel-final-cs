@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
   IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonText,
+  IonButton,
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -16,6 +21,11 @@ import { search } from 'ionicons/icons';
   imports: [
     CommonModule,
     IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonText,
+    IonButton,
     IonIcon,
   ],
 })
@@ -40,4 +50,3 @@ export class DashboardPage {
     this.router.navigate(['/profile']);
   }
 }
-

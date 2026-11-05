@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
+  IonRow,
+  IonCol,
+  IonButton,
   IonIcon,
+  IonText,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { search } from 'ionicons/icons';
@@ -17,7 +21,11 @@ import * as L from 'leaflet';
   imports: [
     CommonModule,
     IonContent,
+    IonRow,
+    IonCol,
+    IonButton,
     IonIcon,
+    IonText,
   ],
 })
 export class MapPage implements OnInit, AfterViewInit, OnDestroy {

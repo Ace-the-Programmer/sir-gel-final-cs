@@ -3,70 +3,50 @@
   height: 100%;
 }
 
-.login-container {
+.login-grid {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  padding: clamp(16px, 3vh, 24px) 24px clamp(24px, 4vh, 40px) 24px;
-  max-width: 420px;
+  padding: clamp(16px, 3vh, 24px) 20px clamp(24px, 4vh, 40px) 20px;
+  max-width: 440px;
   margin: 0 auto;
 }
 
 /* Back Button Top Bar */
-.top-nav-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: clamp(12px, 2vh, 20px);
+.top-nav-row {
+  margin-bottom: clamp(8px, 1.5vh, 16px);
 }
 
 .btn-back {
-  background: transparent;
-  border: none;
-  padding: 4px;
-  color: #1d3e66;
+  --color: #1d3e66;
   font-size: 26px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.15s ease;
-
-  &:active {
-    opacity: 0.65;
-  }
+  --padding-start: 0;
+  --padding-end: 0;
+  margin: 0;
 }
 
-/* Body */
-.login-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+.login-body-row {
+  flex: 1;
 }
 
 /* Logo */
-.logo-wrapper {
-  width: clamp(84px, 12vh, 104px);
-  height: clamp(84px, 12vh, 104px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: clamp(10px, 1.8vh, 18px);
+.logo-row {
+  margin-bottom: clamp(10px, 1.8vh, 16px);
 }
 
 .login-logo-img {
-  width: 100%;
-  height: 100%;
+  width: clamp(80px, 11vh, 96px);
+  height: clamp(80px, 11vh, 96px);
+  margin: 0 auto;
   object-fit: contain;
 }
 
 /* Heading */
-.welcome-heading {
-  margin: 0 0 clamp(20px, 3vh, 28px) 0;
+.welcome-heading h2 {
+  margin: 0 0 clamp(18px, 2.8vh, 26px) 0;
   font-size: clamp(20px, 4vw, 24px);
   font-weight: 800;
   color: #102a4d;
-  text-align: center;
   letter-spacing: -0.3px;
 }
 
@@ -78,67 +58,48 @@
   gap: 12px;
 }
 
-.input-field-box {
-  width: 100%;
+.custom-input-item {
+  --background: #ffffff;
+  --border-radius: 10px;
+  border-radius: 10px;
+  border: 1.5px solid #a8cbeb;
+  --inner-padding-end: 14px;
+  --padding-start: 14px;
+  height: clamp(44px, 5.5vh, 48px);
+  box-shadow: none;
 }
 
-.custom-input {
-  width: 100%;
-  height: clamp(44px, 5.5vh, 48px);
-  border: 1.5px solid #a8cbeb;
-  border-radius: 10px;
-  padding: 0 16px;
+.custom-ionic-input {
+  --color: #102a4d;
+  --placeholder-color: #475569;
+  --placeholder-opacity: 0.9;
   font-size: 15px;
-  color: #102a4d;
-  background: #ffffff;
-  outline: none;
-  transition: border-color 0.15s ease;
-
-  &::placeholder {
-    color: #475569;
-    opacity: 0.9;
-  }
-
-  &:focus {
-    border-color: #2b527e;
-  }
+  font-weight: 500;
 }
 
 /* Login Button */
 .btn-login-pill {
   width: 100%;
   height: clamp(46px, 6vh, 50px);
-  background: #2b527e;
-  color: #ffffff;
+  --background: #2b527e;
+  --color: #ffffff;
+  --border-radius: 999px;
+  text-transform: none;
   font-size: 16px;
   font-weight: 700;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
   margin-top: 6px;
-  box-shadow: 0 4px 12px rgba(43, 82, 126, 0.25);
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.985);
-    opacity: 0.92;
-  }
+  --box-shadow: 0 4px 12px rgba(43, 82, 126, 0.25);
 }
 
 /* OR Divider */
-.divider-box {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin: clamp(20px, 3vh, 28px) 0;
+.divider-row {
+  margin: clamp(18px, 2.5vh, 26px) 0;
 }
 
 .divider-line {
-  flex: 1;
   height: 1px;
   background-color: #cbd5e1;
+  width: 100%;
 }
 
 .divider-text {
@@ -150,29 +111,22 @@
 
 /* Social Buttons */
 .social-login-group {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-social-pill {
   width: 100%;
   height: clamp(46px, 6vh, 50px);
-  border-radius: 999px;
-  background: #2b527e;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(43, 82, 126, 0.25);
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.985);
-    opacity: 0.92;
-  }
+  --border-radius: 999px;
+  --background: #2b527e;
+  --color: #ffffff;
+  text-transform: none;
+  font-size: 15px;
+  font-weight: 600;
+  --box-shadow: 0 4px 12px rgba(43, 82, 126, 0.25);
+  margin: 4px 0;
 }
 
 .social-svg-icon {
@@ -186,4 +140,3 @@
   color: #ffffff;
   letter-spacing: 0.1px;
 }
-

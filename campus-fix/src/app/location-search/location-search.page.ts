@@ -2,7 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonContent } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonImg,
+  IonText,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-location-search',
@@ -13,6 +23,14 @@ import { IonContent } from '@ionic/angular/standalone';
     CommonModule,
     FormsModule,
     IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonImg,
+    IonText,
   ],
 })
 export class LocationSearchPage implements OnInit {
@@ -63,4 +81,3 @@ export class LocationSearchPage implements OnInit {
     this.router.navigate(['/profile']);
   }
 }
-

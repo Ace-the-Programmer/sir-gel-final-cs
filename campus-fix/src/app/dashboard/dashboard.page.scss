@@ -3,13 +3,14 @@
   height: 100%;
 }
 
-.dashboard-container {
+.dashboard-grid {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  padding: 0;
 }
 
 /* Top Section */
@@ -24,10 +25,11 @@
 
 .greeting-box {
   margin-bottom: clamp(14px, 2.5vh, 22px);
+  display: flex;
+  flex-direction: column;
 }
 
 .welcome-title {
-  margin: 0;
   font-size: clamp(26px, 6vw, 36px);
   font-weight: 700;
   color: #ffffff;
@@ -35,7 +37,6 @@
 }
 
 .welcome-brand {
-  margin: 0;
   font-size: clamp(28px, 6.5vw, 40px);
   font-weight: 800;
   color: #ffffff;
@@ -43,7 +44,7 @@
 }
 
 .welcome-tagline {
-  margin: 8px 0 0 0;
+  margin-top: 8px;
   font-size: clamp(12px, 2.6vw, 15px);
   font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
@@ -55,19 +56,16 @@
   width: 100%;
   max-width: 320px;
   height: clamp(44px, 5.5vh, 48px);
-  background: #ffffff;
-  border-radius: 999px;
+  --background: #ffffff;
+  --border-radius: 999px;
+  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-transform: none;
+  --padding-start: 18px;
+  --padding-end: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-
-  &:active {
-    transform: scale(0.98);
-  }
+  margin: 0 auto;
 }
 
 .search-placeholder {

@@ -11,47 +11,42 @@
 }
 
 /* Floating Search Pill at top */
-.floating-search-pill-wrapper {
+.floating-search-row {
   position: absolute;
   top: clamp(28px, 6vh, 46px);
   left: 0;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 0 20px;
   z-index: 1000;
+  margin: 0;
   pointer-events: none;
 }
 
-.floating-search-pill {
+.floating-search-btn {
   pointer-events: auto;
+  --background: #ffffff;
+  --color: #64748b;
+  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  --padding-start: 20px;
+  --padding-end: 18px;
+  height: clamp(44px, 5.5vh, 48px);
+  margin: 0 auto;
   width: 100%;
   max-width: 325px;
-  height: clamp(44px, 5.5vh, 48px);
-  background: #ffffff;
-  border-radius: 999px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-  &:active {
-    transform: scale(0.98);
+  .search-placeholder-text {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #64748b;
+    flex: 1;
+    text-align: left;
   }
-}
 
-.search-placeholder-text {
-  font-size: 14.5px;
-  font-weight: 500;
-  color: #64748b;
-}
-
-.search-icon-right {
-  font-size: 19px;
-  color: #1e3a63;
+  .search-icon-right {
+    font-size: 19px;
+    color: #1e3a63;
+  }
 }
 
 /* Fullscreen Leaflet Map */
@@ -69,9 +64,7 @@
   width: 100%;
   height: 64px;
   background: #183661;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  margin: 0;
   padding: 0 12px;
   padding-bottom: env(safe-area-inset-bottom, 8px);
   z-index: 1000;
@@ -84,23 +77,18 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding: 0;
 }
 
 .btn-nav-tab {
-  background: transparent;
-  border: none;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #ffffff;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  width: 44px;
+  height: 44px;
+  margin: 0;
 }
 
 /* Elevated Location Pin Button (Active Tab 2) */
@@ -113,15 +101,14 @@
   top: -14px;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  background: #183661;
+  --border-radius: 50%;
+  --background: #183661;
+  --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  --padding-start: 0;
+  --padding-end: 0;
   border: 3.5px solid #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease;
+  border-radius: 50%;
+  margin: 0;
 
   /* Curved wing cutouts on the sides */
   &::before,
@@ -145,10 +132,6 @@
     right: -19px;
     border-top-left-radius: 16px;
     box-shadow: -6px -6px 0 3px #ffffff;
-  }
-
-  &:active {
-    transform: scale(0.92);
   }
 }
 

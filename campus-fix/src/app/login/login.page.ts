@@ -4,7 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonText,
+  IonButton,
   IonIcon,
+  IonInput,
+  IonItem,
+  IonImg,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline } from 'ionicons/icons';
@@ -18,7 +26,15 @@ import { arrowBackOutline } from 'ionicons/icons';
     CommonModule,
     FormsModule,
     IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonText,
+    IonButton,
     IonIcon,
+    IonInput,
+    IonItem,
+    IonImg,
   ],
 })
 export class LoginPage {
@@ -34,7 +50,6 @@ export class LoginPage {
   }
 
   onLogin() {
-    // Navigate to dashboard upon successful login
     this.router.navigate(['/dashboard']);
   }
 
@@ -46,4 +61,3 @@ export class LoginPage {
     this.router.navigate(['/facebook-auth']);
   }
 }
-

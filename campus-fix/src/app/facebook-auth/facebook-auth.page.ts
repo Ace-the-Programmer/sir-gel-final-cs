@@ -6,6 +6,12 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonCard,
+  IonCardContent,
+  IonAvatar,
+  IonImg,
+  IonText,
+  IonButton,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -19,6 +25,12 @@ import {
     IonGrid,
     IonRow,
     IonCol,
+    IonCard,
+    IonCardContent,
+    IonAvatar,
+    IonImg,
+    IonText,
+    IonButton,
   ],
 })
 export class FacebookAuthPage {
@@ -41,4 +53,3 @@ export class FacebookAuthPage {
     });
   }
 }
-

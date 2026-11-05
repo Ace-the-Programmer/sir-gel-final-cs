@@ -2,59 +2,61 @@
   <div class="map-view-container">
 
     <!-- Floating Top Search Bar Pill -->
-    <div class="floating-search-pill-wrapper">
-      <div class="floating-search-pill" (click)="openSearch()">
-        <span class="search-placeholder-text">{{ selectedLocation || 'Search Location' }}</span>
-        <ion-icon name="search" class="search-icon-right"></ion-icon>
-      </div>
-    </div>
+    <ion-row class="floating-search-row ion-justify-content-center">
+      <ion-col size="11" size-sm="8" size-md="6">
+        <ion-button shape="round" class="floating-search-btn" (click)="openSearch()">
+          <ion-text class="search-placeholder-text">{{ selectedLocation || 'Search Location' }}</ion-text>
+          <ion-icon slot="end" name="search" class="search-icon-right"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
     <!-- Map container for Leaflet tiles -->
     <div id="map-container" class="leaflet-map-fullscreen"></div>
 
     <!-- Bottom Navigation Bar (Tab 2 Location Pin active & elevated) -->
-    <div class="bottom-nav-bar">
+    <ion-row class="bottom-nav-bar ion-align-items-center ion-justify-content-around">
       <!-- Tab 1: Home -->
-      <div class="nav-tab">
-        <button type="button" class="btn-nav-tab" (click)="goToHome()" aria-label="Home">
+      <ion-col class="nav-tab ion-text-center">
+        <ion-button fill="clear" class="btn-nav-tab" (click)="goToHome()" aria-label="Home">
           <svg class="nav-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" stroke-width="2.2">
             <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H4a1 1 0 0 1-1-1v-9.5z" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-        </button>
-      </div>
+        </ion-button>
+      </ion-col>
 
       <!-- Tab 2: Location Pin (Elevated active) -->
-      <div class="nav-tab active-tab">
-        <button type="button" class="btn-elevated-pin" aria-label="Location Map">
+      <ion-col class="nav-tab active-tab ion-text-center">
+        <ion-button fill="clear" class="btn-elevated-pin" aria-label="Location Map">
           <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="12" cy="9" r="2.5" fill="#ffffff" />
           </svg>
-        </button>
-      </div>
+        </ion-button>
+      </ion-col>
 
       <!-- Tab 3: Route -->
-      <div class="nav-tab">
-        <button type="button" class="btn-nav-tab" (click)="goToRoutePlanner()" aria-label="Route Estimation">
+      <ion-col class="nav-tab ion-text-center">
+        <ion-button fill="clear" class="btn-nav-tab" (click)="goToRoutePlanner()" aria-label="Route Estimation">
           <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
             <circle cx="6" cy="18" r="2.5" fill="#ffffff" />
             <circle cx="18" cy="6" r="2.5" fill="#ffffff" />
             <path d="M6 15.5 C 6 11, 18 13, 18 8.5" stroke-linecap="round" stroke-dasharray="2 3" />
           </svg>
-        </button>
-      </div>
+        </ion-button>
+      </ion-col>
 
       <!-- Tab 4: Profile -->
-      <div class="nav-tab">
-        <button type="button" class="btn-nav-tab" (click)="onProfileClick()" aria-label="User Profile">
+      <ion-col class="nav-tab ion-text-center">
+        <ion-button fill="clear" class="btn-nav-tab" (click)="onProfileClick()" aria-label="User Profile">
           <svg class="nav-icon" viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#ffffff" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="10" r="3" />
             <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.832 2.849" />
           </svg>
-        </button>
-      </div>
-    </div>
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
   </div>
 </ion-content>

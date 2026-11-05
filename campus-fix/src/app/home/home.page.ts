@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   IonContent,
@@ -16,17 +16,29 @@ import {
   standalone: true,
   imports: [IonContent, IonGrid, IonRow, IonCol, IonText, IonImg],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
+  private timer: any;
+
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Optional: auto-advance after 3 seconds
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.goToNext();
-    }, 3000);
+    }, 2500);
+  }
+
+  ngOnDestroy() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
   }
 
   goToNext() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
     this.router.navigate(['/welcome'], { queryParams: { step: 0 } });
   }
 }

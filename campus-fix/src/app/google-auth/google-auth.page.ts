@@ -85,14 +85,12 @@ export class GoogleAuthPage {
   }
 
   selectAccount(account: GoogleAccount) {
-    // Navigate to registration steps with pre-filled account name
-    this.router.navigate(['/welcome'], {
+    // Authenticate with chosen Google account and proceed directly to Dashboard
+    this.router.navigate(['/dashboard'], {
       queryParams: {
-        step: 1,
-        name: account.name,
+        user: account.name,
         email: account.email,
       },
     });
   }
 }
-

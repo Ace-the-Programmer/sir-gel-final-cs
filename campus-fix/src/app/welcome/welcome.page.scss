@@ -148,20 +148,12 @@
 .btn-social-pill {
   width: 100%;
   height: clamp(48px, 6vh, 52px);
-  border-radius: 999px;
-  background: #2e527c;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 14px rgba(46, 82, 124, 0.28);
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.985);
-    opacity: 0.92;
-  }
+  --border-radius: 999px;
+  --background: #2e527c;
+  --color: #ffffff;
+  text-transform: none;
+  --box-shadow: 0 4px 14px rgba(46, 82, 124, 0.28);
+  margin: 6px 0;
 }
 
 .social-svg-icon {

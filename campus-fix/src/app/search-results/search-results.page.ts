@@ -2,7 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular/standalone';
+import {
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonButton,
+  IonIcon,
+  IonContent,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonInput,
+  IonText,
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { chevronBack, search, location } from 'ionicons/icons';
 
 export interface LocationResult {
   name: string;
@@ -17,7 +32,18 @@ export interface LocationResult {
   imports: [
     CommonModule,
     FormsModule,
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
     IonContent,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonNote,
+    IonInput,
+    IonText,
   ],
 })
 export class SearchResultsPage implements OnInit {
@@ -32,7 +58,9 @@ export class SearchResultsPage implements OnInit {
 
   filteredLocations: LocationResult[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    addIcons({ chevronBack, search, location });
+  }
 
   ngOnInit() {
     this.filteredLocations = [...this.allLocations];
@@ -50,7 +78,6 @@ export class SearchResultsPage implements OnInit {
   }
 
   selectLocation(item: LocationResult) {
-    // Navigate to map centered on the selected location
     this.router.navigate(['/map'], {
       queryParams: {
         location: item.name,
@@ -62,4 +89,3 @@ export class SearchResultsPage implements OnInit {
     this.router.navigate(['/map']);
   }
 }
-

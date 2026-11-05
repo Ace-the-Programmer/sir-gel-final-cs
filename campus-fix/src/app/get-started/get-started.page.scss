@@ -32,6 +32,9 @@
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(36px, 6vh, 60px) 16px clamp(14px, 3vh, 28px) 16px;
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .brand-row {

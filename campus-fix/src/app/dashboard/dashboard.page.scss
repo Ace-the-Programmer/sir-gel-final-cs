@@ -1,19 +1,19 @@
 .dashboard-content {
   --background: #254d7d url('/assets/icon/map-bg.svg') no-repeat center bottom / cover;
   height: 100%;
+  width: 100%;
 }
 
 .dashboard-grid {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
   padding: 0;
-  max-width: 440px;
-  width: 100%;
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* Top Section */
@@ -24,6 +24,7 @@
   align-items: center;
   text-align: center;
   z-index: 5;
+  width: 100%;
 }
 
 .greeting-box {
@@ -33,14 +34,14 @@
 }
 
 .welcome-title {
-  font-size: clamp(26px, 6vw, 36px);
+  font-size: clamp(28px, 5vw, 42px);
   font-weight: 700;
   color: #ffffff;
   line-height: 1.15;
 }
 
 .welcome-brand {
-  font-size: clamp(28px, 6.5vw, 40px);
+  font-size: clamp(32px, 5.5vw, 46px);
   font-weight: 800;
   color: #ffffff;
   line-height: 1.15;
@@ -48,7 +49,7 @@
 
 .welcome-tagline {
   margin-top: 8px;
-  font-size: clamp(12px, 2.6vw, 15px);
+  font-size: clamp(13px, 2.2vw, 16px);
   font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
   letter-spacing: 0.2px;
@@ -57,14 +58,14 @@
 /* Search Location Pill */
 .search-pill-box {
   width: 100%;
-  max-width: 320px;
-  height: clamp(44px, 5.5vh, 48px);
+  max-width: 380px;
+  height: clamp(46px, 5.5vh, 50px);
   --background: #ffffff;
   --border-radius: 999px;
   --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   text-transform: none;
-  --padding-start: 18px;
-  --padding-end: 18px;
+  --padding-start: 22px;
+  --padding-end: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,13 +73,13 @@
 }
 
 .search-placeholder {
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 500;
   color: #64748b;
 }
 
 .search-icon {
-  font-size: 19px;
+  font-size: 20px;
   color: #1e3a63;
 }
 
@@ -89,16 +90,19 @@
   cursor: pointer;
 }
 
-/* Bottom Navigation Bar */
+/* Bottom Navigation Bar - Edge to Edge Full Width */
 .bottom-nav-bar {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   height: 64px;
   background: #183661;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 12px;
+  padding: 0 16px;
   padding-bottom: env(safe-area-inset-bottom, 8px);
   z-index: 10;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
@@ -110,23 +114,18 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding: 0;
 }
 
 .btn-nav-tab {
-  background: transparent;
-  border: none;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #ffffff;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  width: 48px;
+  height: 48px;
+  margin: 0;
 }
 
 /* Elevated Home Button */
@@ -137,24 +136,23 @@
 .btn-elevated-home {
   position: relative;
   top: -14px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #183661;
+  width: 52px;
+  height: 52px;
+  --border-radius: 50%;
+  --background: #183661;
+  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --padding-start: 0;
+  --padding-end: 0;
   border: 3.5px solid #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease;
+  border-radius: 50%;
+  margin: 0;
 
   /* Curved wing cutouts on the sides */
   &::before,
   &::after {
     content: '';
     position: absolute;
-    top: 24px;
+    top: 25px;
     width: 18px;
     height: 18px;
     background: transparent;
@@ -172,13 +170,8 @@
     border-top-left-radius: 16px;
     box-shadow: -6px -6px 0 3px #ffffff;
   }
-
-  &:active {
-    transform: scale(0.92);
-  }
 }
 
 .nav-icon {
   display: block;
 }
-

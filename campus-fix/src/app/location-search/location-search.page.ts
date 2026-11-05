@@ -13,6 +13,7 @@ import {
   IonImg,
   IonText,
 } from '@ionic/angular/standalone';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-location-search',
@@ -37,6 +38,9 @@ export class LocationSearchPage implements OnInit {
   startLocation: string = '';
   destination: string = '';
   selectedMode: string = 'car';
+  isLocating: boolean = false;
+  currentLat?: number;
+  currentLng?: number;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -47,6 +51,9 @@ export class LocationSearchPage implements OnInit {
       }
       if (params['startLocation']) {
         this.startLocation = params['startLocation'];
+      } else {
+        // Auto-fetch current geolocation for start location
+        this.useCurrentLocation();
       }
     });
   }
@@ -55,16 +62,51 @@ export class LocationSearchPage implements OnInit {
     this.selectedMode = mode;
   }
 
-  useCurrentLocation() {
-    this.startLocation = 'Current Location';
+  async useCurrentLocation() {
+    this.isLocating = true;
+    this.startLocation = 'Locating GPS...';
+
+    try {
+      const pos = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 8000,
+      });
+      this.currentLat = pos.coords.latitude;
+      this.currentLng = pos.coords.longitude;
+      this.startLocation = `Current Location (${this.currentLat.toFixed(4)}, ${this.currentLng.toFixed(4)})`;
+    } catch (e) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            this.currentLat = pos.coords.latitude;
+            this.currentLng = pos.coords.longitude;
+            this.startLocation = `Current Location (${this.currentLat.toFixed(4)}, ${this.currentLng.toFixed(4)})`;
+            this.isLocating = false;
+          },
+          () => {
+            this.startLocation = 'Current Location (Araullo Univ, Cabanatuan)';
+            this.currentLat = 15.4915;
+            this.currentLng = 120.9720;
+            this.isLocating = false;
+          }
+        );
+        return;
+      }
+      this.startLocation = 'Current Location (Araullo Univ, Cabanatuan)';
+      this.currentLat = 15.4915;
+      this.currentLng = 120.9720;
+    } finally {
+      this.isLocating = false;
+    }
   }
 
   onEstimate() {
     this.router.navigate(['/map'], {
       queryParams: {
         from: this.startLocation || 'Current Location',
-        to: this.destination || 'Destination Point',
+        to: this.destination || 'Araullo University',
         mode: this.selectedMode,
+        location: this.destination || 'Araullo University',
       },
     });
   }

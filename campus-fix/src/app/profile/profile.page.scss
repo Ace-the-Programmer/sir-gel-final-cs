@@ -1,6 +1,7 @@
 .profile-content {
   --background: #ffffff;
   height: 100%;
+  width: 100%;
 }
 
 .profile-main-grid {
@@ -10,14 +11,17 @@
   position: relative;
   background: #ffffff;
   padding-bottom: 84px;
+  width: 100%;
+  margin: 0;
 }
 
-/* Top Header Banner */
+/* Top Header Banner - Full Width */
 .profile-header-banner {
   background: #183661;
-  padding: clamp(36px, 7vh, 52px) 24px 24px 24px;
+  padding: clamp(36px, 7vh, 52px) clamp(20px, 4vw, 40px) 24px clamp(20px, 4vw, 40px);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   margin: 0;
+  width: 100%;
 }
 
 .avatar-badge-wrapper {
@@ -72,7 +76,7 @@
 }
 
 .user-display-name {
-  font-size: clamp(18px, 4vw, 21px);
+  font-size: clamp(18px, 4vw, 22px);
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.2px;
@@ -96,8 +100,8 @@
   --border-width: 1.5px;
   --padding-start: 0;
   --padding-end: 0;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   margin: 0;
 
   .logout-header-icon {
@@ -111,11 +115,12 @@
   flex: 1;
   padding: 0 20px;
   margin: 0;
+  width: 100%;
 }
 
 .section-heading {
-  margin: clamp(22px, 3.5vh, 30px) 0 clamp(16px, 2.5vh, 22px) 0;
-  font-size: clamp(24px, 5.5vw, 30px);
+  margin: clamp(22px, 3.5vh, 32px) 0 clamp(16px, 2.5vh, 24px) 0;
+  font-size: clamp(24px, 5.5vw, 32px);
   font-weight: 800;
   color: #1a3962;
   text-align: center;
@@ -129,7 +134,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 440px;
+  max-width: 600px;
   width: 100%;
   margin: 0 auto;
   padding: 0;
@@ -153,12 +158,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 18px 24px;
 }
 
 .card-icon-circle {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   --border-radius: 50%;
   background: #e2e8f0;
   display: flex;
@@ -168,7 +173,7 @@
 }
 
 .history-mode-icon {
-  height: 28px;
+  height: 30px;
   width: auto;
   object-fit: contain;
 }
@@ -177,11 +182,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 14px;
+  margin-left: 16px;
 }
 
 .mode-title {
-  font-size: 16px;
+  font-size: 16.5px;
   font-weight: 700;
   color: #0f172a;
   display: block;
@@ -189,7 +194,7 @@
 
 .route-subtitle {
   margin-top: 2px;
-  font-size: 12.5px;
+  font-size: 13px;
   color: #334155;
   font-weight: 500;
   display: block;
@@ -197,7 +202,7 @@
 
 .distance-text {
   margin-top: 2px;
-  font-size: 11.5px;
+  font-size: 12px;
   color: #64748b;
   font-weight: 500;
   display: block;
@@ -206,20 +211,20 @@
 .card-fare-col {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .fare-amount {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #1e293b;
 }
 
 .radio-select-circle {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 1.8px solid #94a3b8;
+  border: 2px solid #94a3b8;
   background: #ffffff;
   transition: all 0.15s ease;
 
@@ -232,8 +237,8 @@
 
 /* Logout Button */
 .logout-btn-row {
-  margin-top: 22px;
-  margin-bottom: 12px;
+  margin-top: 28px;
+  margin-bottom: 16px;
 }
 
 .btn-logout-pill {
@@ -243,27 +248,29 @@
   --border-style: solid;
   --border-width: 1.5px;
   --box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
-  height: 48px;
+  height: 50px;
   font-size: 15px;
   font-weight: 700;
-  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
 
   .btn-logout-icon {
-    font-size: 18px;
+    font-size: 19px;
     margin-right: 6px;
   }
 }
 
-/* Bottom Navigation Bar */
+/* Full Width Bottom Navigation Bar */
 .bottom-nav-bar {
   position: fixed;
   bottom: 0;
   left: 0;
+  right: 0;
   width: 100%;
   height: 64px;
   background: #183661;
   margin: 0;
-  padding: 0 12px;
+  padding: 0 16px;
   padding-bottom: env(safe-area-inset-bottom, 8px);
   z-index: 1000;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
@@ -284,8 +291,8 @@
   --padding-end: 0;
   --padding-top: 0;
   --padding-bottom: 0;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   margin: 0;
 }
 
@@ -297,11 +304,11 @@
 .btn-elevated-profile {
   position: relative;
   top: -14px;
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   --border-radius: 50%;
   --background: #183661;
-  --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   --padding-start: 0;
   --padding-end: 0;
   border: 3.5px solid #ffffff;
@@ -313,7 +320,7 @@
   &::after {
     content: '';
     position: absolute;
-    top: 24px;
+    top: 25px;
     width: 18px;
     height: 18px;
     background: transparent;

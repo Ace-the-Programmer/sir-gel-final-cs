@@ -3,7 +3,7 @@
 
     <!-- Floating Top Search Bar Pill -->
     <ion-row class="floating-search-row ion-justify-content-center">
-      <ion-col size="11" size-sm="8" size-md="6">
+      <ion-col size="11" size-sm="9" size-md="7" size-lg="5">
         <ion-button shape="round" class="floating-search-btn" (click)="openSearch()">
           <ion-text class="search-placeholder-text">{{ selectedLocation || 'Search Location' }}</ion-text>
           <ion-icon slot="end" name="search" class="search-icon-right"></ion-icon>
@@ -11,10 +11,21 @@
       </ion-col>
     </ion-row>
 
-    <!-- Map container for Leaflet tiles -->
+    <!-- Map container for Leaflet tiles (100% Fullscreen) -->
     <div id="map-container" class="leaflet-map-fullscreen"></div>
 
-    <!-- Bottom Navigation Bar (Tab 2 Location Pin active & elevated) -->
+    <!-- Floating Live GPS Locate Me Button -->
+    <ion-button
+      shape="round"
+      class="btn-locate-me"
+      (click)="getCurrentLocation(true)"
+      aria-label="Find My Location"
+      title="Find My Location"
+    >
+      <ion-icon [name]="isLocating ? 'sync-outline' : 'locate'" [class.spin-anim]="isLocating"></ion-icon>
+    </ion-button>
+
+    <!-- Full-Width Bottom Navigation Bar (Tab 2 Location Pin active & elevated) -->
     <ion-row class="bottom-nav-bar ion-align-items-center ion-justify-content-around">
       <!-- Tab 1: Home -->
       <ion-col class="nav-tab ion-text-center">

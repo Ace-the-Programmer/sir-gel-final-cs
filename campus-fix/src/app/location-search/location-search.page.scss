@@ -1,23 +1,29 @@
 .location-search-content {
   --background: #ffffff;
   height: 100%;
+  width: 100%;
 }
 
-.search-page-container {
+.search-page-grid {
   height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  width: 100%;
   position: relative;
-  overflow: hidden;
   background: #ffffff;
 }
 
-/* Route Input Card */
-.route-input-card {
-  padding: clamp(28px, 6vh, 48px) 20px 0 16px;
+/* Route Input Card Row */
+.route-input-row {
+  padding: clamp(28px, 5vh, 44px) 20px 0 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 /* Left Track */
@@ -26,13 +32,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  padding-top: 4px;
+  width: 26px;
+  padding: 0;
+  margin-right: 12px;
 }
 
 .origin-dot {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   border: 2px solid #1a3962;
   display: flex;
@@ -49,9 +56,9 @@
 
 .track-dashed-line {
   width: 0;
-  height: 28px;
+  height: 32px;
   border-left: 2px dashed #94a3b8;
-  margin: 3px 0;
+  margin: 4px 0;
 }
 
 .dest-pin {
@@ -66,42 +73,37 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 0;
 }
 
-.input-pill {
-  width: 100%;
-  height: 42px;
-  background: #bcd7f5;
+.input-pill-item {
+  --background: #bcd7f5;
+  --border-radius: 999px;
   border-radius: 999px;
-  display: flex;
-  align-items: center;
-  padding: 0 14px 0 18px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  height: clamp(44px, 5.5vh, 48px);
+  width: 100%;
+  --inner-padding-end: 12px;
+  --padding-start: 18px;
+  box-shadow: 0 4px 12px rgba(32, 69, 115, 0.16);
+  margin: 0;
 }
 
-.pill-text-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
+.pill-ionic-input {
+  --color: #1a3b63;
+  --placeholder-color: #20426d;
+  --placeholder-opacity: 0.85;
   font-size: 14.5px;
   font-weight: 500;
-  color: #1a3b63;
-
-  &::placeholder {
-    color: #20426d;
-    opacity: 0.85;
-  }
 }
 
 .btn-input-icon {
-  background: transparent;
-  border: none;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+  margin: 0;
+  height: 32px;
+  width: 32px;
 }
 
 /* Transport Modes Row */
@@ -109,10 +111,10 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 20px 24px 10px 24px;
-  max-width: 380px;
-  margin: 0 auto;
+  padding: clamp(18px, 3vh, 26px) 20px 10px 20px;
   width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .mode-item {
@@ -120,8 +122,8 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  border-radius: 12px;
   transition: transform 0.15s ease, opacity 0.15s ease;
 
   &:active {
@@ -138,14 +140,16 @@
 
 .mode-icon-img {
   height: 38px;
+  width: auto;
   object-fit: contain;
 }
 
 .mode-label {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 500;
   color: #334155;
+  display: block;
 }
 
 /* Center Content Space */
@@ -154,34 +158,31 @@
   width: 100%;
 }
 
-/* Estimate Button Wrapper */
-.estimate-btn-wrapper {
+/* Estimate Button Row */
+.estimate-btn-row {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px 20px 0;
   display: flex;
   justify-content: flex-end;
-  padding: 0 24px 20px 0;
-  z-index: 5;
 }
 
 .btn-estimate {
-  background: #1e3e6b;
-  color: #ffffff;
-  font-size: 16px;
+  --background: #183661;
+  --color: #ffffff;
+  --border-radius: 999px;
+  height: 46px;
+  font-size: 15px;
   font-weight: 700;
-  border: none;
-  border-radius: 999px;
-  height: 44px;
-  padding: 0 28px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(30, 62, 107, 0.35);
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.97);
-    opacity: 0.92;
-  }
+  text-transform: none;
+  --padding-start: 28px;
+  --padding-end: 28px;
+  --box-shadow: 0 4px 14px rgba(24, 54, 97, 0.35);
+  margin: 0;
 }
 
-/* Bottom Navigation Bar */
+/* Bottom Navigation Bar - Edge to Edge Full Width */
 .bottom-nav-bar {
   position: relative;
   width: 100%;
@@ -190,8 +191,9 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 12px;
+  padding: 0 16px;
   padding-bottom: env(safe-area-inset-bottom, 8px);
+  margin: 0;
   z-index: 10;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
 }
@@ -202,23 +204,18 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding: 0;
 }
 
 .btn-nav-tab {
-  background: transparent;
-  border: none;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #ffffff;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:active {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  width: 48px;
+  height: 48px;
+  margin: 0;
 }
 
 /* Elevated Route Button (Active on this screen) */
@@ -229,24 +226,23 @@
 .btn-elevated-route {
   position: relative;
   top: -14px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #183661;
+  width: 52px;
+  height: 52px;
+  --border-radius: 50%;
+  --background: #183661;
+  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --padding-start: 0;
+  --padding-end: 0;
   border: 3.5px solid #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease;
+  border-radius: 50%;
+  margin: 0;
 
   /* Curved wing cutouts on the sides */
   &::before,
   &::after {
     content: '';
     position: absolute;
-    top: 24px;
+    top: 25px;
     width: 18px;
     height: 18px;
     background: transparent;
@@ -264,13 +260,8 @@
     border-top-left-radius: 16px;
     box-shadow: -6px -6px 0 3px #ffffff;
   }
-
-  &:active {
-    transform: scale(0.92);
-  }
 }
 
 .nav-icon {
   display: block;
 }
-

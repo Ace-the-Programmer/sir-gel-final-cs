@@ -1,0 +1,76 @@
+<ion-content [fullscreen]="true" class="dashboard-content">
+  <div class="dashboard-container">
+
+    <!-- Top Greeting Area -->
+    <div class="top-section">
+      <div class="greeting-box">
+        <h1 class="welcome-title">Welcome to</h1>
+        <h1 class="welcome-brand">LocaRate</h1>
+        <p class="welcome-tagline">Smart Location, Perfect Estimation</p>
+      </div>
+
+      <!-- Search Pill -->
+      <div class="search-pill-box" (click)="goToLocation()">
+        <span class="search-placeholder">Search Location</span>
+        <ion-icon name="search" class="search-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Center Space (reveals clear map background) -->
+    <div class="center-map-area" (click)="goToLocation()"></div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav-bar">
+      <!-- Curved Wave Backdrop behind active Home button -->
+      <div class="nav-wave-svg">
+        <svg viewBox="0 0 100 45" preserveAspectRatio="none">
+          <path d="M0,0 Q25,0 35,20 Q50,45 65,20 Q75,0 100,0 L100,45 L0,45 Z" fill="#183661" />
+        </svg>
+      </div>
+
+      <!-- Tab 1: Home (Elevated with circular badge) -->
+      <div class="nav-tab active-tab">
+        <button type="button" class="btn-elevated-home" (click)="onHomeClick()" aria-label="Home">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" stroke-width="2.2">
+            <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H4a1 1 0 0 1-1-1v-9.5z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Tab 2: Location Pin -->
+      <div class="nav-tab">
+        <button type="button" class="btn-nav-tab" (click)="goToMap()" aria-label="Location Map">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="9" r="2.5" fill="#ffffff" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Tab 3: Route -->
+      <div class="nav-tab">
+        <button type="button" class="btn-nav-tab" (click)="goToLocation()" aria-label="Route Estimation">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
+            <circle cx="6" cy="18" r="2.5" fill="#ffffff" />
+            <circle cx="18" cy="6" r="2.5" fill="#ffffff" />
+            <path d="M6 15.5 C 6 11, 18 13, 18 8.5" stroke-linecap="round" stroke-dasharray="2 3" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Tab 4: Profile -->
+      <div class="nav-tab">
+        <button type="button" class="btn-nav-tab" (click)="onProfileClick()" aria-label="User Profile">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#ffffff" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="10" r="3" />
+            <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.832 2.849" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>
+

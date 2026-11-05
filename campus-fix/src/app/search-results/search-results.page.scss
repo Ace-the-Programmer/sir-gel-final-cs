@@ -1,0 +1,129 @@
+.search-results-content {
+  --background: #e2e8f0;
+  height: 100%;
+}
+
+.search-results-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #e2e8f0;
+}
+
+/* Header Bar */
+.search-header-bar {
+  background: #ffffff;
+  padding: clamp(28px, 6vh, 46px) 16px 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-chevron-back {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: opacity 0.15s ease;
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.search-input-wrapper {
+  flex: 1;
+}
+
+.header-search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1e293b;
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+.btn-search-icon {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.header-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #cbd5e1;
+}
+
+/* Results List */
+.results-list {
+  background: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #cbd5e1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:active {
+    background-color: #e2e8f0;
+  }
+}
+
+.item-icon-box {
+  display: flex;
+  align-items: center;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.item-title-box {
+  flex: 1;
+}
+
+.location-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.item-distance-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 12px;
+}
+
+.distance-num {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.1;
+}
+
+.distance-unit {
+  font-size: 9.5px;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+

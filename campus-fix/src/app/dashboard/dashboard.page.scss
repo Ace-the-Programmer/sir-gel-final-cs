@@ -1,0 +1,183 @@
+.dashboard-content {
+  --background: #254d7d url('/assets/icon/map-bg.svg') no-repeat center bottom / cover;
+  height: 100%;
+}
+
+.dashboard-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top Section */
+.top-section {
+  padding: clamp(32px, 6.5vh, 56px) 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 5;
+}
+
+.greeting-box {
+  margin-bottom: clamp(14px, 2.5vh, 22px);
+}
+
+.welcome-title {
+  margin: 0;
+  font-size: clamp(26px, 6vw, 36px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+}
+
+.welcome-brand {
+  margin: 0;
+  font-size: clamp(28px, 6.5vw, 40px);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+}
+
+.welcome-tagline {
+  margin: 8px 0 0 0;
+  font-size: clamp(12px, 2.6vw, 15px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.2px;
+}
+
+/* Search Location Pill */
+.search-pill-box {
+  width: 100%;
+  max-width: 320px;
+  height: clamp(44px, 5.5vh, 48px);
+  background: #ffffff;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.search-placeholder {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.search-icon {
+  font-size: 19px;
+  color: #1e3a63;
+}
+
+/* Center Map Clickable Area */
+.center-map-area {
+  flex: 1;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav-bar {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  background: #183661;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 12px;
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+  z-index: 10;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.btn-nav-tab {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:active {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* Elevated Home Button */
+.active-tab {
+  position: relative;
+}
+
+.btn-elevated-home {
+  position: relative;
+  top: -14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #183661;
+  border: 3.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+
+  /* Curved wing cutouts on the sides */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 24px;
+    width: 18px;
+    height: 18px;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: -19px;
+    border-top-right-radius: 16px;
+    box-shadow: 6px -6px 0 3px #ffffff;
+  }
+
+  &::after {
+    right: -19px;
+    border-top-left-radius: 16px;
+    box-shadow: -6px -6px 0 3px #ffffff;
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+.nav-icon {
+  display: block;
+}
+

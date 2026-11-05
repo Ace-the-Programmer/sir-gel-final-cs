@@ -37,11 +37,11 @@ export class GetStartedPage {
   constructor(private router: Router) {}
 
   onGetStarted() {
-    this.router.navigate(['/google-auth']);
+    this.router.navigate(['/welcome'], { queryParams: { step: 0 } });
   }
 
   onLogin() {
-    this.router.navigate(['/google-auth']);
+    this.router.navigate(['/login']);
   }
 
   onContinueGuest() {

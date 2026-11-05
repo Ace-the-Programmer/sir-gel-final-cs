@@ -27,6 +27,6 @@ export class HomePage implements OnInit {
   }
 
   goToNext() {
-    this.router.navigate(['/get-started']);
+    this.router.navigate(['/welcome'], { queryParams: { step: 0 } });
   }
 }

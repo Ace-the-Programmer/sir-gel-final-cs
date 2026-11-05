@@ -15,56 +15,62 @@
 /* Top Area: Blurred atmosphere */
 .top-row {
   padding: clamp(24px, 4vh, 48px) 20px 0 20px;
-  filter: blur(2.5px);
-  opacity: 0.88;
+  filter: blur(2px);
+  opacity: 0.9;
   pointer-events: none;
   width: 100%;
 }
 
-.welcome-heading {
-  display: block;
-  font-size: clamp(26px, 5.5vw, 40px);
-  font-weight: 800;
-  line-height: 1.2;
+.welcome-heading-box {
   margin-top: 8px;
 }
 
-.welcome-title {
-  display: block;
-  color: #153258;
-}
-
-.welcome-brand {
-  display: block;
-}
-
-.welcome-loca {
-  color: #153258;
-}
-
-.welcome-rate {
+.welcome-title-text {
+  margin: 0;
+  font-size: clamp(26px, 5.5vw, 36px);
+  font-weight: 700;
   color: #ffffff;
+  line-height: 1.15;
 }
 
-.welcome-subtitle {
-  display: block;
+.welcome-brand-text {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 38px);
+  font-weight: 800;
   color: #ffffff;
-  font-size: clamp(12px, 2.5vw, 16px);
-  font-weight: 600;
-  margin-top: 6px;
-  margin-bottom: clamp(14px, 2.5vh, 24px);
+  line-height: 1.15;
 }
 
-.custom-searchbar {
-  --background: #ffffff;
-  --color: #1a1a1a;
-  --placeholder-color: #555555;
-  --icon-color: #153258;
-  --border-radius: 26px;
-  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  padding: 0 4px;
-  max-width: 500px;
+.welcome-subtitle-text {
+  margin: 6px 0 clamp(16px, 2.5vh, 22px) 0;
+  font-size: clamp(12px, 2.5vw, 15px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Custom Search Pill with icon on the right */
+.search-pill-wrapper {
+  background: #ffffff;
+  border-radius: 999px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  max-width: 320px;
   margin: 0 auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.search-pill-placeholder {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-pill-icon {
+  color: #2b527e;
+  font-size: 18px;
 }
 
 /* Bottom Sheet / Modal Card */
@@ -74,74 +80,111 @@
 }
 
 .account-card {
-  margin: 0;
   width: 100%;
-  background: #ffffff !important;
-  --background: #ffffff !important;
-  color: #172d4c !important;
-  --color: #172d4c !important;
-  max-height: 75vh;
-  overflow-y: auto;
+  background: #ffffff;
+  color: #152e4d;
+  box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.4);
+  border-radius: 32px 32px 0 0;
+  overflow: hidden;
 }
 
-/* Mobile: Bottom sheet */
-@media (max-width: 576px) {
-  .account-card {
-    border-radius: 32px 32px 0 0;
-    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.45);
-    margin-bottom: 0;
-  }
-}
-
-/* Desktop Web: Centered floating card */
 @media (min-width: 577px) {
   .account-card {
     border-radius: 28px;
+    margin-bottom: 24px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-    margin-bottom: 30px;
   }
 }
 
 .account-card-content {
-  padding: 20px 20px clamp(20px, 3.5vh, 32px) 20px;
+  padding: 22px 24px clamp(28px, 4.5vh, 44px) 24px;
 }
 
 /* Card Header */
-.card-header-row {
-  margin-bottom: clamp(10px, 2vh, 16px);
+.card-header-bar {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: clamp(14px, 2.2vh, 22px);
 }
 
 .btn-card-back {
-  --color: #172d4c;
-  font-size: 24px;
-  --padding-start: 0;
-  --padding-end: 0;
-  margin: 0;
+  background: transparent;
+  border: none;
+  padding: 2px 8px 2px 0;
+  color: #152e4d;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 2px;
 }
 
-.card-heading {
-  display: block;
-  font-size: clamp(17px, 3.5vw, 22px);
+.card-heading-box {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-heading-text {
+  font-size: clamp(18px, 3.6vw, 22px);
   font-weight: 800;
-  color: #172d4c;
+  color: #152e4d;
   line-height: 1.25;
 }
 
-/* Steps Container */
-.step-container {
-  margin-top: 6px;
+/* Step 0: Social Buttons */
+.social-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.btn-social-pill {
+  width: 100%;
+  height: clamp(48px, 6vh, 52px);
+  border-radius: 999px;
+  background: #2e527c;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(46, 82, 124, 0.28);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:active {
+    transform: scale(0.985);
+    opacity: 0.92;
+  }
+}
+
+.social-svg-icon {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.social-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.1px;
 }
 
 /* Pill Input Field */
 .input-pill-item {
   --background: #eef4fc;
-  --border-radius: 12px;
-  border-radius: 12px;
+  --border-radius: 14px;
+  border-radius: 14px;
   height: clamp(48px, 6vh, 52px);
-  margin-bottom: clamp(14px, 2.5vh, 22px);
+  margin-bottom: 16px;
   --inner-padding-end: 14px;
   --padding-start: 16px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .pill-input {
@@ -157,44 +200,18 @@
   color: #557194;
 }
 
-/* Dark Navy Next Button */
+/* Navy Next Button */
 .btn-navy-next {
   --background: #244b7a;
   --color: #ffffff;
-  --border-radius: 26px;
+  --border-radius: 999px;
   height: clamp(46px, 6vh, 50px);
   text-transform: none;
-  --box-shadow: 0 4px 14px rgba(36, 75, 122, 0.35);
-  margin-top: 4px;
+  --box-shadow: 0 4px 14px rgba(36, 75, 122, 0.3);
 }
 
 .btn-next-text {
-  font-size: clamp(15px, 3vw, 16px);
+  font-size: 15px;
   font-weight: 700;
   color: #ffffff;
-}
-
-/* Social Buttons for Step 0 */
-.btn-social {
-  --background: #20497f;
-  --color: #ffffff;
-  --border-radius: 26px;
-  height: clamp(46px, 6vh, 50px);
-  font-size: clamp(14px, 3vw, 15px);
-  font-weight: 600;
-  text-transform: none;
-  margin-bottom: clamp(10px, 1.8vh, 14px);
-  --box-shadow: 0 3px 10px rgba(32, 73, 127, 0.3);
-}
-
-.icon-google {
-  color: #ea4335;
-  font-size: 20px;
-  margin-right: 8px;
-}
-
-.icon-facebook {
-  color: #ffffff;
-  font-size: 20px;
-  margin-right: 8px;
 }

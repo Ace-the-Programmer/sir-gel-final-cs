@@ -8,9 +8,6 @@ import {
   IonRow,
   IonCol,
   IonText,
-  IonSearchbar,
-  IonCard,
-  IonCardContent,
   IonButton,
   IonIcon,
   IonInput,
@@ -40,9 +37,6 @@ import {
     IonRow,
     IonCol,
     IonText,
-    IonSearchbar,
-    IonCard,
-    IonCardContent,
     IonButton,
     IonIcon,
     IonInput,
@@ -50,11 +44,11 @@ import {
   ],
 })
 export class WelcomePage implements OnInit {
-  // Step 0: Choose Google/Facebook (media_1793796012329_ae6668c2.jpg)
-  // Step 1: Create your username (media_1793796971600_2d0e1a84.jpg)
-  // Step 2: Create your password (media_1793796978090_195ca042.jpg)
-  // Step 3: Birthday (media_1793796991948_2b2aefca.jpg)
-  step: number = 1;
+  // Step 0: Choose Google/Facebook (media_1793796012329_ae6668c2.jpg / media_1793903234698_c05a78f2.jpg)
+  // Step 1: Create your username
+  // Step 2: Create your password
+  // Step 3: Birthday
+  step: number = 0;
 
   username: string = '';
   password: string = '';
@@ -89,7 +83,7 @@ export class WelcomePage implements OnInit {
     } else if (this.step === 2) {
       this.step = 3; // Proceed to birthday
     } else if (this.step === 3) {
-      this.goToMap(); // Finished setup -> Go to Map
+      this.router.navigate(['/dashboard']); // Finished setup -> Go to Dashboard
     }
   }
 
@@ -99,7 +93,7 @@ export class WelcomePage implements OnInit {
     } else if (this.step === 2) {
       this.step = 1;
     } else if (this.step === 1) {
-      this.router.navigate(['/google-auth']);
+      this.step = 0;
     } else {
       this.router.navigate(['/get-started']);
     }
@@ -107,6 +101,10 @@ export class WelcomePage implements OnInit {
 
   goToGoogleAuth() {
     this.router.navigate(['/google-auth']);
+  }
+
+  goToFacebookAuth() {
+    this.router.navigate(['/facebook-auth']);
   }
 
   goToMap() {

@@ -1,125 +1,157 @@
-.map-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-
-  ion-toolbar {
-    --background: transparent;
-  }
-
-  .search-toolbar {
-    padding: 0 10px;
-  }
-}
-
-.search-grid {
-  padding: 0;
-  width: 100%;
-}
-
-.map-searchbar {
-  --background: #ffffff;
-  --color: #1a1a1a;
-  --placeholder-color: #555555;
-  --icon-color: #153258;
-  --border-radius: 26px;
-  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  padding: 0;
-  width: 100%;
-}
-
 .map-content {
-  position: relative;
+  --background: #f8fafc;
   height: 100%;
 }
 
-.leaflet-map-grid {
+.map-view-container {
+  height: 100%;
   width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  background-color: #e5e3df;
+  position: relative;
+  overflow: hidden;
 }
 
-.estimation-card-grid {
+/* Floating Search Pill at top */
+.floating-search-pill-wrapper {
   position: absolute;
-  bottom: 0;
+  top: clamp(28px, 6vh, 46px);
   left: 0;
-  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
   z-index: 1000;
-  padding: 0;
   pointer-events: none;
 }
 
-.estimation-card {
+.floating-search-pill {
   pointer-events: auto;
-  margin: 0;
+  width: 100%;
+  max-width: 325px;
+  height: clamp(44px, 5.5vh, 48px);
   background: #ffffff;
-}
-
-/* Mobile: Bottom edge-to-edge sheet */
-@media (max-width: 576px) {
-  .estimation-card {
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.25);
-  }
-}
-
-/* Desktop Web: Centered floating card */
-@media (min-width: 577px) {
-  .estimation-card-grid {
-    bottom: 24px;
-    padding: 0 16px;
-  }
-
-  .estimation-card {
-    border-radius: 24px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
-  }
-}
-
-.estimation-card-content {
-  padding: 16px 20px clamp(16px, 3vh, 22px) 20px;
-}
-
-.distance-heading {
+  border-radius: 999px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
-.turn-arrow-icon {
-  font-size: clamp(24px, 5vw, 28px);
-  color: #0099ff;
-  margin-right: 6px;
-  transform: rotate(-45deg);
+.search-placeholder-text {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #64748b;
 }
 
-.distance-val {
-  font-size: clamp(26px, 6vw, 32px);
-  font-weight: 900;
-  color: #000000;
-  letter-spacing: -0.5px;
+.search-icon-right {
+  font-size: 19px;
+  color: #1e3a63;
 }
 
-.duration-val {
+/* Fullscreen Leaflet Map */
+.leaflet-map-fullscreen {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: #183661;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 12px;
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+  z-index: 1000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.btn-nav-tab {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:active {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* Elevated Location Pin Button (Active Tab 2) */
+.active-tab {
+  position: relative;
+}
+
+.btn-elevated-pin {
+  position: relative;
+  top: -14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #183661;
+  border: 3.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+
+  /* Curved wing cutouts on the sides */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 24px;
+    width: 18px;
+    height: 18px;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: -19px;
+    border-top-right-radius: 16px;
+    box-shadow: 6px -6px 0 3px #ffffff;
+  }
+
+  &::after {
+    right: -19px;
+    border-top-left-radius: 16px;
+    box-shadow: -6px -6px 0 3px #ffffff;
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+.nav-icon {
   display: block;
-  font-size: clamp(18px, 4.5vw, 22px);
-  font-weight: 800;
-  color: #000000;
-  margin-top: 2px;
-}
-
-.weather-text {
-  display: block;
-  font-size: clamp(13px, 3vw, 15px);
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 2px;
-}
-
-.weather-icon {
-  font-size: clamp(32px, 7vw, 40px);
-  color: #ffb74d;
 }

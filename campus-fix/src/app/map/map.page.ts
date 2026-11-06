@@ -9,6 +9,14 @@ import {
   IonButton,
   IonIcon,
   IonInput,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonBadge,
+  IonChip,
+  IonCheckbox,
+  IonText,
   ToastController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -31,6 +39,14 @@ import { StudentService, CampusLocation, FareCalculationResult } from '../servic
     IonButton,
     IonIcon,
     IonInput,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
+    IonBadge,
+    IonChip,
+    IonCheckbox,
+    IonText,
   ],
 })
 export class MapPage implements OnInit, AfterViewInit, OnDestroy {

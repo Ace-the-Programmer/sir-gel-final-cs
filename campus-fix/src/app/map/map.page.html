@@ -69,138 +69,155 @@
       <ion-icon [name]="isLocating ? 'sync-outline' : 'locate'" [class.spin-anim]="isLocating"></ion-icon>
     </ion-button>
 
-    <!-- Interactive Student Fare Calculator Sheet -->
-    <div *ngIf="showFareCalculator" class="fare-calc-sheet">
+    <!-- Interactive Student Fare Calculator Sheet (Angular Ionic Card Component) -->
+    <ion-card *ngIf="showFareCalculator" class="fare-calc-sheet">
       <!-- Card Header -->
-      <div class="calc-header">
+      <ion-card-header class="calc-header">
         <div class="calc-title-box">
           <span class="calc-badge-icon">🧮</span>
-          <span class="calc-title">Fare Calculator</span>
-          <span class="student-discount-badge" *ngIf="applyStudentDiscount">20% Student Discount</span>
+          <ion-card-title class="calc-title">Fare Calculator</ion-card-title>
+          <ion-badge color="primary" class="student-discount-badge" *ngIf="applyStudentDiscount">20% Student Discount</ion-badge>
         </div>
-        <button class="btn-close-calc" (click)="toggleFareCalculator()" aria-label="Close Calculator">&times;</button>
-      </div>
+        <ion-button fill="clear" size="small" class="btn-close-calc" (click)="toggleFareCalculator()" aria-label="Close Calculator">
+          <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-card-header>
 
-      <!-- Route Points Summary -->
-      <div class="calc-route-info" *ngIf="selectedLocation">
-        <div class="route-line-item">
-          <span class="route-dot origin-dot"></span>
-          <span class="route-label">{{ originLocation || 'Current Location' }}</span>
-        </div>
-        <div class="route-line-item">
-          <span class="route-dot dest-dot"></span>
-          <span class="route-label dest-label">{{ selectedLocation }}</span>
-        </div>
-      </div>
-
-      <!-- Interactive Distance Adjuster -->
-      <div class="calc-distance-control">
-        <span class="dist-title">Distance:</span>
-        <div class="dist-counter-box">
-          <button type="button" class="btn-counter" (click)="adjustDistance(-0.5)" [disabled]="calcDistance <= 0.5">-</button>
-          <input
-            type="number"
-            step="0.1"
-            min="0.1"
-            max="100"
-            [(ngModel)]="calcDistance"
-            (ngModelChange)="onRecalculateFare()"
-            class="dist-number-input"
-          />
-          <span class="dist-unit">km</span>
-          <button type="button" class="btn-counter" (click)="adjustDistance(0.5)">+</button>
-        </div>
-      </div>
-
-      <!-- Mode Selector Pills (Cabanatuan Ordinance & LTFRB Region 3) -->
-      <div class="calc-modes-row">
-        <button
-          type="button"
-          class="mode-chip"
-          [class.active-mode]="calcMode === 'tricycle'"
-          (click)="setCalcMode('tricycle')"
-        >
-          <span>🛺 Tricycle (Shared)</span>
-        </button>
-        <button
-          type="button"
-          class="mode-chip"
-          [class.active-mode]="calcMode === 'tricycle-solo'"
-          (click)="setCalcMode('tricycle-solo')"
-        >
-          <span>🛺 Solo Trike (Special)</span>
-        </button>
-        <button
-          type="button"
-          class="mode-chip"
-          [class.active-mode]="calcMode === 'traditional-jeepney' || calcMode === 'jeepney'"
-          (click)="setCalcMode('traditional-jeepney')"
-        >
-          <span>🚐 Trad. Jeepney</span>
-        </button>
-        <button
-          type="button"
-          class="mode-chip"
-          [class.active-mode]="calcMode === 'modern-jeepney'"
-          (click)="setCalcMode('modern-jeepney')"
-        >
-          <span>🚌 Modern Jeepney</span>
-        </button>
-        <button
-          type="button"
-          class="mode-chip"
-          [class.active-mode]="calcMode === 'car'"
-          (click)="setCalcMode('car')"
-        >
-          <span>🚗 Car / Taxi</span>
-        </button>
-        <button
-          type="button"
-          class="mode-chip"
-          [class.active-mode]="calcMode === 'walk'"
-          (click)="setCalcMode('walk')"
-        >
-          <span>🚶 Walk</span>
-        </button>
-      </div>
-
-      <!-- 20% Student Discount Toggle -->
-      <div class="student-discount-toggle" (click)="toggleStudentDiscount()">
-        <input type="checkbox" [checked]="applyStudentDiscount" (click)="$event.stopPropagation()" (change)="toggleStudentDiscount()" id="studentDiscountToggle" />
-        <label for="studentDiscountToggle">Apply Student Discount (Cabanatuan Ord. 050-2026 & LTFRB)</label>
-      </div>
-
-      <!-- Fare Result & Breakdown Box -->
-      <div class="fare-result-card" [class.walk-result]="calcMode === 'walk'">
-        <div class="fare-main-row">
-          <div class="fare-amount-col">
-            <span class="fare-amount-label">Student Fare to Pay:</span>
-            <span class="fare-amount-value" *ngIf="calcMode !== 'walk'">₱{{ fareResult?.studentFare?.toFixed(2) }}</span>
-            <span class="fare-amount-value free-val" *ngIf="calcMode === 'walk'">FREE (₱0.00)</span>
+      <ion-card-content class="calc-card-content">
+        <!-- Route Points Summary -->
+        <div class="calc-route-info" *ngIf="selectedLocation">
+          <div class="route-line-item">
+            <span class="route-dot origin-dot"></span>
+            <ion-text class="route-label">{{ originLocation || 'Current Location' }}</ion-text>
           </div>
-          <div class="fare-time-col">
-            <span class="fare-time-label">Est. Time</span>
-            <span class="fare-time-value">{{ fareResult?.estMinutes }} mins</span>
+          <div class="route-line-item">
+            <span class="route-dot dest-dot"></span>
+            <ion-text class="route-label dest-label">{{ selectedLocation }}</ion-text>
           </div>
         </div>
 
-        <div class="fare-breakdown-details" *ngIf="calcMode !== 'walk'">
-          <span class="detail-item">Regular: <del>₱{{ fareResult?.regularFare?.toFixed(2) }}</del></span>
-          <span class="detail-item discount-save" *ngIf="applyStudentDiscount">Saved: ₱{{ fareResult?.discountAmount?.toFixed(2) }}</span>
-          <span class="detail-item formula">({{ fareResult?.breakdown }})</span>
+        <!-- Interactive Distance Adjuster -->
+        <div class="calc-distance-control">
+          <ion-text class="dist-title">Distance:</ion-text>
+          <div class="dist-counter-box">
+            <ion-button fill="clear" size="small" class="btn-counter" (click)="adjustDistance(-0.5)" [disabled]="calcDistance <= 0.5">-</ion-button>
+            <input
+              type="number"
+              step="0.1"
+              min="0.1"
+              max="100"
+              [(ngModel)]="calcDistance"
+              (ngModelChange)="onRecalculateFare()"
+              class="dist-number-input"
+            />
+            <span class="dist-unit">km</span>
+            <ion-button fill="clear" size="small" class="btn-counter" (click)="adjustDistance(0.5)">+</ion-button>
+          </div>
         </div>
-        <div class="fare-breakdown-details" *ngIf="calcMode === 'walk'">
-          <span class="detail-item">🔥 ~{{ fareResult?.caloriesBurned }} kcal burned</span>
-          <span class="detail-item">👟 ~{{ fareResult?.steps }} steps</span>
-        </div>
-      </div>
 
-      <!-- Record Trip to MySQL Button -->
-      <button type="button" class="btn-log-trip" (click)="logCurrentTrip()" [disabled]="isLoggingTrip">
-        <span *ngIf="!isLoggingTrip">✓ Record to Commute History</span>
-        <span *ngIf="isLoggingTrip">Saving to Local MySQL...</span>
-      </button>
-    </div>
+        <!-- Mode Selector Pills (Cabanatuan Ordinance & LTFRB Region 3) -->
+        <div class="calc-modes-row">
+          <ion-chip
+            [color]="calcMode === 'tricycle' ? 'primary' : 'medium'"
+            (click)="setCalcMode('tricycle')"
+            class="mode-chip-ionic"
+          >
+            <ion-text>🛺 Tricycle (Shared)</ion-text>
+          </ion-chip>
+
+          <ion-chip
+            [color]="calcMode === 'tricycle-solo' ? 'primary' : 'medium'"
+            (click)="setCalcMode('tricycle-solo')"
+            class="mode-chip-ionic"
+          >
+            <ion-text>🛺 Solo Trike</ion-text>
+          </ion-chip>
+
+          <ion-chip
+            [color]="calcMode === 'traditional-jeepney' || calcMode === 'jeepney' ? 'primary' : 'medium'"
+            (click)="setCalcMode('traditional-jeepney')"
+            class="mode-chip-ionic"
+          >
+            <ion-text>🚐 Trad. Jeepney</ion-text>
+          </ion-chip>
+
+          <ion-chip
+            [color]="calcMode === 'modern-jeepney' ? 'primary' : 'medium'"
+            (click)="setCalcMode('modern-jeepney')"
+            class="mode-chip-ionic"
+          >
+            <ion-text>🚌 Modern Jeepney</ion-text>
+          </ion-chip>
+
+          <ion-chip
+            [color]="calcMode === 'car' ? 'primary' : 'medium'"
+            (click)="setCalcMode('car')"
+            class="mode-chip-ionic"
+          >
+            <ion-text>🚗 Car / Taxi</ion-text>
+          </ion-chip>
+
+          <ion-chip
+            [color]="calcMode === 'walk' ? 'primary' : 'medium'"
+            (click)="setCalcMode('walk')"
+            class="mode-chip-ionic"
+          >
+            <ion-text>🚶 Walk</ion-text>
+          </ion-chip>
+        </div>
+
+        <!-- 20% Student Discount Checkbox -->
+        <div class="student-discount-toggle">
+          <ion-checkbox
+            [(ngModel)]="applyStudentDiscount"
+            (ionChange)="onRecalculateFare()"
+            labelPlacement="end"
+            justify="start"
+            class="discount-checkbox"
+          >
+            Apply Student Discount (Ord. 050-2026 & LTFRB)
+          </ion-checkbox>
+        </div>
+
+        <!-- Fare Result & Breakdown Box -->
+        <div class="fare-result-card" [class.walk-result]="calcMode === 'walk'">
+          <div class="fare-main-row">
+            <div class="fare-amount-col">
+              <span class="fare-amount-label">Student Fare to Pay:</span>
+              <span class="fare-amount-value" *ngIf="calcMode !== 'walk'">₱{{ fareResult?.studentFare?.toFixed(2) }}</span>
+              <span class="fare-amount-value free-val" *ngIf="calcMode === 'walk'">FREE (₱0.00)</span>
+            </div>
+            <div class="fare-time-col">
+              <span class="fare-time-label">Est. Time</span>
+              <span class="fare-time-value">{{ fareResult?.estMinutes }} mins</span>
+            </div>
+          </div>
+
+          <div class="fare-breakdown-details" *ngIf="calcMode !== 'walk'">
+            <span class="detail-item">Regular: <del>₱{{ fareResult?.regularFare?.toFixed(2) }}</del></span>
+            <span class="detail-item discount-save" *ngIf="applyStudentDiscount">Saved: ₱{{ fareResult?.discountAmount?.toFixed(2) }}</span>
+            <span class="detail-item formula">({{ fareResult?.breakdown }})</span>
+          </div>
+          <div class="fare-breakdown-details" *ngIf="calcMode === 'walk'">
+            <span class="detail-item">🔥 ~{{ fareResult?.caloriesBurned }} kcal burned</span>
+            <span class="detail-item">👟 ~{{ fareResult?.steps }} steps</span>
+          </div>
+        </div>
+
+        <!-- Record Trip to MySQL Button -->
+        <ion-button
+          expand="block"
+          shape="round"
+          class="btn-log-trip-ionic"
+          (click)="logCurrentTrip()"
+          [disabled]="isLoggingTrip"
+        >
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          <ion-text *ngIf="!isLoggingTrip">Record to Commute History</ion-text>
+          <ion-text *ngIf="isLoggingTrip">Saving to Local MySQL...</ion-text>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
 
     <!-- Full-Width Bottom Navigation Bar (Tab 2 Location Pin active & elevated) -->
     <ion-row class="bottom-nav-bar ion-align-items-center ion-justify-content-around">

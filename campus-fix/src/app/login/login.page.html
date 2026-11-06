@@ -24,8 +24,12 @@
         </div>
 
         <!-- Welcome Heading -->
-        <h1 class="welcome-heading">Welcome back, Commuter!</h1>
-        <p class="login-subtext">Sign in to your TaraCommute campus account</p>
+        <ion-text color="dark">
+          <h1 class="welcome-heading">Welcome back, Commuter!</h1>
+        </ion-text>
+        <ion-text color="medium">
+          <p class="login-subtext">Sign in to your TaraCommute campus account</p>
+        </ion-text>
 
         <!-- Input Fields -->
         <form class="login-form" (ngSubmit)="onLogin()">
@@ -64,10 +68,12 @@
     <!-- Bottom Area: Sign Up Link (No Gmail / Facebook) -->
     <ion-row class="bottom-actions-row ion-justify-content-center">
       <ion-col size="12" class="ion-text-center">
-        <p class="signup-prompt">
+        <ion-text color="medium" class="signup-prompt">
           Don't have a commuter account?
-          <a class="signup-link" (click)="goToRegister()">Sign Up</a>
-        </p>
+        </ion-text>
+        <ion-button fill="clear" size="small" class="signup-link-btn" (click)="goToRegister()">
+          <ion-text color="primary"><strong>Sign Up</strong></ion-text>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

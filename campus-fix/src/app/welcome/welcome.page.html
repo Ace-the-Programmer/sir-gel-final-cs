@@ -4,9 +4,9 @@
     <ion-row class="top-row ion-justify-content-center ion-text-center">
       <ion-col size="12" class="ion-text-center">
         <div class="welcome-heading-box">
-          <span class="welcome-title-text">Welcome to</span>
-          <span class="welcome-brand-text">TaraCommute</span>
-          <span class="welcome-subtitle-text">Smart Campus Routing, Fair Estimation</span>
+          <ion-text class="welcome-title-text">Welcome to</ion-text>
+          <ion-text class="welcome-brand-text"><h1>TaraCommute</h1></ion-text>
+          <ion-text class="welcome-subtitle-text">Smart Campus Routing, Fair Estimation</ion-text>
         </div>
 
         <!-- Search Bar with magnifying glass on the right -->
@@ -34,12 +34,12 @@
                 </ion-button>
               </ion-col>
               <ion-col size="8" class="ion-text-center">
-                <h2 class="card-heading-text">Sign Up as Commuter</h2>
+                <ion-card-title class="card-heading-text">Sign Up as Commuter</ion-card-title>
               </ion-col>
               <ion-col size="2"></ion-col>
             </ion-row>
 
-            <p class="card-subtext ion-text-center">Enter your student ID & create a password</p>
+            <ion-card-subtitle class="card-subtext ion-text-center">Enter your student ID & create a password</ion-card-subtitle>
 
             <!-- Registration Form -->
             <form class="signup-form" (ngSubmit)="onRegister()">
@@ -138,8 +138,10 @@
 
             <!-- Bottom Prompt: Already have an account? -->
             <div class="card-footer-prompt ion-text-center">
-              <span class="prompt-muted">Already have a commuter account?</span>
-              <a class="prompt-link" (click)="goToLogin()">Log In</a>
+              <ion-text color="medium" class="prompt-muted">Already have a commuter account?</ion-text>
+              <ion-button fill="clear" size="small" class="prompt-link-btn" (click)="goToLogin()">
+                <ion-text color="primary"><strong>Log In</strong></ion-text>
+              </ion-button>
             </div>
 
           </ion-card-content>

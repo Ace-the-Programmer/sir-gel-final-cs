@@ -225,24 +225,22 @@
   }
 }
 
-/* Interactive Student Fare Calculator Sheet */
+/* Interactive Student Fare Calculator Card (Angular Ionic Component) */
 .fare-calc-sheet {
   position: absolute;
   bottom: 74px;
   left: 12px;
   right: 12px;
-  max-width: 460px;
+  max-width: 480px;
   margin: 0 auto;
   z-index: 1002;
+  --background: #ffffff;
   background: #ffffff;
   border-radius: 20px;
   border: 1.5px solid #bfdbfe;
   box-shadow: 0 10px 32px rgba(37, 99, 235, 0.18);
-  padding: 16px;
   animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  overflow: hidden;
 }
 
 @keyframes slideUpSheet {
@@ -260,6 +258,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px 14px 6px 14px;
 }
 
 .calc-title-box {
@@ -274,33 +273,33 @@
 }
 
 .calc-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: #0f172a;
 }
 
 .student-discount-badge {
-  background: #eff6ff;
-  color: #2563eb;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid #bfdbfe;
+  --padding-start: 6px;
+  --padding-end: 6px;
 }
 
 .btn-close-calc {
-  background: none;
-  border: none;
-  font-size: 24px;
-  line-height: 1;
-  color: #94a3b8;
-  cursor: pointer;
-  padding: 0 4px;
+  --color: #94a3b8;
+  font-size: 20px;
+  margin: 0;
 
   &:hover {
-    color: #0f172a;
+    --color: #0f172a;
   }
+}
+
+.calc-card-content {
+  padding: 0 14px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Route info inside calculator */
@@ -310,7 +309,7 @@
   padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   border: 1px solid #e2e8f0;
 }
 
@@ -318,12 +317,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
 .route-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -353,11 +352,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 2px;
+  padding: 2px 0;
 }
 
 .dist-title {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -365,7 +364,7 @@
 .dist-counter-box {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   background: #f1f5f9;
   border-radius: 999px;
   padding: 2px 6px;
@@ -373,30 +372,19 @@
 }
 
 .btn-counter {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #2563eb;
-  font-size: 16px;
+  --color: #2563eb;
+  font-size: 15px;
   font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
+  margin: 0;
+  height: 24px;
+  width: 24px;
 }
 
 .dist-number-input {
-  width: 54px;
+  width: 48px;
   border: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
   color: #0f172a;
   text-align: center;
@@ -404,13 +392,13 @@
 }
 
 .dist-unit {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #64748b;
   margin-right: 4px;
 }
 
-/* Mode chips */
+/* Mode chips (Ionic Chips) */
 .calc-modes-row {
   display: flex;
   gap: 6px;
@@ -418,62 +406,39 @@
   padding-bottom: 2px;
 }
 
-.mode-chip {
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 12px;
+.mode-chip-ionic {
+  margin: 0;
+  font-size: 11.5px;
   font-weight: 700;
-  color: #475569;
   cursor: pointer;
+  height: 28px;
   white-space: nowrap;
-  transition: all 0.15s ease;
-
-  &:hover {
-    border-color: #93c5fd;
-  }
-}
-
-.active-mode {
-  background: #eff6ff;
-  border-color: #2563eb;
-  color: #2563eb;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
 }
 
 /* Discount toggle */
 .student-discount-toggle {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
+}
+
+.discount-checkbox {
+  --size: 15px;
+  --border-radius: 4px;
+  --checkbox-background-checked: #2563eb;
+  font-size: 11.5px;
   font-weight: 600;
   color: #334155;
-  cursor: pointer;
-  user-select: none;
-
-  input {
-    cursor: pointer;
-    accent-color: #2563eb;
-    width: 15px;
-    height: 15px;
-  }
-
-  label {
-    cursor: pointer;
-  }
 }
 
 /* Fare result card */
 .fare-result-card {
   background: #eff6ff;
   border: 1.5px solid #bfdbfe;
-  border-radius: 14px;
-  padding: 12px 14px;
+  border-radius: 12px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .walk-result {
@@ -497,7 +462,7 @@
 }
 
 .fare-amount-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -505,14 +470,14 @@
 }
 
 .fare-amount-value {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 900;
   color: #2563eb;
   line-height: 1.1;
 }
 
 .free-val {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .fare-time-col {
@@ -522,13 +487,13 @@
 }
 
 .fare-time-label {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #64748b;
   font-weight: 600;
 }
 
 .fare-time-value {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: #0f172a;
 }
@@ -537,11 +502,11 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 11.5px;
+  gap: 6px;
+  font-size: 11px;
   color: #475569;
   border-top: 1px dashed #bfdbfe;
-  padding-top: 6px;
+  padding-top: 4px;
 }
 
 .discount-save {
@@ -555,29 +520,16 @@
 }
 
 /* Action button */
-.btn-log-trip {
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
-  border-radius: 999px;
-  height: 42px;
-  font-size: 14px;
+.btn-log-trip-ionic {
+  --background: #2563eb;
+  --color: #ffffff;
+  --border-radius: 999px;
+  height: 40px;
+  font-size: 13px;
   font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
-  transition: opacity 0.15s ease;
-
-  &:hover {
-    opacity: 0.95;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  text-transform: none;
+  margin-top: 4px;
+  --box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
 }
 
 /* Bottom Navigation Bar - Edge to Edge Full Width */

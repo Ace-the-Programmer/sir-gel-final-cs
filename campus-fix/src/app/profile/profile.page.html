@@ -37,52 +37,54 @@
               <div class="pass-brand">
                 <ion-icon name="school-outline" class="pass-icon"></ion-icon>
                 <div class="pass-brand-text">
-                  <div class="pass-title">CAMPUS COMMUTER PASS</div>
-                  <div class="pass-subtitle">TaraCommute Student Mobility ID</div>
+                  <ion-text class="pass-title">CAMPUS COMMUTER PASS</ion-text>
+                  <ion-text class="pass-subtitle">TaraCommute Student Mobility ID</ion-text>
                 </div>
               </div>
               <ion-badge color="success" class="pass-badge">
                 <ion-icon name="checkmark-circle"></ion-icon>
-                <span>LOCAL DB</span>
+                <ion-text>LOCAL DB</ion-text>
               </ion-badge>
             </div>
 
-            <div class="pass-grid">
-              <div class="pass-field">
-                <span class="field-label">STUDENT ID</span>
-                <span class="field-value id-code">{{ currentStudent.student_no }}</span>
-              </div>
-              <div class="pass-field">
-                <span class="field-label">DEGREE COURSE</span>
-                <span class="field-value">{{ currentStudent.course }}</span>
-              </div>
-              <div class="pass-field">
-                <span class="field-label">YEAR LEVEL</span>
-                <span class="field-value">{{ getFormattedYearLevel(currentStudent.year_level) }}</span>
-              </div>
-              <div class="pass-field">
-                <span class="field-label">COMMUTER STATUS</span>
-                <span class="field-value text-accent">Active Commuter</span>
-              </div>
-            </div>
+            <ion-grid class="pass-grid ion-no-padding">
+              <ion-row>
+                <ion-col size="6" class="pass-field">
+                  <ion-text class="field-label">STUDENT ID</ion-text>
+                  <ion-text class="field-value id-code">{{ currentStudent.student_no }}</ion-text>
+                </ion-col>
+                <ion-col size="6" class="pass-field">
+                  <ion-text class="field-label">DEGREE COURSE</ion-text>
+                  <ion-text class="field-value">{{ currentStudent.course }}</ion-text>
+                </ion-col>
+                <ion-col size="6" class="pass-field">
+                  <ion-text class="field-label">YEAR LEVEL</ion-text>
+                  <ion-text class="field-value">{{ getFormattedYearLevel(currentStudent.year_level) }}</ion-text>
+                </ion-col>
+                <ion-col size="6" class="pass-field">
+                  <ion-text class="field-label">COMMUTER STATUS</ion-text>
+                  <ion-text class="field-value text-accent">Active Commuter</ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
 
             <!-- API Connection Indicator & Actions -->
             <div class="pass-footer">
               <div class="server-status" title="Local database API in XAMPP htdocs/http-backend">
                 <ion-icon name="server-outline"></ion-icon>
-                <span>htdocs/http-backend API</span>
+                <ion-text>htdocs/http-backend API</ion-text>
               </div>
 
               <div class="pass-actions">
                 <ion-button fill="outline" size="small" class="btn-pass-action" (click)="fetchStudentsFromApi()">
                   <ion-spinner *ngIf="isLoadingStudents" name="dots" class="pass-spinner"></ion-spinner>
                   <ion-icon *ngIf="!isLoadingStudents" slot="start" name="sync-outline"></ion-icon>
-                  <span>Sync (GET)</span>
+                  <ion-text>Sync (GET)</ion-text>
                 </ion-button>
 
                 <ion-button fill="solid" size="small" class="btn-pass-action-solid" (click)="openAddStudentDialog()">
                   <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-                  <span>Register (POST)</span>
+                  <ion-text>Register (POST)</ion-text>
                 </ion-button>
               </div>
             </div>

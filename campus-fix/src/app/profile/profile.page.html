@@ -5,13 +5,9 @@
     <ion-row class="profile-header-banner ion-align-items-center">
       <ion-col size="auto" class="avatar-col">
         <div class="avatar-badge-wrapper">
-          <ion-avatar class="user-avatar">
-            <ion-img
-              src="assets/icon/quenie-avatar.png"
-              alt="Queenie Dapooh"
-              class="user-avatar-img"
-            ></ion-img>
-          </ion-avatar>
+          <div class="user-avatar avatar-icon-circle">
+            <ion-icon name="person" class="default-avatar-icon"></ion-icon>
+          </div>
           <ion-button fill="clear" class="edit-badge-btn" aria-label="Edit Profile">
             <ion-icon name="pencil" class="pencil-icon"></ion-icon>
           </ion-button>
@@ -19,8 +15,8 @@
       </ion-col>
 
       <ion-col class="user-meta-col">
-        <ion-text class="user-display-name">Queenie Dapooh</ion-text>
-        <ion-text class="user-handle-name">@queeniedapooh</ion-text>
+        <ion-text class="user-display-name">{{ currentStudent.full_name }}</ion-text>
+        <ion-text class="user-handle-name">&#64;{{ currentStudent.course.toLowerCase() }}_commuter</ion-text>
       </ion-col>
 
       <ion-col size="auto" class="logout-header-col">
@@ -33,69 +29,166 @@
     <!-- Main Content Area -->
     <ion-row class="profile-body-row">
       <ion-col size="12">
-        <!-- Section Title -->
-        <ion-text class="section-heading">Search History</ion-text>
 
-        <!-- History Cards List -->
-        <ion-list lines="none" class="history-cards-list">
+        <!-- Campus Commuter ID Pass (Localhost Student Backend Card) -->
+        <ion-card class="student-pass-card">
+          <ion-card-content class="student-pass-inner">
+            <div class="pass-header">
+              <div class="pass-brand">
+                <ion-icon name="school-outline" class="pass-icon"></ion-icon>
+                <div class="pass-brand-text">
+                  <div class="pass-title">CAMPUS COMMUTER PASS</div>
+                  <div class="pass-subtitle">TaraCommute Student Mobility ID</div>
+                </div>
+              </div>
+              <ion-badge color="success" class="pass-badge">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                <span>LOCAL DB</span>
+              </ion-badge>
+            </div>
 
-          <!-- Card 1: Car -->
-          <ion-card class="history-card" (click)="selectHistory(0)">
+            <div class="pass-grid">
+              <div class="pass-field">
+                <span class="field-label">STUDENT ID</span>
+                <span class="field-value id-code">{{ currentStudent.student_no }}</span>
+              </div>
+              <div class="pass-field">
+                <span class="field-label">DEGREE COURSE</span>
+                <span class="field-value">{{ currentStudent.course }}</span>
+              </div>
+              <div class="pass-field">
+                <span class="field-label">YEAR LEVEL</span>
+                <span class="field-value">{{ getFormattedYearLevel(currentStudent.year_level) }}</span>
+              </div>
+              <div class="pass-field">
+                <span class="field-label">COMMUTER STATUS</span>
+                <span class="field-value text-accent">Active Commuter</span>
+              </div>
+            </div>
+
+            <!-- API Connection Indicator & Actions -->
+            <div class="pass-footer">
+              <div class="server-status" title="Local database API in XAMPP htdocs/http-backend">
+                <ion-icon name="server-outline"></ion-icon>
+                <span>htdocs/http-backend API</span>
+              </div>
+
+              <div class="pass-actions">
+                <ion-button fill="outline" size="small" class="btn-pass-action" (click)="fetchStudentsFromApi()">
+                  <ion-spinner *ngIf="isLoadingStudents" name="dots" class="pass-spinner"></ion-spinner>
+                  <ion-icon *ngIf="!isLoadingStudents" slot="start" name="sync-outline"></ion-icon>
+                  <span>Sync (GET)</span>
+                </ion-button>
+
+                <ion-button fill="solid" size="small" class="btn-pass-action-solid" (click)="openAddStudentDialog()">
+                  <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+                  <span>Register (POST)</span>
+                </ion-button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Collapsible Campus Directory (Live from GET /api/students.php) -->
+        <div class="directory-section">
+          <div class="directory-toggle-bar" (click)="toggleDirectory()">
+            <div class="dir-title-box">
+              <ion-icon name="people-outline" class="dir-icon"></ion-icon>
+              <ion-text class="dir-heading">htdocs/http-backend Commuters (GET API)</ion-text>
+              <ion-badge color="primary" class="count-badge">{{ studentList.length }}</ion-badge>
+            </div>
+            <ion-icon [name]="showDirectory ? 'chevron-up' : 'chevron-down'" class="chevron-icon"></ion-icon>
+          </div>
+
+          <ion-list *ngIf="showDirectory" lines="full" class="directory-list">
+            <ion-item
+              *ngFor="let s of studentList"
+              button
+              detail="false"
+              class="student-item"
+              [class.active-item]="s.student_no === currentStudent.student_no"
+              (click)="selectStudentFromList(s)"
+            >
+              <ion-avatar slot="start" class="student-avatar-circle">
+                <div class="initials">{{ s.full_name ? s.full_name.charAt(0) : 'S' }}</div>
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ s.full_name }}</h2>
+                <p>{{ s.course }} • Year {{ s.year_level }} | ID: <span class="id-tag">{{ s.student_no }}</span></p>
+              </ion-label>
+              <ion-badge *ngIf="s.student_no === currentStudent.student_no" slot="end" color="success">
+                Current
+              </ion-badge>
+            </ion-item>
+
+            <ion-item *ngIf="studentList.length === 0 && !isLoadingStudents" lines="none">
+              <ion-label color="medium" class="ion-text-center">
+                No students loaded yet. Make sure XAMPP Apache & MySQL are running and click "Sync (GET)".
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <!-- Section Title: Commute History Header with Action -->
+        <div class="history-section-header ion-margin-top">
+          <ion-text class="section-heading">Commute Fare History (MySQL)</ion-text>
+          <ion-button fill="clear" size="small" class="btn-log-trip" (click)="openLogTripDialog()">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            <span>+ Log Trip</span>
+          </ion-button>
+        </div>
+
+        <!-- Loading spinner for trips -->
+        <div *ngIf="isLoadingTrips" class="ion-text-center ion-padding">
+          <ion-spinner name="dots" color="primary"></ion-spinner>
+        </div>
+
+        <!-- History Cards List (Live from MySQL commute_history) -->
+        <ion-list *ngIf="!isLoadingTrips" lines="none" class="history-cards-list">
+
+          <ion-card
+            *ngFor="let trip of commuteTrips; let i = index"
+            class="history-card"
+            (click)="selectHistory(i)"
+          >
             <ion-card-content class="history-card-inner">
               <ion-avatar class="card-icon-circle">
-                <ion-img src="assets/icon/mode-car.png" alt="Car" class="history-mode-icon"></ion-img>
+                <ion-img [src]="getModeIcon(trip.mode)" [alt]="trip.mode" class="history-mode-icon"></ion-img>
               </ion-avatar>
 
               <div class="card-info-col">
-                <ion-text class="mode-title">Car</ion-text>
-                <ion-text class="route-subtitle">Sumacab - SM Mega Center</ion-text>
-                <ion-text class="distance-text">6.1 km</ion-text>
+                <ion-text class="mode-title">{{ trip.mode | titlecase }}</ion-text>
+                <ion-text class="route-subtitle">{{ trip.origin }} - {{ trip.destination }}</ion-text>
+                <ion-text class="distance-text">{{ trip.distance_km }} km</ion-text>
               </div>
 
               <div class="card-fare-col">
-                <ion-text class="fare-amount">₱ 130.00</ion-text>
-                <div class="radio-select-circle" [class.checked]="selectedCard === 0"></div>
+                <ion-text class="fare-amount">₱ {{ trip.fare_amount | number:'1.2-2' }}</ion-text>
+                <div class="fare-actions">
+                  <ion-button
+                    fill="clear"
+                    size="small"
+                    color="danger"
+                    class="btn-delete-trip"
+                    (click)="deleteTrip(trip, $event)"
+                    title="Delete trip from MySQL"
+                  >
+                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                  </ion-button>
+                </div>
               </div>
             </ion-card-content>
           </ion-card>
 
-          <!-- Card 2: Tricycle -->
-          <ion-card class="history-card" (click)="selectHistory(1)">
-            <ion-card-content class="history-card-inner">
-              <ion-avatar class="card-icon-circle">
-                <ion-img src="assets/icon/mode-tricycle.png" alt="Tricycle" class="history-mode-icon"></ion-img>
-              </ion-avatar>
-
-              <div class="card-info-col">
-                <ion-text class="mode-title">Tricycle</ion-text>
-                <ion-text class="route-subtitle">Sumacab - Santa Rosa</ion-text>
-                <ion-text class="distance-text">3.4 km</ion-text>
-              </div>
-
-              <div class="card-fare-col">
-                <ion-text class="fare-amount">₱ 80.00</ion-text>
-                <div class="radio-select-circle" [class.checked]="selectedCard === 1"></div>
-              </div>
-            </ion-card-content>
-          </ion-card>
-
-          <!-- Card 3: Bicycle -->
-          <ion-card class="history-card" (click)="selectHistory(2)">
-            <ion-card-content class="history-card-inner">
-              <ion-avatar class="card-icon-circle">
-                <ion-img src="assets/icon/mode-bicycle.png" alt="Bicycle" class="history-mode-icon"></ion-img>
-              </ion-avatar>
-
-              <div class="card-info-col">
-                <ion-text class="mode-title">Bicycle</ion-text>
-                <ion-text class="route-subtitle">Sumacab - Pacific NE</ion-text>
-                <ion-text class="distance-text">2.3 km</ion-text>
-              </div>
-
-              <div class="card-fare-col">
-                <ion-text class="fare-amount">₱ 80.00</ion-text>
-                <div class="radio-select-circle" [class.checked]="selectedCard === 2"></div>
-              </div>
+          <!-- Empty State when no trips recorded -->
+          <ion-card *ngIf="commuteTrips.length === 0" class="empty-history-card">
+            <ion-card-content class="ion-text-center">
+              <ion-icon name="time-outline" class="empty-icon"></ion-icon>
+              <h3>No Commute Trips Yet</h3>
+              <p>Trips calculated on the Map will be saved to your local MySQL database.</p>
+              <ion-button fill="outline" shape="round" size="small" (click)="openLogTripDialog()">
+                Log First Commute Trip
+              </ion-button>
             </ion-card-content>
           </ion-card>
 
@@ -124,7 +217,7 @@
         </ion-button>
       </ion-col>
 
-      <!-- Tab 2: Location Pin -->
+      <!-- Tab 2: Map -->
       <ion-col class="nav-tab ion-text-center">
         <ion-button fill="clear" class="btn-nav-tab" (click)="goToMap()" aria-label="Location Map">
           <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
@@ -145,10 +238,10 @@
         </ion-button>
       </ion-col>
 
-      <!-- Tab 4: Profile (Elevated in circular badge with notch!) -->
+      <!-- Tab 4: Profile (Active Elevated Tab) -->
       <ion-col class="nav-tab active-tab ion-text-center">
         <ion-button fill="clear" class="btn-elevated-profile" aria-label="User Profile">
-          <svg class="nav-icon" viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#ffffff" stroke-width="2">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2.2">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="10" r="3" />
             <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.832 2.849" />

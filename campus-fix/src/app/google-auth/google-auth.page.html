@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/welcome" text="" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-icon name="logo-google" class="google-logo-icon"></ion-icon>
-    <ion-text class="header-title">Sign up with Google</ion-text>
+    <ion-text class="header-title">Student Commuter Accounts</ion-text>
   </ion-toolbar>
 </ion-header>
 
@@ -17,7 +17,7 @@
           <ion-col size="12">
             <ion-img
               src="assets/icon/locarate-logo.svg"
-              alt="LocaRate Logo"
+              alt="TaraCommute Logo"
               class="center-logo"
             ></ion-img>
 
@@ -26,13 +26,19 @@
             </ion-text>
 
             <ion-text class="choose-subtitle">
-              to continue to <ion-text class="brand-name">LocaRate</ion-text>
+              to continue to <ion-text class="brand-name">TaraCommute</ion-text>
             </ion-text>
           </ion-col>
         </ion-row>
 
-        <!-- Account List -->
-        <ion-row class="accounts-row ion-justify-content-center">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="ion-text-center ion-padding">
+          <ion-spinner name="crescent" color="primary"></ion-spinner>
+          <p class="loading-subtext">Connecting to local database (XAMPP MySQL)...</p>
+        </div>
+
+        <!-- Account List (from MySQL users table) -->
+        <ion-row *ngIf="!isLoading" class="accounts-row ion-justify-content-center">
           <ion-col size="12">
             <ion-list lines="inset" class="account-list">
               <ion-item
@@ -49,6 +55,18 @@
                 <ion-label class="ion-text-wrap">
                   <ion-text class="account-name">{{ acc.name }}</ion-text>
                   <ion-text class="account-email">{{ acc.email }}</ion-text>
+                  <div class="account-meta">ID: {{ acc.studentNo }} &bull; {{ acc.course }}</div>
+                </ion-label>
+              </ion-item>
+
+              <!-- Option to add/register another account in MySQL -->
+              <ion-item button="true" detail="false" class="account-item add-account-item" (click)="goToRegister()">
+                <ion-avatar slot="start" class="account-avatar add-avatar">
+                  <ion-icon name="person-add-outline"></ion-icon>
+                </ion-avatar>
+                <ion-label>
+                  <ion-text class="account-name text-primary">Register another student account</ion-text>
+                  <ion-text class="account-email">Add new student to MySQL database</ion-text>
                 </ion-label>
               </ion-item>
             </ion-list>
@@ -59,10 +77,7 @@
         <ion-row class="disclaimer-row ion-justify-content-center ion-text-center">
           <ion-col size="12">
             <ion-text class="disclaimer-text">
-              Before using this app, you can review LocaRate's
-              <ion-text class="disclaimer-link">privacy policy</ion-text>
-              and
-              <ion-text class="disclaimer-link">Terms of Service</ion-text>.
+              Accounts synced with XAMPP MySQL <ion-text class="disclaimer-link">ionic_students_api</ion-text>.
             </ion-text>
           </ion-col>
         </ion-row>

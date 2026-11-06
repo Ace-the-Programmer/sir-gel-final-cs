@@ -1,5 +1,5 @@
 .dashboard-content {
-  --background: #254d7d url('/assets/icon/map-bg.svg') no-repeat center bottom / cover;
+  --background: #ffffff radial-gradient(circle at 50% 15%, #ffffff 0%, #f8faff 50%, #eff6ff 100%);
   height: 100%;
   width: 100%;
 }
@@ -27,6 +27,39 @@
   width: 100%;
 }
 
+.commuter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid #bfdbfe;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+
+  .commuter-icon {
+    color: #2563eb;
+    font-size: 16px;
+  }
+
+  .commuter-name {
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .commuter-tag {
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+}
+
 .greeting-box {
   margin-bottom: clamp(14px, 2.5vh, 22px);
   display: flex;
@@ -36,14 +69,14 @@
 .welcome-title {
   font-size: clamp(28px, 5vw, 42px);
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
   line-height: 1.15;
 }
 
 .welcome-brand {
   font-size: clamp(32px, 5.5vw, 46px);
-  font-weight: 800;
-  color: #ffffff;
+  font-weight: 900;
+  color: #2563eb;
   line-height: 1.15;
 }
 
@@ -51,7 +84,7 @@
   margin-top: 8px;
   font-size: clamp(13px, 2.2vw, 16px);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
+  color: #64748b;
   letter-spacing: 0.2px;
 }
 
@@ -62,7 +95,8 @@
   height: clamp(46px, 5.5vh, 50px);
   --background: #ffffff;
   --border-radius: 999px;
-  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid #dbeafe;
+  --box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1);
   text-transform: none;
   --padding-start: 22px;
   --padding-end: 20px;
@@ -80,7 +114,7 @@
 
 .search-icon {
   font-size: 20px;
-  color: #1e3a63;
+  color: #2563eb;
 }
 
 /* Center Map Clickable Area */
@@ -98,14 +132,14 @@
   right: 0;
   width: 100%;
   height: 64px;
-  background: #183661;
+  background: #2563eb;
   display: flex;
   align-items: center;
   justify-content: space-around;
   padding: 0 16px;
   padding-bottom: env(safe-area-inset-bottom, 8px);
   z-index: 10;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -4px 20px rgba(37, 99, 235, 0.2);
 }
 
 .nav-tab {
@@ -139,8 +173,8 @@
   width: 52px;
   height: 52px;
   --border-radius: 50%;
-  --background: #183661;
-  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --background: #2563eb;
+  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
   --padding-start: 0;
   --padding-end: 0;
   border: 3.5px solid #ffffff;

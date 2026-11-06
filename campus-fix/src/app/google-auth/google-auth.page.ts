@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
@@ -17,15 +17,21 @@ import {
   IonAvatar,
   IonLabel,
   IonIcon,
+  IonSpinner,
+  IonButton,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { logoGoogle, arrowBack, chevronBack } from 'ionicons/icons';
+import { logoGoogle, arrowBack, chevronBack, personAddOutline } from 'ionicons/icons';
+import { StudentService, UserAccount } from '../services/student.service';
 
-export interface GoogleAccount {
+export interface DisplayAccount {
+  user: UserAccount;
   name: string;
   email: string;
   avatarColor: string;
   initials: string;
+  studentNo: string;
+  course: string;
 }
 
 @Component({
@@ -50,47 +56,72 @@ export interface GoogleAccount {
     IonAvatar,
     IonLabel,
     IonIcon,
+    IonSpinner,
   ],
 })
-export class GoogleAuthPage {
-  accounts: GoogleAccount[] = [
-    {
-      name: 'Seigi Pascual',
-      email: 'seigipascual09@gmail.com',
-      avatarColor: '#f28b82',
-      initials: 'SP',
-    },
-    {
-      name: 'Queenie Dapooh',
-      email: 'queeniedapooh@gmail.com',
-      avatarColor: '#f48fb1',
-      initials: 'QD',
-    },
-    {
-      name: 'Michel Jordan',
-      email: 'michelljordan23ail@gmail.com',
-      avatarColor: '#81c784',
-      initials: 'MJ',
-    },
-    {
-      name: 'Sam Sulek',
-      email: 'samsulekk69@gmail.com',
-      avatarColor: '#64b5f6',
-      initials: 'SS',
-    },
-  ];
+export class GoogleAuthPage implements OnInit {
+  accounts: DisplayAccount[] = [];
+  isLoading: boolean = false;
+  private colors = ['#2563eb', '#0284c7', '#059669', '#d97706', '#7c3aed', '#db2777'];
 
-  constructor(private router: Router) {
-    addIcons({ logoGoogle, arrowBack, chevronBack });
+  constructor(
+    private router: Router,
+    private studentService: StudentService
+  ) {
+    addIcons({ logoGoogle, arrowBack, chevronBack, personAddOutline });
   }
 
-  selectAccount(account: GoogleAccount) {
-    // Authenticate with chosen Google account and proceed directly to Dashboard
+  ngOnInit() {
+    this.loadDatabaseUsers();
+  }
+
+  loadDatabaseUsers() {
+    this.isLoading = true;
+    this.studentService.getUsers().subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        if (res && res.success && Array.isArray(res.data)) {
+          this.accounts = res.data.map((u, idx) => {
+            const initials = u.full_name
+              ? u.full_name
+                  .split(' ')
+                  .map((w) => w[0])
+                  .slice(0, 2)
+                  .join('')
+                  .toUpperCase()
+              : 'ST';
+            return {
+              user: u,
+              name: u.full_name,
+              email: u.email || `${u.username}@campus.edu.ph`,
+              avatarColor: this.colors[idx % this.colors.length],
+              initials,
+              studentNo: u.student_no,
+              course: u.course
+            };
+          });
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Failed to load users from MySQL:', err);
+      }
+    });
+  }
+
+  selectAccount(item: DisplayAccount) {
+    // Authenticate with chosen database account and proceed directly to Dashboard
+    this.studentService.setCurrentUser(item.user);
     this.router.navigate(['/dashboard'], {
       queryParams: {
-        user: account.name,
-        email: account.email,
+        user: item.name,
+        email: item.email,
+        studentNo: item.studentNo,
       },
     });
+  }
+
+  goToRegister() {
+    this.router.navigate(['/welcome'], { queryParams: { step: 1 } });
   }
 }

@@ -1,7 +1,9 @@
 <ion-header class="ion-no-border get-started-header">
   <ion-toolbar class="transparent-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/welcome" text="" color="light"></ion-back-button>
+      <ion-button fill="clear" size="small" class="btn-back" (click)="onBack()" aria-label="Go back">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,58 +15,60 @@
       <ion-col size="12" class="ion-text-center">
         <ion-img
           src="assets/icon/locarate-logo.svg"
-          alt="LocaRate Logo"
+          alt="TaraCommute Logo"
           class="get-started-logo"
         ></ion-img>
 
-        <ion-text class="brand-title">
-          <ion-text class="brand-loca">Loca</ion-text>
-          <ion-text class="brand-rate">Rate</ion-text>
-        </ion-text>
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">
+            <span class="brand-tara">Tara</span><span class="brand-commute">Commute</span>
+          </h1>
+        </div>
       </ion-col>
     </ion-row>
 
     <!-- Bottom Area: Buttons & Agreement -->
     <ion-row class="actions-row ion-justify-content-center">
       <ion-col size="12" class="ion-text-center">
-        <!-- 1. Get Started Button -->
+        <!-- 1. Primary Action: Get Started -->
         <ion-button
           expand="block"
           shape="round"
-          class="btn-slate"
+          class="btn-primary-pill"
           (click)="onGetStarted()"
         >
-          <ion-text class="btn-text-white">Get Started</ion-text>
+          <ion-text>Get Started</ion-text>
         </ion-button>
 
-        <!-- 2. Login Button -->
+        <!-- 2. Secondary Action: Login -->
         <ion-button
           expand="block"
           shape="round"
-          class="btn-light"
+          class="btn-outline-pill"
           (click)="onLogin()"
         >
-          <ion-text class="btn-text-dark">Login</ion-text>
+          <ion-text>Login</ion-text>
         </ion-button>
 
-        <!-- 3. Continue as Guest Button -->
+        <!-- 3. Tertiary Action: Continue as Guest -->
         <ion-button
           expand="block"
           shape="round"
-          class="btn-slate"
+          class="btn-ghost-pill"
           (click)="onContinueGuest()"
         >
-          <ion-text class="btn-text-white">Continue as Guest</ion-text>
+          <ion-text>Continue as Guest</ion-text>
         </ion-button>
 
-        <!-- Terms & Privacy Note -->
+        <!-- Terms and Privacy Links -->
         <ion-text class="terms-text">
-          <ion-text class="terms-muted">By continuing you agree to LocaRate's</ion-text>
-          <ion-text class="terms-links">
-            <ion-text class="link-item">Terms of Service</ion-text>
-            <ion-text class="terms-muted"> and </ion-text>
-            <ion-text class="link-item">Privacy Policy</ion-text>
-          </ion-text>
+          <span class="terms-muted">By continuing you agree to TaraCommute's</span>
+          <br />
+          <span class="terms-links">
+            <a href="#" class="terms-link">Terms of Service</a>
+            <span class="terms-muted"> and </span>
+            <a href="#" class="terms-link">Privacy Policy</a>
+          </span>
         </ion-text>
       </ion-col>
     </ion-row>

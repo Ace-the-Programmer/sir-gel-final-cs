@@ -10,7 +10,7 @@
         </div>
         <div class="track-dashed-line"></div>
         <div class="dest-pin">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="#1b3964">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
             <circle cx="12" cy="9" r="2.5" fill="#ffffff"/>
           </svg>
@@ -27,31 +27,79 @@
             class="pill-ionic-input"
           ></ion-input>
           <ion-button fill="clear" slot="end" class="btn-input-icon" (click)="useCurrentLocation()" aria-label="Use current location">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#254d7d" stroke-width="2">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563eb" stroke-width="2">
               <circle cx="12" cy="12" r="6" />
               <line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round"/>
               <line x1="12" y1="19" x2="12" y2="22" stroke-linecap="round"/>
               <line x1="2" y1="12" x2="5" y2="12" stroke-linecap="round"/>
               <line x1="19" y1="12" x2="22" y2="12" stroke-linecap="round"/>
-              <circle cx="12" cy="12" r="2" fill="#254d7d" />
+              <circle cx="12" cy="12" r="2" fill="#2563eb" />
             </svg>
           </ion-button>
         </ion-item>
 
-        <ion-item lines="none" class="input-pill-item">
-          <ion-input
-            type="text"
-            placeholder="Choose Destination"
-            [(ngModel)]="destination"
-            class="pill-ionic-input"
-          ></ion-input>
-          <ion-button fill="clear" slot="end" class="btn-input-icon" aria-label="Destination location">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="#254d7d">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-              <circle cx="12" cy="9" r="2.5" fill="#bcd7f5"/>
-            </svg>
-          </ion-button>
-        </ion-item>
+        <div class="dest-wrapper">
+          <ion-item lines="none" class="input-pill-item">
+            <ion-input
+              type="text"
+              placeholder="Search Destination (e.g. SM, Campus, Terminal)"
+              [(ngModel)]="destination"
+              (ionInput)="onDestinationInput($event)"
+              (ionFocus)="onDestinationFocus()"
+              (keyup.enter)="onEstimate()"
+              class="pill-ionic-input"
+            ></ion-input>
+            <ion-button fill="clear" slot="end" class="btn-input-icon" (click)="toggleSuggestions()" aria-label="Destination location">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5" fill="#dbeafe"/>
+              </svg>
+            </ion-button>
+          </ion-item>
+
+          <!-- Live Autocomplete Suggestions Box -->
+          <div *ngIf="showSuggestions" class="suggestions-box">
+            <div class="suggestions-header">
+              <span>Campus & Transit Points (MySQL)</span>
+              <span class="btn-close-box" (click)="showSuggestions = false">&times;</span>
+            </div>
+
+            <div *ngIf="isLoadingLocations" class="ion-text-center ion-padding-vertical">
+              <ion-spinner name="dots" color="primary"></ion-spinner>
+            </div>
+
+            <!-- List of filtered locations -->
+            <div
+              *ngFor="let loc of filteredLocations"
+              class="suggestion-row"
+              (click)="selectLocation(loc)"
+            >
+              <div class="sugg-pin-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2.5" fill="#ffffff"/>
+                </svg>
+              </div>
+              <div class="sugg-text-col">
+                <div class="sugg-title">{{ loc.name }}</div>
+                <div class="sugg-sub">{{ loc.category }} &bull; {{ loc.distance_km }} km away</div>
+              </div>
+            </div>
+
+            <!-- When no location matches what was typed (e.g. user typed custom place) -->
+            <div *ngIf="filteredLocations.length === 0 && !isLoadingLocations" class="suggestion-row custom-dest-row" (click)="useCustomSearch()">
+              <div class="sugg-pin-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="#0284c7">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                </svg>
+              </div>
+              <div class="sugg-text-col">
+                <div class="sugg-title">Search on Map: "{{ destination }}"</div>
+                <div class="sugg-sub">Estimate fare to this destination &rarr;</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </ion-col>
     </ion-row>
 
@@ -98,8 +146,43 @@
       </ion-col>
     </ion-row>
 
-    <!-- Center Space -->
-    <ion-row class="center-content-space" (click)="onEstimate()"></ion-row>
+    <!-- Live Fare Calculation Preview Box -->
+    <ion-row class="fare-preview-row ion-justify-content-center" *ngIf="destination">
+      <ion-col size="12" class="fare-preview-col">
+        <div class="route-fare-card">
+          <div class="card-top-row">
+            <span class="preview-title">🧮 Estimated Campus Fare</span>
+            <span class="discount-pill">20% Student Off</span>
+          </div>
+
+          <div class="card-details-row">
+            <div class="detail-block">
+              <span class="lbl">Route Distance</span>
+              <span class="val">{{ farePreview?.distanceKm || 2.5 }} km</span>
+            </div>
+            <div class="detail-block">
+              <span class="lbl">Est. Time</span>
+              <span class="val">{{ farePreview?.estMinutes || 8 }} mins</span>
+            </div>
+            <div class="detail-block fare-block">
+              <span class="lbl">Student Fare</span>
+              <span class="val fare-val" *ngIf="selectedMode !== 'walk'">₱{{ farePreview?.studentFare?.toFixed(2) }}</span>
+              <span class="val free-fare-val" *ngIf="selectedMode === 'walk'">FREE</span>
+            </div>
+          </div>
+
+          <div class="card-footer-note" *ngIf="selectedMode !== 'walk'">
+            Regular: <del>₱{{ farePreview?.regularFare?.toFixed(2) }}</del> &bull; Saved ₱{{ farePreview?.discountAmount?.toFixed(2) }} under Student Discount Act
+          </div>
+          <div class="card-footer-note" *ngIf="selectedMode === 'walk'">
+            🔥 ~{{ farePreview?.caloriesBurned }} kcal &bull; 👟 ~{{ farePreview?.steps }} steps (Healthiest campus route)
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Center Space if no destination yet -->
+    <ion-row class="center-content-space" *ngIf="!destination" (click)="onEstimate()"></ion-row>
 
     <!-- Floating Estimate Button on Lower Right -->
     <ion-row class="estimate-btn-row ion-justify-content-end">

@@ -1,2 +1,42 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+// TaraCommute - Solid White & Blue (More in White) Theme
+:root {
+  /** Primary - Solid Royal Blue **/
+  --ion-color-primary: #2563eb;
+  --ion-color-primary-rgb: 37, 99, 235;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #1d4ed8;
+  --ion-color-primary-tint: #3b82f6;
+
+  /** Secondary - Vibrant Sky Blue **/
+  --ion-color-secondary: #3b82f6;
+  --ion-color-secondary-rgb: 59, 130, 246;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #2563eb;
+  --ion-color-secondary-tint: #60a5fa;
+
+  /** Tertiary - Deep Navy Blue **/
+  --ion-color-tertiary: #1e40af;
+  --ion-color-tertiary-rgb: 30, 64, 175;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #1e3a8a;
+  --ion-color-tertiary-tint: #3b82f6;
+
+  /** Success - Royal Blue **/
+  --ion-color-success: #2563eb;
+  --ion-color-success-rgb: 37, 99, 235;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+
+  /** Custom App Brand Colors (White Dominated) **/
+  --app-bg-white: #ffffff;
+  --app-bg-surface: #f8fafc;
+  --app-bg-blue-tint: #eff6ff;
+  --app-blue-primary: #2563eb;
+  --app-blue-dark: #1e40af;
+  --app-blue-border: #bfdbfe;
+  --app-text-main: #0f172a;
+  --app-text-muted: #64748b;
+}

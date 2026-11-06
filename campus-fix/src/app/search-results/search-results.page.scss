@@ -54,21 +54,21 @@
 }
 
 .result-item {
-  --background: #f8fafc;
-  --border-color: #cbd5e1;
+  --background: #ffffff;
+  --border-color: #dbeafe;
   --inner-padding-end: 20px;
   --padding-start: 20px;
   --min-height: 58px;
   transition: background-color 0.15s ease;
 
   &:active {
-    --background: #e2e8f0;
+    --background: #eff6ff;
   }
 }
 
 .location-pin-icon {
   font-size: 24px;
-  color: #94a3b8;
+  color: #2563eb;
   margin-right: 14px;
 }
 

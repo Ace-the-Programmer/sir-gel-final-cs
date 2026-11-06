@@ -26,23 +26,19 @@
           <!-- Sheet Body -->
           <ion-card-content class="sheet-body">
             <!-- Profile Avatar -->
-            <ion-avatar class="avatar-container">
-              <ion-img
-                src="assets/icon/quenie-avatar.png"
-                alt="Quenie Dapooh"
-                class="profile-avatar"
-              ></ion-img>
-            </ion-avatar>
+            <div class="avatar-container fb-avatar-circle">
+              <ion-icon name="person" class="fb-person-icon"></ion-icon>
+            </div>
 
             <!-- User Name -->
             <ion-text class="user-name">
-              <h3>Quenie Dapooh</h3>
+              <h3>{{ accountName }}</h3>
             </ion-text>
 
             <!-- Prompt Text -->
             <ion-text class="prompt-text">
               <p>
-                You previously logged in to LocaRate with Facebook<br />
+                You previously logged in to TaraCommute with Facebook<br />
                 Would you like to continue?
               </p>
             </ion-text>

@@ -10,7 +10,7 @@
       type="text"
       [(ngModel)]="searchQuery"
       (ionInput)="onSearchChange()"
-      placeholder="Search Location"
+      placeholder="Search Location or Campus Hub"
       class="header-search-input"
     ></ion-input>
 
@@ -24,7 +24,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="search-results-content">
-  <ion-list lines="full" class="results-list">
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: #64748b; font-size: 13px; margin-top: 8px;">Loading locations from MySQL database...</p>
+  </div>
+
+  <ion-list *ngIf="!isLoading" lines="full" class="results-list">
     <ion-item
       *ngFor="let item of filteredLocations"
       button="true"
@@ -42,6 +47,12 @@
         <ion-text class="distance-num">{{ item.distance }}</ion-text>
         <ion-text class="distance-unit">Kilometers</ion-text>
       </ion-note>
+    </ion-item>
+
+    <ion-item *ngIf="filteredLocations.length === 0" lines="none">
+      <ion-label class="ion-text-center" color="medium">
+        No campus locations found matching "{{ searchQuery }}"
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

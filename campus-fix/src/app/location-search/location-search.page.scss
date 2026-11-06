@@ -41,7 +41,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  border: 2px solid #1a3962;
+  border: 2px solid #2563eb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,13 +51,13 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: #1a3962;
+  background-color: #2563eb;
 }
 
 .track-dashed-line {
   width: 0;
   height: 32px;
-  border-left: 2px dashed #94a3b8;
+  border-left: 2px dashed #93c5fd;
   margin: 4px 0;
 }
 
@@ -77,23 +77,24 @@
 }
 
 .input-pill-item {
-  --background: #bcd7f5;
+  --background: #ffffff;
   --border-radius: 999px;
   border-radius: 999px;
+  border: 1.5px solid #bfdbfe;
   height: clamp(44px, 5.5vh, 48px);
   width: 100%;
   --inner-padding-end: 12px;
   --padding-start: 18px;
-  box-shadow: 0 4px 12px rgba(32, 69, 115, 0.16);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
   margin: 0;
 }
 
 .pill-ionic-input {
-  --color: #1a3b63;
-  --placeholder-color: #20426d;
+  --color: #0f172a;
+  --placeholder-color: #2563eb;
   --placeholder-opacity: 0.85;
   font-size: 14.5px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .btn-input-icon {
@@ -104,6 +105,122 @@
   margin: 0;
   height: 32px;
   width: 32px;
+}
+
+.dest-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.suggestions-box {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1.5px solid #bfdbfe;
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.16);
+  z-index: 999;
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 6px 0;
+  animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.suggestions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2563eb;
+  border-bottom: 1px solid #f1f5f9;
+
+  .btn-close-box {
+    font-size: 18px;
+    cursor: pointer;
+    color: #94a3b8;
+    line-height: 1;
+    padding: 0 4px;
+    &:hover {
+      color: #0f172a;
+    }
+  }
+}
+
+.suggestion-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f8fafc;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover,
+  &:active {
+    background-color: #eff6ff;
+  }
+
+  .sugg-pin-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .sugg-text-col {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sugg-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sugg-sub {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #64748b;
+    margin-top: 1px;
+  }
+}
+
+.custom-dest-row {
+  background-color: #f8fafc;
+  .sugg-title {
+    color: #0284c7;
+  }
 }
 
 /* Transport Modes Row */
@@ -131,9 +248,11 @@
   }
 
   &.selected-mode {
+    background: #eff6ff;
+    border: 1.5px solid #bfdbfe;
     .mode-label {
-      color: #1e3e6b;
-      font-weight: 700;
+      color: #2563eb;
+      font-weight: 800;
     }
   }
 }
@@ -169,16 +288,16 @@
 }
 
 .btn-estimate {
-  --background: #183661;
+  --background: #2563eb;
   --color: #ffffff;
   --border-radius: 999px;
   height: 46px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: none;
   --padding-start: 28px;
   --padding-end: 28px;
-  --box-shadow: 0 4px 14px rgba(24, 54, 97, 0.35);
+  --box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
   margin: 0;
 }
 
@@ -187,7 +306,7 @@
   position: relative;
   width: 100%;
   height: 64px;
-  background: #183661;
+  background: #2563eb;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -195,7 +314,7 @@
   padding-bottom: env(safe-area-inset-bottom, 8px);
   margin: 0;
   z-index: 10;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -4px 20px rgba(37, 99, 235, 0.2);
 }
 
 .nav-tab {
@@ -229,8 +348,8 @@
   width: 52px;
   height: 52px;
   --border-radius: 50%;
-  --background: #183661;
-  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --background: #2563eb;
+  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
   --padding-start: 0;
   --padding-end: 0;
   border: 3.5px solid #ffffff;
@@ -264,4 +383,96 @@
 
 .nav-icon {
   display: block;
+}
+
+/* Fare Preview Card in Route Planner */
+.fare-preview-row {
+  width: 100%;
+  max-width: 520px;
+  margin: 12px auto 0 auto;
+  padding: 0 16px;
+}
+
+.fare-preview-col {
+  padding: 0;
+  width: 100%;
+}
+
+.route-fare-card {
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+}
+
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.discount-pill {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.card-details-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid #dbeafe;
+}
+
+.detail-block {
+  display: flex;
+  flex-direction: column;
+
+  .lbl {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  .val {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .fare-val {
+    color: #2563eb;
+    font-size: 17px;
+  }
+
+  .free-fare-val {
+    color: #16a34a;
+    font-size: 15px;
+  }
+}
+
+.fare-block {
+  align-items: flex-end;
+}
+
+.card-footer-note {
+  font-size: 11.5px;
+  color: #64748b;
+  text-align: center;
 }

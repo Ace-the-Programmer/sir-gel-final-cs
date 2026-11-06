@@ -33,43 +33,169 @@
   z-index: 1;
 }
 
-/* Floating Search Pill at top */
-.floating-search-row {
+/* Floating Search Pill at top with Autocomplete */
+.floating-search-wrapper {
   position: absolute;
-  top: clamp(24px, 4.5vh, 40px);
-  left: 0;
-  width: 100%;
+  top: clamp(20px, 4vh, 36px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 480px);
   z-index: 1000;
-  margin: 0;
-  padding: 0 16px;
-  pointer-events: none;
 }
 
-.floating-search-btn {
-  pointer-events: auto;
-  --background: #ffffff;
-  --color: #64748b;
-  --box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
-  --padding-start: 22px;
-  --padding-end: 18px;
-  height: clamp(46px, 5.5vh, 50px);
-  margin: 0 auto;
-  width: 100%;
-  max-width: 480px;
+.search-pill-container {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 999px;
+  border: 1.5px solid #bfdbfe;
+  box-shadow: 0 8px 26px rgba(37, 99, 235, 0.16);
+  padding: 2px 10px 2px 20px;
+  height: clamp(46px, 5.5vh, 50px);
+  width: 100%;
+}
 
-  .search-placeholder-text {
-    font-size: 15px;
-    font-weight: 500;
-    color: #475569;
-    flex: 1;
-    text-align: left;
+.map-search-input {
+  --color: #0f172a;
+  --placeholder-color: #64748b;
+  --placeholder-opacity: 0.85;
+  font-size: 15px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.btn-search-action {
+  --color: #2563eb;
+  --padding-start: 6px;
+  --padding-end: 6px;
+  height: 36px;
+  width: 36px;
+  margin: 0;
+
+  .search-icon-svg {
+    font-size: 20px;
+  }
+}
+
+.map-suggestions-box {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1.5px solid #bfdbfe;
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.2);
+  margin-top: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 6px 0;
+  animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.map-sugg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2563eb;
+  border-bottom: 1px solid #f1f5f9;
+
+  .close-btn {
+    font-size: 18px;
+    cursor: pointer;
+    color: #94a3b8;
+    line-height: 1;
+    padding: 0 4px;
+    &:hover {
+      color: #0f172a;
+    }
+  }
+}
+
+.map-sugg-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f8fafc;
+
+  &:last-child {
+    border-bottom: none;
   }
 
-  .search-icon-right {
-    font-size: 20px;
-    color: #1e3a63;
+  &:hover,
+  &:active {
+    background-color: #eff6ff;
+  }
+
+  .map-sugg-pin {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .map-sugg-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .map-sugg-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .map-sugg-sub {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #64748b;
+    margin-top: 1px;
+  }
+}
+
+/* Floating Fare Calculator Toggle Button */
+.btn-fare-calc {
+  position: absolute;
+  right: 20px;
+  bottom: 144px;
+  z-index: 1000;
+  width: 52px;
+  height: 52px;
+  --border-radius: 50%;
+  --background: #2563eb;
+  --color: #ffffff;
+  border: 2px solid #ffffff;
+  --box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+  font-size: 24px;
+  margin: 0;
+  transition: transform 0.2s ease;
+
+  &:active {
+    transform: scale(0.92);
   }
 }
 
@@ -83,8 +209,9 @@
   height: 52px;
   --border-radius: 50%;
   --background: #ffffff;
-  --color: #1e3a63;
-  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  --color: #2563eb;
+  border: 1.5px solid #dbeafe;
+  --box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
   font-size: 24px;
   margin: 0;
 
@@ -98,6 +225,361 @@
   }
 }
 
+/* Interactive Student Fare Calculator Sheet */
+.fare-calc-sheet {
+  position: absolute;
+  bottom: 74px;
+  left: 12px;
+  right: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+  z-index: 1002;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1.5px solid #bfdbfe;
+  box-shadow: 0 10px 32px rgba(37, 99, 235, 0.18);
+  padding: 16px;
+  animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@keyframes slideUpSheet {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.calc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calc-title-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.calc-badge-icon {
+  font-size: 18px;
+}
+
+.calc-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.student-discount-badge {
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+}
+
+.btn-close-calc {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0 4px;
+
+  &:hover {
+    color: #0f172a;
+  }
+}
+
+/* Route info inside calculator */
+.calc-route-info {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.route-line-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.route-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.origin-dot {
+  background: #94a3b8;
+}
+
+.dest-dot {
+  background: #2563eb;
+}
+
+.route-label {
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dest-label {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Distance Control */
+.calc-distance-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px;
+}
+
+.dist-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.dist-counter-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 2px 6px;
+  border: 1px solid #cbd5e1;
+}
+
+.btn-counter {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #2563eb;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.dist-number-input {
+  width: 54px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+  text-align: center;
+  outline: none;
+}
+
+.dist-unit {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  margin-right: 4px;
+}
+
+/* Mode chips */
+.calc-modes-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.mode-chip {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: #93c5fd;
+  }
+}
+
+.active-mode {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}
+
+/* Discount toggle */
+.student-discount-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    cursor: pointer;
+    accent-color: #2563eb;
+    width: 15px;
+    height: 15px;
+  }
+
+  label {
+    cursor: pointer;
+  }
+}
+
+/* Fare result card */
+.fare-result-card {
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.walk-result {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+
+  .fare-amount-value {
+    color: #16a34a;
+  }
+}
+
+.fare-main-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.fare-amount-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.fare-amount-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #64748b;
+}
+
+.fare-amount-value {
+  font-size: 26px;
+  font-weight: 900;
+  color: #2563eb;
+  line-height: 1.1;
+}
+
+.free-val {
+  font-size: 20px;
+}
+
+.fare-time-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.fare-time-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.fare-time-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.fare-breakdown-details {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #475569;
+  border-top: 1px dashed #bfdbfe;
+  padding-top: 6px;
+}
+
+.discount-save {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.formula {
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Action button */
+.btn-log-trip {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  height: 42px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.95;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
 /* Bottom Navigation Bar - Edge to Edge Full Width */
 .bottom-nav-bar {
   position: absolute;
@@ -106,12 +588,12 @@
   right: 0;
   width: 100%;
   height: 64px;
-  background: #183661;
+  background: #2563eb;
   margin: 0;
   padding: 0 16px;
   padding-bottom: env(safe-area-inset-bottom, 8px);
   z-index: 1000;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -4px 20px rgba(37, 99, 235, 0.2);
 }
 
 .nav-tab {
@@ -145,8 +627,8 @@
   width: 52px;
   height: 52px;
   --border-radius: 50%;
-  --background: #183661;
-  --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --background: #2563eb;
+  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
   --padding-start: 0;
   --padding-end: 0;
   border: 3.5px solid #ffffff;

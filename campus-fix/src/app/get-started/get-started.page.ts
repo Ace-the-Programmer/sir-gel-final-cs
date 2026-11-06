@@ -4,7 +4,6 @@ import {
   IonHeader,
   IonToolbar,
   IonButtons,
-  IonBackButton,
   IonContent,
   IonGrid,
   IonRow,
@@ -12,7 +11,10 @@ import {
   IonText,
   IonImg,
   IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-get-started',
@@ -23,7 +25,6 @@ import {
     IonHeader,
     IonToolbar,
     IonButtons,
-    IonBackButton,
     IonContent,
     IonGrid,
     IonRow,
@@ -31,13 +32,20 @@ import {
     IonText,
     IonImg,
     IonButton,
+    IonIcon,
   ],
 })
 export class GetStartedPage {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    addIcons({ arrowBackOutline });
+  }
+
+  onBack() {
+    this.router.navigate(['/home']);
+  }
 
   onGetStarted() {
-    this.router.navigate(['/welcome'], { queryParams: { step: 0 } });
+    this.router.navigate(['/welcome']);
   }
 
   onLogin() {

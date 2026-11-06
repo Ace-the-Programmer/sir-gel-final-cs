@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
   IonGrid,
@@ -11,7 +11,8 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { search } from 'ionicons/icons';
+import { search, schoolOutline, checkmarkCircle } from 'ionicons/icons';
+import { StudentService, Student } from '../services/student.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,9 +30,27 @@ import { search } from 'ionicons/icons';
     IonIcon,
   ],
 })
-export class DashboardPage {
-  constructor(private router: Router) {
-    addIcons({ search });
+export class DashboardPage implements OnInit {
+  currentStudent: Student | null = null;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private studentService: StudentService
+  ) {
+    addIcons({ search, schoolOutline, checkmarkCircle });
+  }
+
+  ngOnInit() {
+    this.loadCommuter();
+  }
+
+  ionViewDidEnter() {
+    this.loadCommuter();
+  }
+
+  loadCommuter() {
+    this.currentStudent = this.studentService.getCurrentStudent();
   }
 
   goToLocation() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   IonContent,
   IonGrid,
@@ -12,19 +12,27 @@ import {
   IonIcon,
   IonInput,
   IonItem,
+  IonImg,
+  IonSpinner,
+  ToastController,
+  LoadingController,
   IonCard,
   IonCardContent,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   search,
   calendarOutline,
   arrowBackOutline,
-  arrowBack,
-  chevronBack,
-  logoGoogle,
-  logoFacebook,
+  schoolOutline,
+  personOutline,
+  idCardOutline,
+  lockClosedOutline,
+  checkmarkCircleOutline,
 } from 'ionicons/icons';
+import { StudentService, UserAccount } from '../services/student.service';
 
 @Component({
   selector: 'app-welcome',
@@ -43,75 +51,134 @@ import {
     IonIcon,
     IonInput,
     IonItem,
+    IonSpinner,
     IonCard,
     IonCardContent,
+    IonSelect,
+    IonSelectOption,
   ],
 })
 export class WelcomePage implements OnInit {
-  // Step 0: Choose Google/Facebook (media_1793796012329_ae6668c2.jpg / media_1793903234698_c05a78f2.jpg)
-  // Step 1: Create your username
-  // Step 2: Create your password
-  // Step 3: Birthday
-  step: number = 0;
-
-  username: string = '';
+  studentNo: string = '';
+  fullName: string = '';
+  course: string = 'BSIT';
+  yearLevel: number = 1;
   password: string = '';
-  birthday: string = '';
+  isSubmitting: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private studentService: StudentService,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
+  ) {
     addIcons({
       search,
       calendarOutline,
       arrowBackOutline,
-      arrowBack,
-      chevronBack,
-      logoGoogle,
-      logoFacebook,
+      schoolOutline,
+      personOutline,
+      idCardOutline,
+      lockClosedOutline,
+      checkmarkCircleOutline,
     });
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      if (params['step'] !== undefined) {
-        this.step = Number(params['step']);
-      }
       if (params['name']) {
-        this.username = params['name'];
+        this.fullName = params['name'];
+      }
+      if (params['studentNo']) {
+        this.studentNo = params['studentNo'];
       }
     });
   }
 
-  onNext() {
-    if (this.step === 1) {
-      this.step = 2; // Proceed to password
-    } else if (this.step === 2) {
-      this.step = 3; // Proceed to birthday
-    } else if (this.step === 3) {
-      this.router.navigate(['/dashboard']); // Finished setup -> Go to Dashboard
+  async onRegister() {
+    const studentNo = this.studentNo.trim();
+    const fullName = this.fullName.trim();
+    const password = this.password.trim();
+
+    if (!studentNo) {
+      await this.showToast('Please enter your Student ID Number', 'warning');
+      return;
     }
+
+    if (!fullName) {
+      await this.showToast('Please enter your Full Name', 'warning');
+      return;
+    }
+
+    if (!password) {
+      await this.showToast('Please create a password for your account', 'warning');
+      return;
+    }
+
+    if (password.length < 4) {
+      await this.showToast('Password must be at least 4 characters long', 'warning');
+      return;
+    }
+
+    this.isSubmitting = true;
+    const loader = await this.loadingCtrl.create({
+      message: 'Creating student commuter account...',
+      spinner: 'crescent',
+    });
+    await loader.present();
+
+    const userPayload: Partial<UserAccount> = {
+      student_no: studentNo,
+      full_name: fullName,
+      course: this.course,
+      year_level: Number(this.yearLevel),
+      password: password,
+    };
+
+    this.studentService.registerUser(userPayload).subscribe({
+      next: async (res) => {
+        await loader.dismiss();
+        this.isSubmitting = false;
+        await this.showToast(
+          `Registered successfully! Welcome, ${userPayload.full_name}`,
+          'success'
+        );
+        this.router.navigate(['/dashboard'], {
+          queryParams: {
+            user: userPayload.full_name,
+            studentNo: userPayload.student_no,
+          },
+        });
+      },
+      error: async (err) => {
+        await loader.dismiss();
+        this.isSubmitting = false;
+        const msg = err?.error?.message || 'Could not register. Check your connection or XAMPP MySQL.';
+        await this.showToast(msg, 'danger');
+      },
+    });
   }
 
   onBack() {
-    if (this.step === 3) {
-      this.step = 2;
-    } else if (this.step === 2) {
-      this.step = 1;
-    } else if (this.step === 1) {
-      this.step = 0;
-    } else {
-      this.router.navigate(['/get-started']);
-    }
+    this.router.navigate(['/get-started']);
   }
 
-  goToGoogleAuth() {
-    this.router.navigate(['/google-auth']);
-  }
-
-  goToFacebookAuth() {
-    this.router.navigate(['/facebook-auth']);
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 
   goToMap() {
     this.router.navigate(['/map']);
+  }
+
+  private async showToast(message: string, color: 'success' | 'warning' | 'danger') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
+    });
+    await toast.present();
   }
 }

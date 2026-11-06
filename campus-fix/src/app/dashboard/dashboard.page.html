@@ -4,10 +4,17 @@
     <!-- Top Greeting Area -->
     <ion-row class="top-section ion-justify-content-center ion-text-center">
       <ion-col size="12" class="ion-text-center">
+        <!-- Commuter Pass Badge if logged in -->
+        <div *ngIf="currentStudent" class="commuter-chip" (click)="onProfileClick()">
+          <ion-icon name="school-outline" class="commuter-icon"></ion-icon>
+          <span class="commuter-name">{{ currentStudent.full_name }}</span>
+          <span class="commuter-tag">{{ currentStudent.course }}-{{ currentStudent.year_level }}</span>
+        </div>
+
         <ion-text class="greeting-box">
           <ion-text class="welcome-title">Welcome to</ion-text>
-          <ion-text class="welcome-brand">LocaRate</ion-text>
-          <ion-text class="welcome-tagline">Smart Location, Perfect Estimation</ion-text>
+          <ion-text class="welcome-brand">TaraCommute</ion-text>
+          <ion-text class="welcome-tagline">Smart Campus Routing, Fair Estimation</ion-text>
         </ion-text>
 
         <!-- Search Pill -->
@@ -30,7 +37,7 @@
       <!-- Curved Wave Backdrop behind active Home button -->
       <div class="nav-wave-svg">
         <svg viewBox="0 0 100 45" preserveAspectRatio="none">
-          <path d="M0,0 Q25,0 35,20 Q50,45 65,20 Q75,0 100,0 L100,45 L0,45 Z" fill="#183661" />
+          <path d="M0,0 Q25,0 35,20 Q50,45 65,20 Q75,0 100,0 L100,45 L0,45 Z" fill="#2563eb" />
         </svg>
       </div>
 

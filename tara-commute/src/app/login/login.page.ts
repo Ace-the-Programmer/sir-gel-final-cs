@@ -21,7 +21,7 @@ import {
   LoadingController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowBackOutline, logInOutline } from 'ionicons/icons';
+import { arrowBackOutline, logInOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { StudentService } from '../services/student.service';
 
 @Component({
@@ -51,6 +51,7 @@ import { StudentService } from '../services/student.service';
 export class LoginPage {
   username: string = '';
   password: string = '';
+  showPassword: boolean = false;
   isLoading: boolean = false;
 
   constructor(
@@ -59,7 +60,11 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {
-    addIcons({ arrowBackOutline, logInOutline });
+    addIcons({ arrowBackOutline, logInOutline, eyeOutline, eyeOffOutline });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   onBack() {

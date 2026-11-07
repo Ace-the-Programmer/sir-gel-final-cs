@@ -38,6 +38,8 @@ import {
   idCardOutline,
   lockClosedOutline,
   checkmarkCircleOutline,
+  eyeOutline,
+  eyeOffOutline,
 } from 'ionicons/icons';
 import { StudentService, UserAccount } from '../services/student.service';
 
@@ -80,6 +82,7 @@ export class WelcomePage implements OnInit {
   course: string = 'BSIT';
   yearLevel: number = 1;
   password: string = '';
+  showPassword: boolean = false;
   isSubmitting: boolean = false;
 
   constructor(
@@ -97,7 +100,13 @@ export class WelcomePage implements OnInit {
       idCardOutline,
       lockClosedOutline,
       checkmarkCircleOutline,
+      eyeOutline,
+      eyeOffOutline,
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   ngOnInit() {

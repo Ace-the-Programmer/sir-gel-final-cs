@@ -104,10 +104,10 @@
                 </ion-item>
 
                 <!-- 5. Password -->
-                <ion-item class="custom-ionic-item">
+                <ion-item class="custom-ionic-item password-item">
                   <ion-icon slot="start" name="lock-closed-outline" class="item-leading-icon" color="primary"></ion-icon>
                   <ion-input
-                    type="password"
+                    [type]="showPassword ? 'text' : 'password'"
                     label="Password"
                     labelPlacement="floating"
                     placeholder="Create a password"
@@ -116,6 +116,9 @@
                     class="ionic-form-input"
                     required
                   ></ion-input>
+                  <ion-button fill="clear" slot="end" class="password-toggle-btn" (click)="togglePasswordVisibility()" type="button" aria-label="Toggle password visibility">
+                    <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="icon-only"></ion-icon>
+                  </ion-button>
                 </ion-item>
 
               </ion-list>

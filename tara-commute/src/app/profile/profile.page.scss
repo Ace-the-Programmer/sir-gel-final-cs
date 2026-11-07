@@ -284,6 +284,22 @@
     font-size: 14px;
     color: #ffffff;
   }
+
+  &.clickable-server {
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+
+    &:active {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0.98);
+    }
+
+    .edit-ip-icon {
+      font-size: 12px;
+      opacity: 0.85;
+      margin-left: 2px;
+    }
+  }
 }
 
 .pass-actions {

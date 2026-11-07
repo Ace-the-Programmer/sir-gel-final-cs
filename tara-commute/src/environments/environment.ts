@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost/http-backend/api/students.php',
-  apiBase: 'http://localhost/http-backend/api'
+  apiUrl: 'http://192.168.5.199/http-backend/api/students.php',
+  apiBase: 'http://192.168.5.199/http-backend/api'
 };

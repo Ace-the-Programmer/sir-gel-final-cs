@@ -68,9 +68,10 @@
 
             <!-- API Connection Indicator & Actions -->
             <div class="pass-footer">
-              <div class="server-status" title="Local database API in XAMPP htdocs/http-backend">
+              <div class="server-status clickable-server" (click)="configureServerIp()" title="Tap to change PC Server IP">
                 <ion-icon name="server-outline"></ion-icon>
-                <span>Database Connected</span>
+                <span>DB: {{ studentService.getServerHost() }}</span>
+                <ion-icon name="create-outline" class="edit-ip-icon"></ion-icon>
               </div>
 
               <div class="pass-actions">

@@ -39,6 +39,7 @@ import {
   timeOutline,
   navigateOutline,
   person,
+  createOutline,
 } from 'ionicons/icons';
 import { StudentService, Student, CommuteTrip, UserAccount } from '../services/student.service';
 
@@ -91,7 +92,7 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private router: Router,
-    private studentService: StudentService,
+    public studentService: StudentService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
@@ -111,6 +112,7 @@ export class ProfilePage implements OnInit {
       timeOutline,
       navigateOutline,
       person,
+      createOutline,
     });
   }
 
@@ -204,6 +206,40 @@ export class ProfilePage implements OnInit {
     this.studentService.setCurrentStudent(student);
     this.loadCommuteHistory();
     this.showToast(`Switched active commuter profile to: ${student.full_name}`, 'success');
+  }
+
+  // Configure MySQL backend host IP for Wi-Fi mobile testing
+  async configureServerIp() {
+    const currentHost = this.studentService.getServerHost();
+    const alert = await this.alertCtrl.create({
+      header: 'Local Database Server',
+      subHeader: 'XAMPP MySQL Connection',
+      message: 'Enter your PC\'s Wi-Fi IP address (from "ipconfig") so this mobile phone can communicate directly with your local MySQL database.',
+      inputs: [
+        {
+          name: 'server_ip',
+          type: 'text',
+          placeholder: 'e.g. 192.168.5.199',
+          value: currentHost
+        }
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Save & Test',
+          handler: (data) => {
+            if (data && data.server_ip && data.server_ip.trim()) {
+              this.studentService.setServerHost(data.server_ip.trim());
+              this.localApiUrl = this.studentService.getApiUrl();
+              this.showToast(`Server IP updated to ${data.server_ip.trim()}. Testing connection...`, 'success');
+              this.fetchStudentsFromApi();
+              this.loadCommuteHistory();
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   // Quick prompt to register a new student on Localhost (POST operation)

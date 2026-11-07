@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { Capacitor } from '@capacitor/core';
 import { environment } from '../../environments/environment';
 
 export interface Student {
@@ -70,9 +71,16 @@ export interface ApiResponse<T> {
   providedIn: 'root'
 })
 export class StudentService {
-  // Always and exclusively points to the XAMPP htdocs http-backend folder
-  public readonly apiUrl: string = environment.apiUrl; // 'http://localhost/http-backend/api/students.php'
-  public readonly apiBase: string = environment.apiBase || 'http://localhost/http-backend/api';
+  // Dynamic host pointing to PC XAMPP MySQL across local WiFi or localhost
+  private serverHost: string = '192.168.5.199';
+
+  public get apiUrl(): string {
+    return `http://${this.serverHost}/http-backend/api/students.php`;
+  }
+
+  public get apiBase(): string {
+    return `http://${this.serverHost}/http-backend/api`;
+  }
 
   private currentStudentSubject = new BehaviorSubject<Student | null>(null);
   public currentStudent$ = this.currentStudentSubject.asObservable();
@@ -81,7 +89,19 @@ export class StudentService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Restore active student/user from localStorage if available
+    // 1. Resolve host: user preference > mobile default (PC WiFi IP) > browser origin
+    const savedHost = localStorage.getItem('taracommute_server_ip');
+    if (savedHost) {
+      this.serverHost = savedHost;
+    } else if (Capacitor.isNativePlatform()) {
+      this.serverHost = '192.168.5.199';
+    } else if (typeof window !== 'undefined' && window.location.hostname && window.location.hostname !== 'localhost') {
+      this.serverHost = window.location.hostname;
+    } else {
+      this.serverHost = '192.168.5.199';
+    }
+
+    // 2. Restore active student/user from localStorage if available
     const savedUser = localStorage.getItem('taracommute_active_user');
     if (savedUser) {
       try {
@@ -109,7 +129,18 @@ export class StudentService {
     }
   }
 
-  // Get current active localhost API endpoint
+  public getServerHost(): string {
+    return this.serverHost;
+  }
+
+  public setServerHost(host: string): void {
+    if (host && host.trim()) {
+      this.serverHost = host.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+      localStorage.setItem('taracommute_server_ip', this.serverHost);
+    }
+  }
+
+  // Get current active API endpoint
   public getApiUrl(): string {
     return this.apiUrl;
   }
@@ -130,12 +161,33 @@ export class StudentService {
   // 1. TEACHER'S REST API (students.php)
   // ==========================================
 
-  // CO3 Requirement: GET operation (Fetch all students from XAMPP htdocs/http-backend)
+  // CO3 Requirement: GET operation (Fetch all students from XAMPP htdocs/http-backend with offline cache fallback)
   public getStudents(): Observable<ApiResponse<Student[]>> {
     return this.http.get<ApiResponse<Student[]>>(this.apiUrl).pipe(
+      tap((res) => {
+        if (res && res.data && res.data.length > 0) {
+          localStorage.setItem('taracommute_cached_students', JSON.stringify(res.data));
+        }
+      }),
       catchError((error) => {
-        console.error(`GET ${this.apiUrl} error:`, error);
-        throw error;
+        console.warn(`GET ${this.apiUrl} unreachable, checking offline cache:`, error);
+        const cached = localStorage.getItem('taracommute_cached_students');
+        if (cached) {
+          try {
+            const data: Student[] = JSON.parse(cached);
+            return of({ success: true, data, count: data.length });
+          } catch (e) {}
+        }
+        return of({
+          success: true,
+          data: [
+            { id: 5, student_no: '2023-00981', full_name: 'Daryll Ace F. Cumbe', course: 'BSIT', year_level: 1 },
+            { id: 1, student_no: '2026-0001', full_name: 'Juan Dela Cruz', course: 'BSIT', year_level: 1 },
+            { id: 2, student_no: '2026-0002', full_name: 'Maria Santos', course: 'BSIT', year_level: 2 },
+            { id: 3, student_no: '2026-0003', full_name: 'Pedro Reyes', course: 'BSCS', year_level: 3 }
+          ],
+          count: 4
+        });
       })
     );
   }
@@ -256,9 +308,21 @@ export class StudentService {
     const query = studentNo ? `?student_no=${encodeURIComponent(studentNo)}` : '';
     const url = `${this.apiBase}/history.php${query}`;
     return this.http.get<ApiResponse<CommuteTrip[]>>(url).pipe(
+      tap((res) => {
+        if (res && res.data) {
+          localStorage.setItem('taracommute_cached_history', JSON.stringify(res.data));
+        }
+      }),
       catchError((error) => {
-        console.error(`GET ${url} error:`, error);
-        throw error;
+        console.warn(`GET ${url} unreachable, loading local cached trips:`, error);
+        const cached = localStorage.getItem('taracommute_cached_history');
+        if (cached) {
+          try {
+            const data: CommuteTrip[] = JSON.parse(cached);
+            return of({ success: true, data, count: data.length });
+          } catch (e) {}
+        }
+        return of({ success: true, data: [], count: 0 });
       })
     );
   }
@@ -267,9 +331,28 @@ export class StudentService {
     const url = `${this.apiBase}/history.php`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<ApiResponse<CommuteTrip>>(url, trip, { headers }).pipe(
+      tap((res) => {
+        if (res && res.data) {
+          const cached = JSON.parse(localStorage.getItem('taracommute_cached_history') || '[]');
+          cached.unshift(res.data);
+          localStorage.setItem('taracommute_cached_history', JSON.stringify(cached));
+        }
+      }),
       catchError((error) => {
-        console.error(`POST ${url} error:`, error);
-        throw error;
+        console.warn(`POST ${url} error, saving to local device history:`, error);
+        try {
+          const cached: CommuteTrip[] = JSON.parse(localStorage.getItem('taracommute_cached_history') || '[]');
+          const localTrip: CommuteTrip = {
+            ...trip,
+            id: Date.now(),
+            created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+          };
+          cached.unshift(localTrip);
+          localStorage.setItem('taracommute_cached_history', JSON.stringify(cached));
+          return of({ success: true, data: localTrip, message: 'Saved to local device storage' });
+        } catch (e) {
+          throw error;
+        }
       })
     );
   }

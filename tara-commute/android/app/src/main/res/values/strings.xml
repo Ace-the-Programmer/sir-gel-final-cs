@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">CampusFix</string>
-    <string name="title_activity_main">CampusFix</string>
+    <string name="app_name">Tara Commute</string>
+    <string name="title_activity_main">Tara Commute</string>
     <string name="package_name">io.ionic.campusfix</string>
     <string name="custom_url_scheme">io.ionic.campusfix</string>
 </resources>

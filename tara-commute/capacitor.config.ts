@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.locarate',
-  appName: 'LocaRate',
+  appName: 'Tara Commute',
   webDir: 'www',
   server: {
     androidScheme: 'https'

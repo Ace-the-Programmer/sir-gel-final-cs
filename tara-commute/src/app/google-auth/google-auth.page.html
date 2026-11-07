@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border google-auth-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/welcome" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-icon name="logo-google" class="google-logo-icon"></ion-icon>
+    <ion-text class="header-title">Student Commuter Accounts</ion-text>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="google-auth-content">
+  <ion-grid class="google-auth-grid">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" class="auth-column">
+        <!-- Top Brand & Heading -->
+        <ion-row class="brand-row ion-justify-content-center ion-text-center">
+          <ion-col size="12">
+            <ion-img
+              src="assets/icon/locarate-logo.svg"
+              alt="TaraCommute Logo"
+              class="center-logo"
+            ></ion-img>
+
+            <ion-text class="choose-title">
+              Choose an account
+            </ion-text>
+
+            <ion-text class="choose-subtitle">
+              to continue to <ion-text class="brand-name">TaraCommute</ion-text>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="ion-text-center ion-padding">
+          <ion-spinner name="crescent" color="primary"></ion-spinner>
+          <p class="loading-subtext">Connecting to local database (XAMPP MySQL)...</p>
+        </div>
+
+        <!-- Account List (from MySQL users table) -->
+        <ion-row *ngIf="!isLoading" class="accounts-row ion-justify-content-center">
+          <ion-col size="12">
+            <ion-list lines="inset" class="account-list">
+              <ion-item
+                *ngFor="let acc of accounts"
+                button="true"
+                detail="false"
+                class="account-item"
+                (click)="selectAccount(acc)"
+              >
+                <ion-avatar slot="start" class="account-avatar" [style.background]="acc.avatarColor">
+                  <ion-text class="avatar-initials">{{ acc.initials }}</ion-text>
+                </ion-avatar>
+
+                <ion-label class="ion-text-wrap">
+                  <ion-text class="account-name">{{ acc.name }}</ion-text>
+                  <ion-text class="account-email">{{ acc.email }}</ion-text>
+                  <div class="account-meta">ID: {{ acc.studentNo }} &bull; {{ acc.course }}</div>
+                </ion-label>
+              </ion-item>
+
+              <!-- Option to add/register another account in MySQL -->
+              <ion-item button="true" detail="false" class="account-item add-account-item" (click)="goToRegister()">
+                <ion-avatar slot="start" class="account-avatar add-avatar">
+                  <ion-icon name="person-add-outline"></ion-icon>
+                </ion-avatar>
+                <ion-label>
+                  <ion-text class="account-name text-primary">Register another student account</ion-text>
+                  <ion-text class="account-email">Add new student to MySQL database</ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+
+        <!-- Bottom Disclaimer -->
+        <ion-row class="disclaimer-row ion-justify-content-center ion-text-center">
+          <ion-col size="12">
+            <ion-text class="disclaimer-text">
+              Accounts synced with XAMPP MySQL <ion-text class="disclaimer-link">ionic_students_api</ion-text>.
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

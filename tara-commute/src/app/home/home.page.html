@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true" class="splash-content">
+  <ion-grid class="splash-grid">
+    <ion-row class="splash-row ion-justify-content-center ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        <ion-img
+          src="assets/icon/locarate-logo.svg"
+          alt="TaraCommute Logo"
+          class="splash-logo"
+        ></ion-img>
+
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">
+            <span class="brand-tara">Tara</span><span class="brand-commute">Commute</span>
+          </h1>
+        </div>
+
+        <!-- Start Action Button -->
+        <ion-row class="ion-justify-content-center get-started-btn-row">
+          <ion-col size="12" size-sm="10" size-md="8" class="ion-text-center">
+            <ion-button
+              shape="round"
+              class="btn-splash-start"
+              (click)="goToNext()"
+            >
+              <ion-text>Start</ion-text>
+              <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

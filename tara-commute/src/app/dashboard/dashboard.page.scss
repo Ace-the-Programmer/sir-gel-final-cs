@@ -1,0 +1,211 @@
+.dashboard-content {
+  --background: #ffffff radial-gradient(circle at 50% 15%, #ffffff 0%, #f8faff 50%, #eff6ff 100%);
+  height: 100%;
+  width: 100%;
+}
+
+.dashboard-grid {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+/* Top Section */
+.top-section {
+  padding: clamp(32px, 6.5vh, 56px) 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 5;
+  width: 100%;
+}
+
+.commuter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid #bfdbfe;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+
+  .commuter-icon {
+    color: #2563eb;
+    font-size: 16px;
+  }
+
+  .commuter-name {
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .commuter-tag {
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+}
+
+.greeting-box {
+  margin-bottom: clamp(14px, 2.5vh, 22px);
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.15;
+}
+
+.welcome-brand {
+  font-size: clamp(32px, 5.5vw, 46px);
+  font-weight: 900;
+  color: #2563eb;
+  line-height: 1.15;
+}
+
+.welcome-tagline {
+  margin-top: 8px;
+  font-size: clamp(13px, 2.2vw, 16px);
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0.2px;
+}
+
+/* Search Location Pill */
+.search-pill-box {
+  width: 100%;
+  max-width: 380px;
+  height: clamp(46px, 5.5vh, 50px);
+  --background: #ffffff;
+  --border-radius: 999px;
+  border: 1.5px solid #dbeafe;
+  --box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1);
+  text-transform: none;
+  --padding-start: 22px;
+  --padding-end: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.search-placeholder {
+  font-size: 15px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.search-icon {
+  font-size: 20px;
+  color: #2563eb;
+}
+
+/* Center Map Clickable Area */
+.center-map-area {
+  flex: 1;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Bottom Navigation Bar - Edge to Edge Full Width */
+.bottom-nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 64px;
+  background: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 16px;
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+  z-index: 10;
+  box-shadow: 0 -4px 20px rgba(37, 99, 235, 0.2);
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+}
+
+.btn-nav-tab {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+}
+
+/* Elevated Home Button */
+.active-tab {
+  position: relative;
+}
+
+.btn-elevated-home {
+  position: relative;
+  top: -14px;
+  width: 52px;
+  height: 52px;
+  --border-radius: 50%;
+  --background: #2563eb;
+  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  --padding-start: 0;
+  --padding-end: 0;
+  border: 3.5px solid #ffffff;
+  border-radius: 50%;
+  margin: 0;
+
+  /* Curved wing cutouts on the sides */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 25px;
+    width: 18px;
+    height: 18px;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: -19px;
+    border-top-right-radius: 16px;
+    box-shadow: 6px -6px 0 3px #ffffff;
+  }
+
+  &::after {
+    right: -19px;
+    border-top-left-radius: 16px;
+    box-shadow: -6px -6px 0 3px #ffffff;
+  }
+}
+
+.nav-icon {
+  display: block;
+}

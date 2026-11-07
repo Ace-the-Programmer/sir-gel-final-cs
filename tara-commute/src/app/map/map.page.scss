@@ -192,7 +192,19 @@
   --box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
   font-size: 24px;
   margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.2s ease;
+
+  .floating-btn-svg {
+    display: block;
+    margin: auto;
+  }
 
   &:active {
     transform: scale(0.92);
@@ -214,6 +226,18 @@
   --box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
   font-size: 24px;
   margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .floating-btn-svg {
+    display: block;
+    margin: auto;
+  }
 
   .spin-anim {
     animation: rotateSpin 1s infinite linear;
@@ -232,6 +256,7 @@
   left: 12px;
   right: 12px;
   max-width: 480px;
+  max-height: calc(100vh - 160px);
   margin: 0 auto;
   z-index: 1002;
   --background: #ffffff;
@@ -240,7 +265,7 @@
   border: 1.5px solid #bfdbfe;
   box-shadow: 0 10px 32px rgba(37, 99, 235, 0.18);
   animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 @keyframes slideUpSheet {

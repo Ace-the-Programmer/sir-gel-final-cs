@@ -53,6 +53,6 @@ export class GetStartedPage {
   }
 
   onContinueGuest() {
-    this.router.navigate(['/map']);
+    this.router.navigate(['/dashboard']);
   }
 }

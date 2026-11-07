@@ -55,7 +55,19 @@
       aria-label="Campus Fare Calculator"
       title="Fare Calculator"
     >
-      <ion-icon name="calculator-outline"></ion-icon>
+      <svg class="floating-btn-svg" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="2" width="16" height="20" rx="3" fill="#2563eb"/>
+        <line x1="8" y1="6" x2="16" y2="6"/>
+        <line x1="8" y1="11" x2="8.01" y2="11" stroke-width="3"/>
+        <line x1="12" y1="11" x2="12.01" y2="11" stroke-width="3"/>
+        <line x1="16" y1="11" x2="16.01" y2="11" stroke-width="3"/>
+        <line x1="8" y1="15" x2="8.01" y2="15" stroke-width="3"/>
+        <line x1="12" y1="15" x2="12.01" y2="15" stroke-width="3"/>
+        <line x1="16" y1="15" x2="16.01" y2="15" stroke-width="3"/>
+        <line x1="8" y1="19" x2="8.01" y2="19" stroke-width="3"/>
+        <line x1="12" y1="19" x2="12.01" y2="19" stroke-width="3"/>
+        <line x1="16" y1="19" x2="16.01" y2="19" stroke-width="3"/>
+      </svg>
     </ion-button>
 
     <!-- Floating Live GPS Locate Me Button -->
@@ -66,7 +78,14 @@
       aria-label="Find My Location"
       title="Find My Location"
     >
-      <ion-icon [name]="isLocating ? 'sync-outline' : 'locate'" [class.spin-anim]="isLocating"></ion-icon>
+      <svg class="floating-btn-svg" [class.spin-anim]="isLocating" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="7"/>
+        <circle cx="12" cy="12" r="2.5" fill="#2563eb"/>
+        <line x1="12" y1="2" x2="12" y2="5"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="1" y1="12" x2="4" y2="12"/>
+        <line x1="20" y1="12" x2="23" y2="12"/>
+      </svg>
     </ion-button>
 
     <!-- Interactive Student Fare Calculator Sheet (Angular Ionic Card Component) -->

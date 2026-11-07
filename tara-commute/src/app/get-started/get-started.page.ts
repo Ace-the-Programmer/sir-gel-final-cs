@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  IonHeader,
-  IonToolbar,
-  IonButtons,
   IonContent,
   IonGrid,
   IonRow,
@@ -11,10 +8,7 @@ import {
   IonText,
   IonImg,
   IonButton,
-  IonIcon,
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { arrowBackOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-get-started',
@@ -22,9 +16,6 @@ import { arrowBackOutline } from 'ionicons/icons';
   styleUrls: ['./get-started.page.scss'],
   standalone: true,
   imports: [
-    IonHeader,
-    IonToolbar,
-    IonButtons,
     IonContent,
     IonGrid,
     IonRow,
@@ -32,13 +23,10 @@ import { arrowBackOutline } from 'ionicons/icons';
     IonText,
     IonImg,
     IonButton,
-    IonIcon,
   ],
 })
 export class GetStartedPage {
-  constructor(private router: Router) {
-    addIcons({ arrowBackOutline });
-  }
+  constructor(private router: Router) {}
 
   onBack() {
     this.router.navigate(['/home']);

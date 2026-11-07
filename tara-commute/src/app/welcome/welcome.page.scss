@@ -1,223 +1,187 @@
-.welcome-content {
-  --background: #ffffff radial-gradient(circle at 50% 20%, #ffffff 0%, #f8faff 60%, #eff6ff 100%);
-  height: 100%;
-}
-
-.welcome-grid {
-  height: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0;
-  width: 100%;
-  margin: 0;
-}
-
-/* Top Area */
-.top-row {
-  padding: clamp(24px, 4vh, 48px) 20px 0 20px;
-  filter: blur(2px);
-  opacity: 0.9;
-  pointer-events: none;
-  width: 100%;
-}
-
-.welcome-heading-box {
-  margin-top: 8px;
-}
-
-.welcome-title-text {
-  margin: 0;
-  font-size: clamp(26px, 5.5vw, 36px);
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.15;
-}
-
-.welcome-brand-text {
-  margin: 0;
-  font-size: clamp(28px, 6vw, 38px);
-  font-weight: 900;
-  color: #2563eb;
-  line-height: 1.15;
-}
-
-.welcome-subtitle-text {
-  margin: 6px 0 clamp(16px, 2.5vh, 22px) 0;
-  font-size: clamp(12px, 2.5vw, 15px);
-  font-weight: 500;
-  color: #64748b;
-}
-
-/* Custom Search Pill with icon on the right */
-.search-pill-wrapper {
+.signup-header {
   background: #ffffff;
-  border-radius: 999px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  max-width: 320px;
-  margin: 0 auto;
-  border: 1.5px solid #dbeafe;
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.08);
-}
+  border-bottom: 1px solid #f1f5f9;
 
-.search-pill-placeholder {
-  color: #64748b;
-  font-size: 14px;
-  font-weight: 500;
-}
+  .signup-toolbar {
+    --background: #ffffff;
+    --min-height: 52px;
+    padding: 0 4px;
+  }
 
-.search-pill-icon {
-  color: #2563eb;
-  font-size: 18px;
-}
+  .btn-header-back {
+    --color: #2563eb;
+    font-size: 22px;
+    margin: 0;
+  }
 
-/* Bottom Sheet / Modal Card - Solid White with Clean Shadow */
-.bottom-card-row {
-  margin: 0;
-  width: 100%;
-}
-
-.account-card {
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
-  background: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 -12px 32px rgba(37, 99, 235, 0.12);
-  border-radius: 32px 32px 0 0;
-  border: 1px solid #e2e8f0;
-  overflow: hidden;
-}
-
-@media (min-width: 577px) {
-  .account-card {
-    border-radius: 28px;
-    margin-bottom: 24px;
-    box-shadow: 0 16px 48px rgba(37, 99, 235, 0.12);
+  .signup-header-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    text-align: center;
+    padding-right: 48px;
   }
 }
 
-.account-card-content {
-  padding: 22px 24px clamp(28px, 4.5vh, 44px) 24px;
+.welcome-content {
+  --background: #f8fafc radial-gradient(circle at 50% 10%, #ffffff 0%, #f8faff 60%, #eff6ff 100%);
+  height: 100%;
 }
 
-/* Card Header */
-.card-header-bar {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  margin-bottom: clamp(14px, 2.2vh, 22px);
-}
-
-.btn-card-back {
-  background: transparent;
-  border: none;
-  padding: 2px 8px 2px 0;
-  color: #2563eb;
-  font-size: 22px;
-  cursor: pointer;
+.signup-grid {
+  min-height: 100%;
   display: flex;
   align-items: center;
-  position: absolute;
-  left: 0;
-  top: 2px;
+  justify-content: center;
+  padding: 12px 14px clamp(24px, 4vh, 40px) 14px;
 }
 
-.card-heading-box {
+.signup-col {
+  max-width: 480px;
   width: 100%;
-  text-align: center;
+}
+
+/* Ionic Card Component */
+.signup-card {
+  --background: #ffffff;
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1.5px solid #dbeafe;
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.09);
+  margin: 0;
+  overflow: visible;
+}
+
+.signup-card-header {
+  padding: 18px 18px 8px 18px;
+}
+
+.logo-circle-wrapper {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid #dbeafe;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px auto;
 }
 
-.card-heading-text {
-  font-size: clamp(18px, 3.6vw, 22px);
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1.25;
+.signup-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
-.card-subtext {
-  margin: 0 0 18px 0;
-  font-size: 13.5px;
+.signup-brand-title {
+  font-size: clamp(20px, 4.5vw, 24px);
+  font-weight: 900;
+  letter-spacing: -0.3px;
+
+  .brand-tara {
+    color: #0f172a;
+  }
+
+  .brand-commute {
+    color: #2563eb;
+  }
+}
+
+.signup-brand-subtitle {
+  font-size: 13px;
   color: #64748b;
   font-weight: 500;
+  margin-top: 3px;
 }
 
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+.signup-card-content {
+  padding: 8px 16px 20px 16px;
 }
 
-/* Pill Input Field - Clean White with Blue Tint */
-.input-pill-item {
+.signup-item-list {
+  background: transparent;
+  padding: 0;
+}
+
+/* Ionic Form Item Components */
+.custom-ionic-item {
   --background: #f8fafc;
   --border-radius: 14px;
   border-radius: 14px;
-  height: clamp(48px, 6vh, 52px);
-  margin-bottom: 12px;
-  --inner-padding-end: 14px;
-  --padding-start: 16px;
   border: 1.5px solid #dbeafe;
+  margin-bottom: 11px;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  --min-height: 54px;
+  transition: all 0.15s ease-in-out;
+
+  &:focus-within {
+    --background: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+
+  .item-leading-icon {
+    font-size: 20px;
+    margin-right: 10px;
+    align-self: center;
+  }
+
+  .ionic-form-input {
+    --color: #0f172a;
+    --placeholder-color: #94a3b8;
+    --placeholder-opacity: 1;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+
+  .ionic-form-select {
+    --color: #0f172a;
+    --placeholder-color: #94a3b8;
+    --placeholder-opacity: 1;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+  }
 }
 
-.pill-input {
-  --color: #0f172a;
-  --placeholder-color: #94a3b8;
-  --placeholder-opacity: 1;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.input-inline-icon {
-  font-size: 20px;
-  color: #2563eb;
-  margin-right: 8px;
-}
-
-.pill-select {
-  width: 100%;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-/* Primary Register Button */
-.btn-primary-pill {
+/* Submit Action Button Component */
+.btn-submit-signup {
   --background: #2563eb;
   --color: #ffffff;
   --border-radius: 999px;
-  height: clamp(48px, 6vh, 52px);
-  font-size: clamp(15px, 3.8vw, 16.5px);
+  height: 48px;
+  font-size: 15px;
   font-weight: 800;
-  text-transform: none;
+  margin-top: 14px;
+  margin-bottom: 6px;
   --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.32);
-  width: 100%;
-  margin-top: 12px;
+  text-transform: none;
+
+  ion-spinner {
+    color: #ffffff;
+  }
 }
 
-/* Footer Prompt */
-.card-footer-prompt {
-  margin-top: 20px;
-  font-size: 14px;
-}
+/* Footer Row Component */
+.signup-footer-row {
+  margin-top: 10px;
 
-.prompt-muted {
-  color: #64748b;
-}
+  .footer-prompt-text {
+    font-size: 13px;
+    display: inline-block;
+  }
 
-.prompt-link {
-  color: #2563eb;
-  font-weight: 800;
-  text-decoration: underline;
-  cursor: pointer;
-  margin-left: 6px;
-  display: inline-block;
+  .btn-login-link {
+    --padding-start: 4px;
+    --padding-end: 4px;
+    height: 30px;
+    margin: 0;
+
+    ion-text {
+      font-size: 13px;
+    }
+  }
 }

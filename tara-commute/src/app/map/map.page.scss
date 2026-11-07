@@ -601,44 +601,41 @@
 /* Elevated Location Pin Button (Active Tab 2) */
 .active-tab {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-elevated-pin {
   position: relative;
-  top: -14px;
-  width: 52px;
-  height: 52px;
+  top: -12px;
+  width: 50px;
+  height: 50px;
   --border-radius: 50%;
-  --background: #2563eb;
-  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
-  --padding-start: 0;
-  --padding-end: 0;
-  border: 3.5px solid #ffffff;
+  --background: #ffffff;
+  background: #ffffff;
+  --box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  border: 3px solid #ffffff;
   border-radius: 50%;
   margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  /* Curved wing cutouts on the sides */
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 25px;
-    width: 18px;
-    height: 18px;
-    background: transparent;
-    pointer-events: none;
-  }
+  .nav-icon {
+    stroke: #2563eb;
+    display: block;
 
-  &::before {
-    left: -19px;
-    border-top-right-radius: 16px;
-    box-shadow: 6px -6px 0 3px #ffffff;
-  }
-
-  &::after {
-    right: -19px;
-    border-top-left-radius: 16px;
-    box-shadow: -6px -6px 0 3px #ffffff;
+    path {
+      stroke: #2563eb;
+    }
+    circle {
+      fill: #2563eb;
+      stroke: #2563eb;
+    }
   }
 }
 

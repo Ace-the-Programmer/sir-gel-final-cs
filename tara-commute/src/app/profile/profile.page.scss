@@ -164,23 +164,36 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 
   .pass-icon {
     font-size: 26px;
     color: #ffffff;
+    flex-shrink: 0;
   }
 
-  .pass-title {
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.8px;
-    color: #ffffff;
-  }
+  .pass-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
 
-  .pass-subtitle {
-    font-size: 11px;
-    color: #dbeafe;
-    font-weight: 500;
+    .pass-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      line-height: 1.2;
+      display: block;
+    }
+
+    .pass-subtitle {
+      font-size: 11px;
+      color: #dbeafe;
+      font-weight: 500;
+      line-height: 1.2;
+      display: block;
+    }
   }
 }
 
@@ -196,11 +209,12 @@
   --color: #2563eb;
   background: #ffffff;
   color: #2563eb;
+  flex-shrink: 0;
 }
 
-.pass-grid {
+.pass-info-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 12px 16px;
   margin-bottom: 14px;
 }
@@ -208,26 +222,31 @@
 .pass-field {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 
   .field-label {
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.5px;
     color: #bfdbfe;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .field-value {
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 700;
     color: #ffffff;
     margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .id-code {
     font-family: monospace;
     color: #ffffff;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.5px;
   }
 
@@ -646,44 +665,38 @@
 /* Elevated Profile Button (Active Tab 4) */
 .active-tab {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-elevated-profile {
   position: relative;
-  top: -14px;
-  width: 52px;
-  height: 52px;
+  top: -12px;
+  width: 50px;
+  height: 50px;
   --border-radius: 50%;
-  --background: #2563eb;
-  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
-  --padding-start: 0;
-  --padding-end: 0;
-  border: 3.5px solid #ffffff;
+  --background: #ffffff;
+  background: #ffffff;
+  --box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  border: 3px solid #ffffff;
   border-radius: 50%;
   margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  /* Curved wing cutouts on the sides */
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 25px;
-    width: 18px;
-    height: 18px;
-    background: transparent;
-    pointer-events: none;
-  }
+  .nav-icon {
+    stroke: #2563eb;
+    display: block;
 
-  &::before {
-    left: -19px;
-    border-top-right-radius: 16px;
-    box-shadow: 6px -6px 0 3px #ffffff;
-  }
-
-  &::after {
-    right: -19px;
-    border-top-left-radius: 16px;
-    box-shadow: -6px -6px 0 3px #ffffff;
+    circle,
+    path {
+      stroke: #2563eb;
+    }
   }
 }
 

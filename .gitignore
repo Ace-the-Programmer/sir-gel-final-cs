@@ -1,0 +1,10 @@
+# Dependencies & Outputs
+**/node_modules/
+**/www/
+**/.angular/
+
+# Private Guides & Scripts
+VIDEO_SCRIPT_GUIDE.md
+DOCUMENTATION_REPORT.md
+*SCRIPT*.md
+*REPORT*.md

@@ -74,3 +74,9 @@ Thumbs.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Private Guides & Scripts
+VIDEO_SCRIPT_GUIDE.md
+DOCUMENTATION_REPORT.md
+*SCRIPT*.md
+*REPORT*.md

@@ -90,16 +90,21 @@
 
     <!-- Interactive Student Fare Calculator Sheet (Angular Ionic Card Component) -->
     <ion-card *ngIf="showFareCalculator" class="fare-calc-sheet">
-      <!-- Card Header -->
+      <!-- Card Header with Back Arrow Navigation -->
       <ion-card-header class="calc-header">
-        <div class="calc-title-box">
-          <span class="calc-badge-icon">🧮</span>
-          <ion-card-title class="calc-title">Fare Calculator</ion-card-title>
-          <ion-badge color="primary" class="student-discount-badge" *ngIf="applyStudentDiscount">20% Student Discount</ion-badge>
+        <div class="calc-header-left">
+          <ion-button fill="clear" size="small" class="btn-back-calc" (click)="toggleFareCalculator()" aria-label="Go Back">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </ion-button>
+          <div class="calc-title-box">
+            <span class="calc-badge-icon">🧮</span>
+            <ion-card-title class="calc-title">Fare Calculator</ion-card-title>
+          </div>
         </div>
-        <ion-button fill="clear" size="small" class="btn-close-calc" (click)="toggleFareCalculator()" aria-label="Close Calculator">
-          <ion-icon name="close-circle" slot="icon-only"></ion-icon>
-        </ion-button>
+        <ion-badge color="primary" class="student-discount-badge" *ngIf="applyStudentDiscount">20% Student Discount</ion-badge>
       </ion-card-header>
 
       <ion-card-content class="calc-card-content">

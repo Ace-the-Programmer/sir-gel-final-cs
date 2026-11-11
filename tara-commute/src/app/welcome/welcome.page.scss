@@ -258,6 +258,31 @@
   }
 }
 
+/* Terms & Discount Eligibility Row */
+.terms-agreement-row {
+  margin: 14px 4px 6px 4px;
+
+  .terms-checkbox {
+    --size: 19px;
+    --checkbox-background-checked: #2563eb;
+    --border-color-checked: #2563eb;
+    --border-radius: 5px;
+    font-size: 12.5px;
+    color: #475569;
+    line-height: 1.4;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .terms-label-text {
+    font-size: 12.5px;
+    color: #475569;
+    margin-left: 8px;
+    font-weight: 500;
+  }
+}
+
 /* Footer Row */
 .signup-footer-row {
   margin-top: 12px;

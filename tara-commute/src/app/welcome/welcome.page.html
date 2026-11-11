@@ -38,17 +38,21 @@
             <!-- Ionic Form Items List -->
             <div class="signup-item-list">
 
-              <!-- 1. Username (No open and close parentheses text!) -->
+              <!-- 1. Username -->
               <ion-item lines="none" class="custom-ionic-item">
                 <ion-icon slot="start" name="person-circle-outline" class="item-leading-icon" color="primary"></ion-icon>
                 <ion-input
                   type="text"
-                  label="Username"
+                  label="Username (3-30 chars, no spaces)"
                   labelPlacement="floating"
                   placeholder="e.g. commuter2026"
                   [(ngModel)]="username"
                   name="username"
                   class="ionic-form-input"
+                  minlength="3"
+                  maxlength="30"
+                  pattern="^[a-zA-Z0-9_.-]+$"
+                  autocomplete="username"
                   required
                 ></ion-input>
               </ion-item>
@@ -58,12 +62,15 @@
                 <ion-icon slot="start" name="person-outline" class="item-leading-icon" color="primary"></ion-icon>
                 <ion-input
                   type="text"
-                  label="Full Name"
+                  label="Full Name (min. 3 characters)"
                   labelPlacement="floating"
                   placeholder="e.g. Juan Dela Cruz"
                   [(ngModel)]="fullName"
                   name="fullName"
                   class="ionic-form-input"
+                  minlength="3"
+                  maxlength="70"
+                  autocomplete="name"
                   required
                 ></ion-input>
               </ion-item>
@@ -72,7 +79,7 @@
               <ion-item lines="none" class="custom-ionic-item">
                 <ion-icon slot="start" name="school-outline" class="item-leading-icon" color="primary"></ion-icon>
                 <ion-select
-                  label="School"
+                  label="School / Campus"
                   labelPlacement="floating"
                   [(ngModel)]="school"
                   name="school"
@@ -100,6 +107,8 @@
                   [(ngModel)]="customSchool"
                   name="customSchool"
                   class="ionic-form-input"
+                  minlength="2"
+                  maxlength="80"
                 ></ion-input>
               </ion-item>
 
@@ -108,18 +117,51 @@
                 <ion-icon slot="start" name="lock-closed-outline" class="item-leading-icon" color="primary"></ion-icon>
                 <ion-input
                   [type]="showPassword ? 'text' : 'password'"
-                  label="Password"
+                  label="Password (min. 6 chars, letters & numbers)"
                   labelPlacement="floating"
-                  placeholder="Create a password"
+                  placeholder="Create a strong password"
                   [(ngModel)]="password"
                   name="password"
                   class="ionic-form-input"
+                  minlength="6"
+                  maxlength="100"
+                  autocomplete="new-password"
                   required
                 ></ion-input>
                 <ion-button fill="clear" slot="end" class="password-toggle-btn" (click)="togglePasswordVisibility()" type="button" aria-label="Toggle password visibility">
                   <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="icon-only"></ion-icon>
                 </ion-button>
               </ion-item>
+
+              <!-- 5. Confirm Password -->
+              <ion-item lines="none" class="custom-ionic-item password-item">
+                <ion-icon slot="start" name="shield-checkmark-outline" class="item-leading-icon" color="primary"></ion-icon>
+                <ion-input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  label="Confirm Password"
+                  labelPlacement="floating"
+                  placeholder="Re-enter your password"
+                  [(ngModel)]="confirmPassword"
+                  name="confirmPassword"
+                  class="ionic-form-input"
+                  minlength="6"
+                  maxlength="100"
+                  autocomplete="new-password"
+                  required
+                ></ion-input>
+                <ion-button fill="clear" slot="end" class="password-toggle-btn" (click)="toggleConfirmPasswordVisibility()" type="button" aria-label="Toggle confirm password visibility">
+                  <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-item>
+
+              <!-- 6. Student Terms & RA 11314 Eligibility -->
+              <div class="terms-agreement-row">
+                <ion-checkbox [(ngModel)]="agreeTerms" name="agreeTerms" class="terms-checkbox" color="primary" [checked]="agreeTerms">
+                  <span class="terms-label-text">
+                    I confirm I am an eligible student commuter entitled to RA 11314 student fare discounts.
+                  </span>
+                </ion-checkbox>
+              </div>
 
             </div>
 
@@ -129,7 +171,7 @@
               shape="round"
               type="submit"
               class="btn-submit-signup"
-              [disabled]="isSubmitting"
+              [disabled]="isSubmitting || !agreeTerms"
             >
               <ion-spinner *ngIf="isSubmitting" name="dots"></ion-spinner>
               <ion-text *ngIf="!isSubmitting">Create Account</ion-text>

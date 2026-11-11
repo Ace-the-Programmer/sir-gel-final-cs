@@ -71,18 +71,38 @@ export class LoginPage {
     this.router.navigate(['/get-started']);
   }
 
-  async onLogin() {
-    if (!this.username.trim()) {
-      await this.showToast('Please enter your username', 'warning');
-      return;
+  // Client-side Form Constraint Validation
+  validateLoginForm(): string | null {
+    const uname = this.username.trim();
+    const pwd = this.password.trim();
+
+    if (!uname) {
+      return 'Please enter your username or student ID.';
     }
-    if (!this.password.trim()) {
-      await this.showToast('Please enter your password', 'warning');
+    if (uname.length < 3) {
+      return 'Username must be at least 3 characters long.';
+    }
+    if (uname.length > 50) {
+      return 'Username cannot exceed 50 characters.';
+    }
+    if (!pwd) {
+      return 'Please enter your password.';
+    }
+    if (pwd.length < 4) {
+      return 'Password must be at least 4 characters long.';
+    }
+    return null;
+  }
+
+  async onLogin() {
+    const errorMsg = this.validateLoginForm();
+    if (errorMsg) {
+      await this.showToast(errorMsg, 'warning');
       return;
     }
 
     const loader = await this.loadingCtrl.create({
-      message: 'Connecting to database...',
+      message: 'Verifying credentials with database...',
       spinner: 'crescent'
     });
     await loader.present();
@@ -113,9 +133,9 @@ export class LoginPage {
         let msg = err?.error?.message;
         if (!msg) {
           if (!err.status || err.status === 0) {
-            msg = 'Cannot reach database server. Make sure PC is ON, Apache & MySQL are running in XAMPP, and both PC & CP are on the same Wi-Fi.';
+            msg = 'Cannot reach database server. Please check your internet connection or server status.';
           } else {
-            msg = 'Login failed. Check your username/password or XAMPP MySQL.';
+            msg = 'Invalid username or password. Please check your credentials.';
           }
         }
         await this.showToast(msg, 'danger');

@@ -24,6 +24,7 @@ import {
   LoadingController,
   IonSelect,
   IonSelectOption,
+  IonCheckbox,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -37,6 +38,7 @@ import {
   checkmarkCircleOutline,
   eyeOutline,
   eyeOffOutline,
+  shieldCheckmarkOutline,
 } from 'ionicons/icons';
 import { StudentService, UserAccount } from '../services/student.service';
 
@@ -67,6 +69,7 @@ import { StudentService, UserAccount } from '../services/student.service';
     IonSpinner,
     IonSelect,
     IonSelectOption,
+    IonCheckbox,
   ],
 })
 export class WelcomePage implements OnInit {
@@ -75,7 +78,10 @@ export class WelcomePage implements OnInit {
   school: string = 'NEUST';
   customSchool: string = '';
   password: string = '';
+  confirmPassword: string = '';
   showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+  agreeTerms: boolean = true;
   isSubmitting: boolean = false;
 
   constructor(
@@ -96,11 +102,16 @@ export class WelcomePage implements OnInit {
       checkmarkCircleOutline,
       eyeOutline,
       eyeOffOutline,
+      shieldCheckmarkOutline,
     });
   }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   ngOnInit() {
@@ -114,33 +125,83 @@ export class WelcomePage implements OnInit {
     });
   }
 
+  // Client-side Form Validation Constraints
+  validateRegisterForm(): string | null {
+    const uname = this.username.trim().toLowerCase();
+    const fname = this.fullName.trim();
+    const pwd = this.password.trim();
+    const cpwd = this.confirmPassword.trim();
+
+    // 1. Username constraints (3-30 characters, alphanumeric + underscore + dot)
+    if (!uname) {
+      return 'Please enter a username for your commuter account.';
+    }
+    if (uname.length < 3) {
+      return 'Username must be at least 3 characters long.';
+    }
+    if (uname.length > 30) {
+      return 'Username cannot exceed 30 characters.';
+    }
+    if (!/^[a-zA-Z0-9_.-]+$/.test(uname)) {
+      return 'Username can only contain letters, numbers, dots, and underscores (no spaces).';
+    }
+
+    // 2. Full Name constraints (at least 3 characters, alphabetical)
+    if (!fname) {
+      return 'Please enter your Full Name.';
+    }
+    if (fname.length < 3) {
+      return 'Full Name must be at least 3 characters long.';
+    }
+    if (!/^[a-zA-Z\s.'-]+$/.test(fname)) {
+      return 'Full Name must contain valid alphabetical characters.';
+    }
+
+    // 3. School constraints
+    if (this.school === 'Other School' && (!this.customSchool || this.customSchool.trim().length < 2)) {
+      return 'Please specify the name of your school or campus.';
+    }
+
+    // 4. Password constraints (minimum 6 characters, must include letters & numbers)
+    if (!pwd) {
+      return 'Please create a password for your account.';
+    }
+    if (pwd.length < 6) {
+      return 'Password must be at least 6 characters long for account security.';
+    }
+    if (!/(?=.*[a-zA-Z])(?=.*[0-9])/.test(pwd)) {
+      return 'Password must contain at least one letter and one number.';
+    }
+
+    // 5. Confirm Password match constraint
+    if (!cpwd) {
+      return 'Please confirm your password.';
+    }
+    if (pwd !== cpwd) {
+      return 'Passwords do not match. Please verify both password entries.';
+    }
+
+    // 6. Student terms agreement
+    if (!this.agreeTerms) {
+      return 'Please agree to the student commuter terms to register.';
+    }
+
+    return null;
+  }
+
   async onRegister() {
+    const validationError = this.validateRegisterForm();
+    if (validationError) {
+      await this.showToast(validationError, 'warning');
+      return;
+    }
+
     const username = this.username.trim().toLowerCase();
     const fullName = this.fullName.trim();
     const password = this.password.trim();
     const schoolVal = (this.school === 'Other School' && this.customSchool.trim())
       ? this.customSchool.trim()
       : (this.school || 'NEUST');
-
-    if (!username) {
-      await this.showToast('Please enter a username for your commuter account', 'warning');
-      return;
-    }
-
-    if (!fullName) {
-      await this.showToast('Please enter your Full Name', 'warning');
-      return;
-    }
-
-    if (!password) {
-      await this.showToast('Please create a password for your account', 'warning');
-      return;
-    }
-
-    if (password.length < 4) {
-      await this.showToast('Password must be at least 4 characters long', 'warning');
-      return;
-    }
 
     this.isSubmitting = true;
     const loader = await this.loadingCtrl.create({
@@ -181,7 +242,7 @@ export class WelcomePage implements OnInit {
       error: async (err) => {
         await loader.dismiss();
         this.isSubmitting = false;
-        const msg = err?.error?.message || 'Could not register. Check your connection or XAMPP MySQL.';
+        const msg = err?.error?.message || 'Could not register. Check your connection or MySQL database.';
         await this.showToast(msg, 'danger');
       },
     });

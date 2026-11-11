@@ -199,18 +199,18 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  // Configure MySQL backend host IP for Wi-Fi mobile testing
+  // Configure MySQL backend host (Cloud Endpoint or Local PC XAMPP)
   async configureServerIp() {
     const currentHost = this.studentService.getServerHost();
     const alert = await this.alertCtrl.create({
-      header: 'Local Database Server',
-      subHeader: 'XAMPP MySQL Connection',
-      message: 'Enter your PC\'s Wi-Fi IP address (from "ipconfig") so this mobile phone can communicate directly with your local MySQL database.',
+      header: 'Database API Endpoint',
+      subHeader: 'Live Cloud or Local XAMPP MySQL',
+      message: 'Default: https://taracommute-api.elementfx.com/api (Cloud Live API). Or enter your local PC Wi-Fi IP (e.g. 192.168.5.199) for local XAMPP testing.',
       inputs: [
         {
           name: 'server_ip',
           type: 'text',
-          placeholder: 'e.g. 192.168.5.199',
+          placeholder: 'https://taracommute-api.elementfx.com/api',
           value: currentHost
         }
       ],
@@ -222,7 +222,7 @@ export class ProfilePage implements OnInit {
             if (data && data.server_ip && data.server_ip.trim()) {
               this.studentService.setServerHost(data.server_ip.trim());
               this.localApiUrl = this.studentService.getApiUrl();
-              this.showToast(`Server IP updated to ${data.server_ip.trim()}. Testing connection...`, 'success');
+              this.showToast(`API endpoint updated to ${data.server_ip.trim()}. Testing connection...`, 'success');
               this.fetchStudentsFromApi();
               this.loadCommuteHistory();
             }

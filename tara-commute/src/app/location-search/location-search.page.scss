@@ -1,29 +1,283 @@
-.location-search-content {
+/* ----------------------------------------------------
+   Responsive Layout: Mobile & PC Website Architecture
+---------------------------------------------------- */
+
+// Universal visibility toggles
+.desktop-only {
+  display: none !important;
+}
+
+.mobile-only {
+  display: block;
+}
+
+.mobile-only-btn {
+  display: flex !important;
+}
+
+/* ----------------------------------------------------
+   Header Toolbar (Adaptive: Mobile Title vs PC Web Nav)
+---------------------------------------------------- */
+.search-header {
   --background: #ffffff;
-  height: 100%;
-  width: 100%;
-}
-
-.search-page-grid {
-  height: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0;
-  width: 100%;
-  position: relative;
   background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+
+  .search-toolbar {
+    --background: #ffffff;
+    --min-height: 56px;
+    padding: 0;
+  }
+
+  .header-inner-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .search-header-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    text-align: center;
+    letter-spacing: -0.2px;
+  }
+
+  .btn-header-back,
+  .btn-header-info {
+    --color: #2563eb;
+    font-size: 20px;
+    margin: 0;
+  }
 }
 
-/* Route Input Card Row */
-.route-input-row {
-  padding: clamp(28px, 5vh, 44px) 20px 0 16px;
+/* Desktop Web Branding in Header */
+.desktop-brand-logo {
   display: flex;
   align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  .desktop-logo-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .desktop-brand-text {
+    font-size: 19px;
+    line-height: 1;
+
+    .brand-tara {
+      font-weight: 900;
+      color: #2563eb;
+    }
+
+    .brand-commute {
+      font-weight: 800;
+      color: #0f172a;
+    }
+  }
+}
+
+/* Desktop Web Menu Navigation Links */
+.desktop-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .desktop-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    outline: none;
+
+    ion-icon {
+      font-size: 16px;
+      color: #64748b;
+    }
+
+    &:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+
+      ion-icon {
+        color: #2563eb;
+      }
+    }
+
+    &.active {
+      background: #eff6ff;
+      color: #2563eb;
+      font-weight: 800;
+
+      ion-icon {
+        color: #2563eb;
+      }
+    }
+  }
+}
+
+/* ----------------------------------------------------
+   Main Page Wrapper
+---------------------------------------------------- */
+.location-search-content {
+  --background: #f8fafc;
+  height: 100%;
   width: 100%;
-  max-width: 680px;
+}
+
+.search-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  background: #f8fafc;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.search-responsive-shell {
+  flex: 1;
+  width: 100%;
+  max-width: 1080px;
   margin: 0 auto;
+  padding: 14px 16px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Desktop Hero Banner (Website View) */
+.desktop-page-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border: 1.5px solid #dbeafe;
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.05);
+
+  .hero-left-content {
+    max-width: 600px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.3px;
+  }
+
+  .hero-subtitle {
+    font-size: 13.5px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .discount-hero-card {
+    background: #ffffff;
+    border: 2px solid #22c55e;
+    border-radius: 16px;
+    padding: 12px 18px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(34, 197, 94, 0.12);
+
+    .disc-percent {
+      display: block;
+      font-size: 22px;
+      font-weight: 900;
+      color: #16a34a;
+      line-height: 1;
+    }
+
+    .disc-lbl {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      margin-top: 4px;
+    }
+  }
+}
+
+/* ----------------------------------------------------
+   Grid Layout: Stacked on Mobile, 2-Column on PC
+---------------------------------------------------- */
+.search-grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  width: 100%;
+}
+
+.grid-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Shared Card Headers */
+.card-section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #334155;
+  margin-bottom: 8px;
+
+  ion-icon {
+    font-size: 15px;
+  }
+}
+
+/* 1. Route Input Section */
+.route-input-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1.5px solid #dbeafe;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.06);
+  padding: 16px;
+}
+
+.route-inputs-body {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
 }
 
 /* Left Track */
@@ -31,20 +285,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 26px;
-  padding: 0;
+  justify-content: space-between;
+  width: 20px;
+  padding: 14px 0 14px 0;
   margin-right: 12px;
+  flex-shrink: 0;
 }
 
 .origin-dot {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 2px solid #2563eb;
+  border: 2.5px solid #2563eb;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .dot-inner {
@@ -56,7 +313,8 @@
 
 .track-dashed-line {
   width: 0;
-  height: 32px;
+  flex: 1;
+  min-height: 22px;
   border-left: 2px dashed #93c5fd;
   margin: 4px 0;
 }
@@ -65,35 +323,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  height: 18px;
+
+  svg {
+    display: block;
+  }
 }
 
-/* Right Inputs Column */
-.route-inputs-col {
+.route-inputs-fields {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 0;
+  gap: 10px;
+}
+
+.input-pill-wrapper {
+  width: 100%;
 }
 
 .input-pill-item {
-  --background: #ffffff;
-  --border-radius: 999px;
-  border-radius: 999px;
-  border: 1.5px solid #bfdbfe;
-  height: clamp(44px, 5.5vh, 48px);
+  --background: #f8fafc;
+  --border-radius: 14px;
+  border-radius: 14px;
+  border: 1.2px solid #e2e8f0;
+  height: 44px;
   width: 100%;
-  --inner-padding-end: 12px;
-  --padding-start: 18px;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+  --inner-padding-end: 8px;
+  --padding-start: 12px;
   margin: 0;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:focus-within {
+    border-color: #2563eb;
+    --background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
 }
 
 .pill-ionic-input {
   --color: #0f172a;
-  --placeholder-color: #2563eb;
-  --placeholder-opacity: 0.85;
-  font-size: 14.5px;
+  --placeholder-color: #64748b;
+  --placeholder-opacity: 0.9;
+  font-size: 13.5px;
   font-weight: 600;
 }
 
@@ -118,11 +390,11 @@
   left: 0;
   right: 0;
   background: #ffffff;
-  border-radius: 18px;
+  border-radius: 16px;
   border: 1.5px solid #bfdbfe;
   box-shadow: 0 12px 32px rgba(37, 99, 235, 0.16);
   z-index: 999;
-  max-height: 250px;
+  max-height: 240px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 6px 0;
@@ -144,8 +416,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
-  font-size: 11px;
+  padding: 8px 14px;
+  font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -167,8 +439,8 @@
 .suggestion-row {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
-  gap: 12px;
+  padding: 8px 14px;
+  gap: 10px;
   cursor: pointer;
   transition: background-color 0.15s ease;
   border-bottom: 1px solid #f8fafc;
@@ -183,8 +455,8 @@
   }
 
   .sugg-pin-icon {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #eff6ff;
     display: flex;
@@ -200,7 +472,7 @@
   }
 
   .sugg-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: #0f172a;
     white-space: nowrap;
@@ -209,7 +481,7 @@
   }
 
   .sugg-sub {
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 500;
     color: #64748b;
     margin-top: 1px;
@@ -223,87 +495,341 @@
   }
 }
 
-/* Transport Modes Row */
-.transport-modes-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: clamp(18px, 3vh, 26px) 20px 10px 20px;
+/* 2. Transport Modes Card */
+.modes-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1.5px solid #dbeafe;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.06);
+  padding: 16px;
+}
+
+.modes-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
 }
 
 .mode-item {
+  width: 100%;
+}
+
+.mode-card-btn {
+  width: 100%;
+  height: 72px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 3px;
   cursor: pointer;
-  padding: 6px 14px;
-  border-radius: 12px;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  padding: 6px 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
 
-  &:active {
-    transform: scale(0.92);
+  .mode-icon-box {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .mode-emoji-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
   }
 
-  &.selected-mode {
+  .mode-card-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #475569;
+    letter-spacing: -0.1px;
+    line-height: 1;
+  }
+
+  .mode-card-rate {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #94a3b8;
+    line-height: 1;
+  }
+
+  &.active {
     background: #eff6ff;
-    border: 1.5px solid #bfdbfe;
-    .mode-label {
+    border-color: #2563eb;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.18);
+
+    .mode-card-label {
       color: #2563eb;
       font-weight: 800;
     }
+
+    .mode-card-rate {
+      color: #2563eb;
+      font-weight: 700;
+    }
+  }
+
+  &:hover {
+    border-color: #93c5fd;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.96);
   }
 }
 
-.mode-icon-img {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-}
-
-.mode-label {
-  margin-top: 4px;
-  font-size: 12.5px;
-  font-weight: 500;
-  color: #334155;
-  display: block;
-}
-
-/* Center Content Space */
-.center-content-space {
-  flex: 1;
-  width: 100%;
-}
-
-/* Estimate Button Row */
-.estimate-btn-row {
-  width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 24px 20px 0;
+/* 3. Live Fare Preview Card */
+.route-fare-card {
+  background: linear-gradient(145deg, #eff6ff 0%, #f0fdf4 100%);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 20px;
+  padding: 16px 18px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.08);
+}
+
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preview-emoji {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.preview-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.discount-pill {
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.25);
+}
+
+.card-details-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 10px;
+  border: 1px solid #dbeafe;
+}
+
+.detail-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &:not(:last-child) {
+    border-right: 1px solid #f1f5f9;
+  }
+
+  .lbl {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 2px;
+  }
+
+  .val {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .fare-val {
+    color: #2563eb;
+    font-size: 18px;
+    font-weight: 900;
+  }
+}
+
+.card-footer-note {
+  font-size: 11.5px;
+  color: #475569;
+  text-align: center;
+  line-height: 1.4;
+
+  del {
+    color: #94a3b8;
+  }
+
+  strong {
+    color: #16a34a;
+  }
+}
+
+.card-breakdown-sub {
+  text-align: center;
+  margin-top: -2px;
+
+  .breakdown-tag {
+    font-size: 10px;
+    color: #2563eb;
+    font-weight: 600;
+    background: rgba(37, 99, 235, 0.08);
+    padding: 3px 10px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+}
+
+/* 4. Action Button */
+.action-btn-wrapper {
+  width: 100%;
 }
 
 .btn-estimate {
   --background: #2563eb;
   --color: #ffffff;
   --border-radius: 999px;
-  height: 46px;
-  font-size: 15px;
+  height: 50px;
+  font-size: 15.5px;
   font-weight: 800;
   text-transform: none;
-  --padding-start: 28px;
-  --padding-end: 28px;
-  --box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  width: 100%;
   margin: 0;
+  --box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+
+  .estimate-btn-icon {
+    font-size: 18px;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    --background: #1d4ed8;
+  }
 }
 
-/* Bottom Navigation Bar - Edge to Edge Full Width */
+/* 5. Popular Campus Destinations Section */
+.quick-dest-section {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1.5px solid #dbeafe;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.06);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .quick-icon {
+    font-size: 16px;
+  }
+
+  .quick-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+}
+
+.quick-chips-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.hub-chip-btn {
+  background: #f8fafc;
+  border: 1.2px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  outline: none;
+
+  .hub-emoji {
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .hub-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .hub-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hub-dist {
+    font-size: 11px;
+    font-weight: 500;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  &:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
+  }
+
+  &.selected {
+    background: #eff6ff;
+    border-color: #2563eb;
+    box-shadow: 0 2px 10px rgba(37, 99, 235, 0.12);
+
+    .hub-name {
+      color: #2563eb;
+    }
+  }
+}
+
+/* 6. Mobile Bottom Navigation Bar */
 .bottom-nav-bar {
-  position: relative;
+  flex-shrink: 0;
   width: 100%;
   height: 64px;
   background: #2563eb;
@@ -337,7 +863,6 @@
   margin: 0;
 }
 
-/* Elevated Route Button (Active on this screen) */
 .active-tab {
   position: relative;
   display: flex;
@@ -380,94 +905,49 @@
   display: block;
 }
 
-/* Fare Preview Card in Route Planner */
-.fare-preview-row {
-  width: 100%;
-  max-width: 520px;
-  margin: 12px auto 0 auto;
-  padding: 0 16px;
-}
-
-.fare-preview-col {
-  padding: 0;
-  width: 100%;
-}
-
-.route-fare-card {
-  background: #eff6ff;
-  border: 1.5px solid #bfdbfe;
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
-}
-
-.card-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.preview-title {
-  font-size: 13.5px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.discount-pill {
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 999px;
-}
-
-.card-details-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 10px 14px;
-  border: 1px solid #dbeafe;
-}
-
-.detail-block {
-  display: flex;
-  flex-direction: column;
-
-  .lbl {
-    font-size: 11px;
-    font-weight: 600;
-    color: #64748b;
+/* ----------------------------------------------------
+   RESPONSIVE BREAKPOINTS (DESKTOP & TABLET PC)
+---------------------------------------------------- */
+@media (min-width: 768px) {
+  .desktop-only {
+    display: flex !important;
   }
 
-  .val {
-    font-size: 14px;
-    font-weight: 800;
-    color: #0f172a;
+  .mobile-only {
+    display: none !important;
   }
 
-  .fare-val {
-    color: #2563eb;
-    font-size: 17px;
+  .mobile-only-btn {
+    display: none !important;
   }
 
-  .free-fare-val {
-    color: #16a34a;
-    font-size: 15px;
+  .search-responsive-shell {
+    padding: 24px 24px 40px 24px;
+    gap: 22px;
+  }
+
+  .search-grid-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+  }
+
+  .quick-chips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  // Remove mobile bottom bar on desktop completely
+  .bottom-nav-bar {
+    display: none !important;
   }
 }
 
-.fare-block {
-  align-items: flex-end;
-}
+@media (min-width: 1024px) {
+  .search-responsive-shell {
+    padding: 32px 32px 50px 32px;
+  }
 
-.card-footer-note {
-  font-size: 11.5px;
-  color: #64748b;
-  text-align: center;
+  .search-grid-container {
+    gap: 28px;
+  }
 }

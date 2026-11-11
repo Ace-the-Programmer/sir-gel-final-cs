@@ -8,7 +8,6 @@ import {
   IonRow,
   IonCol,
   IonAvatar,
-  IonImg,
   IonButton,
   IonIcon,
   IonText,
@@ -56,7 +55,6 @@ import { StudentService, Student, CommuteTrip, UserAccount } from '../services/s
     IonRow,
     IonCol,
     IonAvatar,
-    IonImg,
     IonButton,
     IonIcon,
     IonText,
@@ -199,13 +197,6 @@ export class ProfilePage implements OnInit {
     if (this.showDirectory && this.studentList.length === 0) {
       this.fetchStudentsFromApi();
     }
-  }
-
-  selectStudentFromList(student: Student) {
-    this.currentStudent = student;
-    this.studentService.setCurrentStudent(student);
-    this.loadCommuteHistory();
-    this.showToast(`Switched active commuter profile to: ${student.full_name}`, 'success');
   }
 
   // Configure MySQL backend host IP for Wi-Fi mobile testing
@@ -415,10 +406,16 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  getModeIcon(mode: string): string {
+  getModeEmoji(mode: string): string {
     const m = (mode || '').toLowerCase();
-    if (m === 'car') return 'assets/icon/mode-car.png';
-    if (m === 'bicycle' || m === 'bike') return 'assets/icon/mode-bicycle.png';
+    if (m.includes('jeep')) return '🚐';
+    if (m.includes('trike') || m.includes('tricycle')) return '🛺';
+    if (m.includes('bus') && !m.includes('mini')) return '🚌';
+    if (m.includes('mini')) return '🚍';
+    return '🚐';
+  }
+
+  getModeIcon(mode: string): string {
     return 'assets/icon/mode-tricycle.png';
   }
 

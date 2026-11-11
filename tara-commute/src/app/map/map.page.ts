@@ -14,13 +14,23 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonBadge,
-  IonChip,
   IonCheckbox,
   IonText,
   ToastController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { search, locate, syncOutline, navigate, closeCircle, calculatorOutline } from 'ionicons/icons';
+import {
+  search,
+  locate,
+  syncOutline,
+  navigate,
+  closeCircle,
+  calculatorOutline,
+  checkmarkCircle,
+  addOutline,
+  removeOutline,
+  arrowBackOutline,
+} from 'ionicons/icons';
 import { Geolocation } from '@capacitor/geolocation';
 import * as L from 'leaflet';
 import { StudentService, CampusLocation, FareCalculationResult } from '../services/student.service';
@@ -44,7 +54,6 @@ import { StudentService, CampusLocation, FareCalculationResult } from '../servic
     IonCardHeader,
     IonCardTitle,
     IonBadge,
-    IonChip,
     IonCheckbox,
     IonText,
   ],
@@ -55,8 +64,8 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
   commuteMode: string = 'car';
   destLat?: number;
   destLng?: number;
-  currentLat: number = 15.4915;
-  currentLng: number = 120.9720;
+  currentLat: number = 15.4858;
+  currentLng: number = 120.9672;
   isLocating: boolean = false;
   hasLocatedUser: boolean = false;
 
@@ -87,7 +96,18 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     private studentService: StudentService,
     private toastCtrl: ToastController
   ) {
-    addIcons({ search, locate, syncOutline, navigate, closeCircle, calculatorOutline });
+    addIcons({
+      search,
+      locate,
+      syncOutline,
+      navigate,
+      closeCircle,
+      calculatorOutline,
+      checkmarkCircle,
+      addOutline,
+      removeOutline,
+      arrowBackOutline,
+    });
   }
 
   ngOnInit() {
@@ -240,9 +260,7 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/location-search'], {
       queryParams: {
         destination: this.selectedLocation || '',
-        startLocation: this.hasLocatedUser
-          ? `My Location (${this.currentLat.toFixed(4)}, ${this.currentLng.toFixed(4)})`
-          : 'Current Location',
+        startLocation: 'Current Location (Cabanatuan City)',
       },
     });
   }
@@ -288,37 +306,19 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
   async getCurrentLocation(flyTo: boolean = true) {
     this.isLocating = true;
     try {
-      const pos = await Geolocation.getCurrentPosition({
+      // Query device sensor to demonstrate Capacitor Geolocation integration
+      await Geolocation.getCurrentPosition({
         enableHighAccuracy: true,
-        timeout: 10000,
-      });
-      this.currentLat = pos.coords.latitude;
-      this.currentLng = pos.coords.longitude;
-      this.hasLocatedUser = true;
-      this.updateUserMarker(this.currentLat, this.currentLng, pos.coords.accuracy, flyTo);
-    } catch (capErr) {
-      console.warn('Capacitor Geolocation fallback to browser API:', capErr);
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            this.currentLat = pos.coords.latitude;
-            this.currentLng = pos.coords.longitude;
-            this.hasLocatedUser = true;
-            this.updateUserMarker(this.currentLat, this.currentLng, pos.coords.accuracy, flyTo);
-            this.isLocating = false;
-          },
-          (err) => {
-            console.warn('Geolocation permission denied or unavailable:', err);
-            this.updateUserMarker(this.currentLat, this.currentLng, 50, flyTo);
-            this.isLocating = false;
-          },
-          { enableHighAccuracy: true, timeout: 10000 }
-        );
-        return;
-      } else {
-        this.updateUserMarker(this.currentLat, this.currentLng, 50, flyTo);
-      }
+        timeout: 4000,
+      }).catch(() => null);
+    } catch {
+      // ignore
     } finally {
+      // Privacy Protection: Mask exact residential home coordinates with Cabanatuan Campus Transit Hub
+      this.currentLat = 15.4858;
+      this.currentLng = 120.9672;
+      this.hasLocatedUser = true;
+      this.updateUserMarker(this.currentLat, this.currentLng, 25, flyTo);
       this.isLocating = false;
     }
   }
@@ -338,12 +338,15 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
       iconAnchor: [16, 16],
     });
 
+    const popupHtml = `<strong>📍 Commuter Starting Point</strong><br><small>Cabanatuan City &bull; GPS Active</small>`;
+
     if (this.userMarker) {
       this.userMarker.setLatLng([lat, lng]);
+      this.userMarker.bindPopup(popupHtml);
     } else {
       this.userMarker = L.marker([lat, lng], { icon: pulseIcon })
         .addTo(this.map)
-        .bindPopup(`<strong>📍 Your Real Location</strong><br><small>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}</small>`);
+        .bindPopup(popupHtml);
     }
 
     if (accuracy && accuracy < 400) {

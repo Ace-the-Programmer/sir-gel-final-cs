@@ -3,10 +3,15 @@
 **/www/
 **/.angular/
 
-# Private Guides & Scripts
+# Private Guides, Scripts & Artifacts
 VIDEO_SCRIPT_GUIDE.md
 DOCUMENTATION_REPORT.md
 *SCRIPT*.md
 *REPORT*.md
 *.apk
+*.log
+*.tmp
+*.png
+!**/src/assets/**/*.png
+!**/assets/**/*.png
 

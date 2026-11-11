@@ -73,7 +73,7 @@ export class LoginPage {
 
   async onLogin() {
     if (!this.username.trim()) {
-      await this.showToast('Please enter your username or student number', 'warning');
+      await this.showToast('Please enter your username', 'warning');
       return;
     }
     if (!this.password.trim()) {
@@ -82,7 +82,7 @@ export class LoginPage {
     }
 
     const loader = await this.loadingCtrl.create({
-      message: 'Authenticating with local database...',
+      message: 'Connecting to database...',
       spinner: 'crescent'
     });
     await loader.present();
@@ -110,7 +110,14 @@ export class LoginPage {
       error: async (err) => {
         await loader.dismiss();
         this.isLoading = false;
-        const msg = err?.error?.message || 'Login failed. Check your username/password or XAMPP MySQL.';
+        let msg = err?.error?.message;
+        if (!msg) {
+          if (!err.status || err.status === 0) {
+            msg = 'Cannot reach database server. Make sure PC is ON, Apache & MySQL are running in XAMPP, and both PC & CP are on the same Wi-Fi.';
+          } else {
+            msg = 'Login failed. Check your username/password or XAMPP MySQL.';
+          }
+        }
         await this.showToast(msg, 'danger');
       }
     });

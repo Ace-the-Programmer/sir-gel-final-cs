@@ -24,13 +24,13 @@
           <h1 class="welcome-heading">Welcome back, Commuter!</h1>
         </ion-text>
         <ion-text color="medium">
-          <p class="login-subtext">Sign in to your TaraCommute campus account</p>
+          <p class="login-subtext">Sign in with your commuter username</p>
         </ion-text>
 
         <!-- Input Fields -->
         <form class="login-form" (ngSubmit)="onLogin()">
           <ion-item lines="none" class="custom-input-item">
-            <ion-input type="text" placeholder="Username or Student No." [(ngModel)]="username" name="username"
+            <ion-input type="text" placeholder="Username" [(ngModel)]="username" name="username"
               class="custom-ionic-input" required></ion-input>
           </ion-item>
 

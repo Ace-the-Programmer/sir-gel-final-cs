@@ -23,15 +23,17 @@ export interface UserAccount {
   full_name: string;
   email: string;
   course: string;
+  school?: string;
   year_level: number;
   avatar?: string;
+  auth_token?: string;
   created_at?: string;
 }
 
 export interface CommuteTrip {
   id?: number;
   student_no: string;
-  mode: 'car' | 'tricycle' | 'bicycle' | 'walk' | string;
+  mode: 'jeep' | 'tricycle' | 'bus' | 'minibus' | string;
   origin: string;
   destination: string;
   distance_km: number;
@@ -65,6 +67,10 @@ export interface ApiResponse<T> {
   success: boolean;
   message?: string;
   data: T;
+  token?: string;
+  token_type?: string;
+  remaining_attempts?: number;
+  locked?: boolean;
 }
 
 @Injectable({
@@ -238,83 +244,25 @@ export class StudentService {
     );
   }
 
-  // Login against MySQL database users table with smart offline resilience
+  // Strict live authentication directly against MySQL database users table with BCrypt & Bearer Token
   public login(credentials: { username: string; password: string }): Observable<ApiResponse<UserAccount>> {
     const url = `${this.apiBase}/auth.php?action=login`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<ApiResponse<UserAccount>>(url, credentials, { headers }).pipe(
       tap((response) => {
         if (response && response.success && response.data) {
+          if (response.token) {
+            response.data.auth_token = response.token;
+            localStorage.setItem('taracommute_auth_token', response.token);
+          }
           this.setCurrentUser(response.data);
-          this.cacheKnownUser(response.data);
         }
       }),
       catchError((error) => {
-        console.warn(`POST ${url} error:`, error);
-        // If network is unreachable or status is 0 / 500+, check local profile cache
-        if (!error.status || error.status === 0 || error.status >= 500) {
-          const fallbackUser = this.findCachedUser(credentials.username);
-          if (fallbackUser) {
-            this.setCurrentUser(fallbackUser);
-            return of({
-              success: true,
-              message: 'Logged in successfully (Local Commuter Cache)',
-              data: fallbackUser
-            });
-          }
-        }
+        console.error(`Live XAMPP MySQL POST ${url} error:`, error);
         throw error;
       })
     );
-  }
-
-  private cacheKnownUser(user: UserAccount): void {
-    try {
-      const cachedList: UserAccount[] = JSON.parse(localStorage.getItem('taracommute_cached_users') || '[]');
-      const filtered = cachedList.filter(u => u.student_no !== user.student_no);
-      filtered.unshift(user);
-      localStorage.setItem('taracommute_cached_users', JSON.stringify(filtered));
-    } catch (e) {}
-  }
-
-  private findCachedUser(identifier: string): UserAccount | null {
-    const term = identifier.trim().toLowerCase();
-    const defaultAccounts: UserAccount[] = [
-      {
-        id: 4,
-        student_no: '2023-00981',
-        username: 'daryll0981',
-        full_name: 'Daryll Ace F. Cumbe',
-        email: 'daryll0981@campus.edu.ph',
-        course: 'BSIT',
-        year_level: 1,
-        avatar: 'assets/icon/quenie-avatar.png'
-      },
-      {
-        id: 1,
-        student_no: '2026-0001',
-        username: 'juandc',
-        full_name: 'Juan Dela Cruz',
-        email: 'juan.delacruz@campus.edu.ph',
-        course: 'BSIT',
-        year_level: 1,
-        avatar: 'assets/icon/quenie-avatar.png'
-      }
-    ];
-
-    try {
-      const cachedList: UserAccount[] = JSON.parse(localStorage.getItem('taracommute_cached_users') || '[]');
-      const all = [...cachedList, ...defaultAccounts];
-      return all.find(u => 
-        u.student_no.toLowerCase() === term ||
-        u.student_no.toLowerCase().includes(term) ||
-        term.includes(u.student_no.toLowerCase()) ||
-        u.username.toLowerCase() === term ||
-        (u.email && u.email.toLowerCase() === term)
-      ) || null;
-    } catch (e) {
-      return defaultAccounts.find(u => u.student_no.includes(term) || u.username.includes(term)) || null;
-    }
   }
 
   // Register real user in MySQL users table (and syncs to students table)
@@ -324,6 +272,10 @@ export class StudentService {
     return this.http.post<ApiResponse<UserAccount>>(url, payload, { headers }).pipe(
       tap((response) => {
         if (response && response.success && response.data) {
+          if (response.token) {
+            response.data.auth_token = response.token;
+            localStorage.setItem('taracommute_auth_token', response.token);
+          }
           this.setCurrentUser(response.data);
         }
       }),
@@ -332,6 +284,35 @@ export class StudentService {
         throw error;
       })
     );
+  }
+
+  // Verify active session token against server
+  public verifySession(): Observable<ApiResponse<UserAccount>> {
+    const url = `${this.apiBase}/auth.php?action=verify`;
+    return this.http.get<ApiResponse<UserAccount>>(url, { headers: this.getAuthHeaders() }).pipe(
+      tap((response) => {
+        if (response && response.success && response.data) {
+          this.setCurrentUser(response.data);
+        }
+      }),
+      catchError((error) => {
+        console.warn('Session verification failed, token might be expired:', error);
+        throw error;
+      })
+    );
+  }
+
+  public getAuthToken(): string | null {
+    return localStorage.getItem('taracommute_auth_token');
+  }
+
+  public getAuthHeaders(): HttpHeaders {
+    const token = this.getAuthToken();
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 
   // Set and persist current active user
@@ -343,8 +324,8 @@ export class StudentService {
       id: user.id,
       student_no: user.student_no,
       full_name: user.full_name,
-      course: user.course,
-      year_level: user.year_level
+      course: user.school || user.course,
+      year_level: user.year_level || 1
     };
     this.setCurrentStudent(student);
   }
@@ -356,8 +337,16 @@ export class StudentService {
   }
 
   public clearSession(): void {
+    const token = this.getAuthToken();
+    if (token) {
+      const url = `${this.apiBase}/auth.php?action=logout`;
+      this.http.post(url, {}, { headers: this.getAuthHeaders() }).subscribe({
+        error: () => {}
+      });
+    }
     this.currentUserSubject.next(null);
     this.currentStudentSubject.next(null);
+    localStorage.removeItem('taracommute_auth_token');
     localStorage.removeItem('taracommute_active_user');
     localStorage.removeItem('locarate_active_student');
   }
@@ -448,111 +437,84 @@ export class StudentService {
   // 5. CAMPUS FARE CALCULATOR (Cabanatuan City Ordinance & LTFRB Region 3)
   // ==========================================
 
-  public calculateFare(distanceKm: number, mode: string = 'tricycle', applyStudentDiscount: boolean = true): FareCalculationResult {
+  public calculateFare(distanceKm: number, mode: string = 'jeep', applyStudentDiscount: boolean = true): FareCalculationResult {
     const dist = Math.max(0.1, Number(distanceKm) || 1.0);
-    const m = (mode || 'tricycle').toLowerCase();
+    const m = (mode || 'jeep').toLowerCase();
 
     let regularFare = 0;
     let studentFare = 0;
     let estMinutes = 0;
-    let modeLabel = 'Cabanatuan Tricycle';
+    let modeLabel = 'Student Commute';
     let breakdown = '';
     let caloriesBurned = 0;
     let steps = 0;
 
     switch (m) {
-      case 'tricycle': {
-        modeLabel = 'Cabanatuan Tricycle (Shared)';
-        // Cabanatuan City Ordinance No. 050-2026:
-        // Base: ₱35 regular / ₱28 student for first 3 km
-        // Succeeding km: ₱5.00/km (no further student discount on succeeding km)
-        const extraKm = Math.max(0, dist - 3.0);
-        regularFare = 35 + (extraKm * 5.0);
-        studentFare = applyStudentDiscount ? (28 + (extraKm * 5.0)) : regularFare;
-        estMinutes = Math.round(dist * 3.5 + 2);
-        breakdown = 'Ord. No. 050-2026: ₱28 student base (first 3 km) + ₱5.00/km';
-        break;
-      }
-
-      case 'tricycle-solo':
-      case 'solo-tricycle':
-      case 'special': {
-        modeLabel = 'Solo Tricycle (Special Trip)';
-        // Cabanatuan City Ordinance No. 050-2026:
-        // Special Solo Trip: ₱56.00 student base for first 3 km
-        const extraKm = Math.max(0, dist - 3.0);
-        regularFare = 70 + (extraKm * 10.0);
-        studentFare = applyStudentDiscount ? (56 + (extraKm * 10.0)) : regularFare;
-        estMinutes = Math.round(dist * 3.0 + 1);
-        breakdown = 'Ord. No. 050-2026: ₱56 student solo base (first 3 km) + ₱10/km';
-        break;
-      }
-
+      case 'jeep':
       case 'jeepney':
       case 'traditional-jeepney': {
-        modeLabel = 'Traditional Jeepney (LTFRB R3)';
-        // LTFRB Region 3 Matrix:
-        // Regular: ₱14.00 base (first 4 km) + ₱2.00/km
-        // Student: ₱11.25 base (first 4 km) + ₱1.60/km
+        modeLabel = 'Traditional Jeepney';
+        // Base: ₱14.00 regular / ₱11.20 student for first 4 km
+        // Succeeding km: ₱2.00/km regular / ₱1.60/km student
         const extraKm = Math.max(0, dist - 4.0);
-        regularFare = 14.0 + (extraKm * 2.0);
-        studentFare = applyStudentDiscount ? (11.25 + (extraKm * 1.60)) : regularFare;
+        regularFare = 14.0 + (extraKm * 2.00);
+        studentFare = applyStudentDiscount ? (11.20 + (extraKm * 1.60)) : regularFare;
         estMinutes = Math.round(dist * 3.0 + 3);
-        breakdown = 'LTFRB Region 3: ₱11.25 student base (first 4 km) + ₱1.60/km';
+        breakdown = 'Traditional Jeep: ₱11.20 student base (first 4 km) + ₱1.60/km';
         break;
       }
 
+      case 'tricycle':
+      case 'trike':
+      case 'shared-trike': {
+        modeLabel = 'Tricycle (Shared / Rapok)';
+        // Cabanatuan City Ordinance No. 050-2026:
+        // Base: ₱35.00 regular / ₱28.00 student for first 3 km
+        // Succeeding km: ₱5.00/km regular / ₱4.00/km student
+        const extraKm = Math.max(0, dist - 3.0);
+        regularFare = 35.0 + (extraKm * 5.00);
+        studentFare = applyStudentDiscount ? (28.00 + (extraKm * 4.00)) : regularFare;
+        estMinutes = Math.round(dist * 3.5 + 2);
+        breakdown = 'Ord. No. 050-2026: ₱28.00 student base (first 3 km) + ₱4.00/km';
+        break;
+      }
+
+      case 'bus':
+      case 'campus-bus': {
+        modeLabel = 'Student Campus Bus';
+        // LTFRB Student Bus Matrix & RA 11314:
+        // Base: ₱15.00 regular / ₱12.00 student for first 5 km
+        // Succeeding km: ₱2.25/km regular / ₱1.80/km student (20% discount)
+        const extraKm = Math.max(0, dist - 5.0);
+        regularFare = 15.0 + (extraKm * 2.25);
+        studentFare = applyStudentDiscount ? (12.00 + (extraKm * 1.80)) : regularFare;
+        estMinutes = Math.round(dist * 2.5 + 4);
+        breakdown = 'LTFRB Bus Matrix: ₱12.00 student base (first 5 km) + ₱1.80/km';
+        break;
+      }
+
+      case 'minibus':
+      case 'mini-bus':
       case 'modern-jeepney': {
-        modeLabel = 'Modern Jeepney (LTFRB R3)';
-        // LTFRB Region 3 Matrix:
-        // Regular: ₱17.00 base (first 4 km) + ₱2.40/km
-        // Student: ₱13.50 base (first 4 km) + ₱1.92/km
+        modeLabel = 'Mini Bus / Modern PUV';
+        // LTFRB Modern PUV Matrix & RA 11314:
+        // Base: ₱17.00 regular / ₱13.60 student for first 4 km
+        // Succeeding km: ₱2.40/km regular / ₱1.90/km student (20% discount)
         const extraKm = Math.max(0, dist - 4.0);
         regularFare = 17.0 + (extraKm * 2.40);
-        studentFare = applyStudentDiscount ? (13.50 + (extraKm * 1.92)) : regularFare;
+        studentFare = applyStudentDiscount ? (13.60 + (extraKm * 1.90)) : regularFare;
         estMinutes = Math.round(dist * 2.8 + 2);
-        breakdown = 'LTFRB Region 3: ₱13.50 student base (first 4 km) + ₱1.92/km';
-        break;
-      }
-
-      case 'car':
-      case 'taxi': {
-        modeLabel = 'Car / Taxi';
-        regularFare = 45.0 + (dist * 15.0);
-        studentFare = applyStudentDiscount ? Math.round(regularFare * 0.9 * 100) / 100 : regularFare;
-        estMinutes = Math.round(dist * 2.2 + 1);
-        breakdown = 'Base ₱45.00 + ₱15.00/km (10% student promo)';
-        break;
-      }
-
-      case 'bicycle': {
-        modeLabel = 'Bicycle';
-        regularFare = 15.0;
-        studentFare = 15.0;
-        estMinutes = Math.round(dist * 4.5);
-        caloriesBurned = Math.round(dist * 35);
-        breakdown = 'Flat student campus rate';
-        break;
-      }
-
-      case 'walk': {
-        modeLabel = 'Walking';
-        regularFare = 0;
-        studentFare = 0;
-        estMinutes = Math.round(dist * 12);
-        caloriesBurned = Math.round(dist * 60);
-        steps = Math.round(dist * 1350);
-        breakdown = 'Free Commute (Healthy Walk)';
+        breakdown = 'Modern PUV: ₱13.60 student base (first 4 km) + ₱1.90/km';
         break;
       }
 
       default: {
-        modeLabel = 'Cabanatuan Commute';
-        const extraKm = Math.max(0, dist - 3.0);
-        regularFare = 35 + (extraKm * 5.0);
-        studentFare = applyStudentDiscount ? (28 + (extraKm * 5.0)) : regularFare;
-        estMinutes = Math.round(dist * 3.5);
-        breakdown = 'Ord. No. 050-2026: ₱28 base (3km) + ₱5/km';
+        modeLabel = 'Campus Commute';
+        const extraKm = Math.max(0, dist - 4.0);
+        regularFare = 13.0 + (extraKm * 1.80);
+        studentFare = applyStudentDiscount ? (10.40 + (extraKm * 1.44)) : regularFare;
+        estMinutes = Math.round(dist * 3.0 + 3);
+        breakdown = 'Student Discount Fare Matrix (20% OFF)';
       }
     }
 

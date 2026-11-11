@@ -252,26 +252,27 @@
 /* Interactive Student Fare Calculator Card (Angular Ionic Component) */
 .fare-calc-sheet {
   position: absolute;
-  bottom: 74px;
+  bottom: clamp(86px, 12vh, 98px);
   left: 12px;
   right: 12px;
   max-width: 480px;
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 180px);
   margin: 0 auto;
   z-index: 1002;
   --background: #ffffff;
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 22px;
   border: 1.5px solid #bfdbfe;
-  box-shadow: 0 10px 32px rgba(37, 99, 235, 0.18);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.22);
   animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @keyframes slideUpSheet {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -283,14 +284,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px 6px 6px;
+  padding: 10px 14px 8px 8px;
   gap: 8px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .calc-header-left {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .btn-back-calc {
@@ -307,10 +309,12 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
+  --color: #2563eb;
   transition: background-color 0.15s ease;
 
-  svg {
-    display: block;
+  ion-icon {
+    font-size: 22px;
+    color: #2563eb;
   }
 
   &:hover,
@@ -325,11 +329,30 @@
   gap: 8px;
 }
 
+.calc-badge-icon {
+  font-size: 20px;
+}
+
+.calc-title {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.student-discount-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+  --background: #2563eb;
+}
+
 .calc-card-content {
-  padding: 0 14px 14px 14px;
+  padding: 12px 14px 14px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 11px;
 }
 
 /* Route info inside calculator */
@@ -382,11 +405,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 0;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.dist-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dist-icon {
+  font-size: 16px;
 }
 
 .dist-title {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -394,95 +430,219 @@
 .dist-counter-box {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: #f1f5f9;
+  gap: 6px;
+  background: #ffffff;
   border-radius: 999px;
-  padding: 2px 6px;
-  border: 1px solid #cbd5e1;
+  padding: 4px 10px;
+  border: 1.5px solid #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-width: 140px;
+  justify-content: center;
 }
 
 .btn-counter {
   --color: #2563eb;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
   margin: 0;
-  height: 24px;
-  width: 24px;
+  height: 28px;
+  width: 28px;
+  min-width: 28px;
+  --padding-start: 0;
+  --padding-end: 0;
+
+  ion-icon {
+    font-size: 16px;
+  }
 }
 
 .dist-number-input {
-  width: 48px;
+  width: 65px;
+  min-width: 58px;
   border: none;
   background: transparent;
-  font-size: 13.5px;
+  font-size: 16px;
   font-weight: 800;
   color: #0f172a;
   text-align: center;
   outline: none;
+  padding: 0 4px;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 .dist-unit {
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 700;
   color: #64748b;
   margin-right: 4px;
 }
 
-/* Mode chips (Ionic Chips) */
-.calc-modes-row {
+/* 3x2 Transport Modes Grid (No cut off text) */
+.calc-modes-section {
   display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 2px;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.mode-chip-ionic {
-  margin: 0;
+.calc-section-label {
   font-size: 11.5px;
   font-weight: 700;
-  cursor: pointer;
-  height: 28px;
-  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #64748b;
 }
 
-/* Discount toggle */
-.student-discount-toggle {
+.calc-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.mode-grid-btn {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+  min-height: 56px;
+
+  .mode-btn-emoji {
+    font-size: 22px;
+    line-height: 1.1;
+  }
+
+  .mode-btn-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  .mode-btn-sub {
+    font-size: 10px;
+    font-weight: 600;
+    color: #94a3b8;
+    line-height: 1;
+    text-align: center;
+  }
+
+  &.active {
+    background: #eff6ff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+
+    .mode-btn-title {
+      color: #2563eb;
+      font-weight: 800;
+    }
+
+    .mode-btn-sub {
+      color: #3b82f6;
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Student Discount Banner */
+.student-discount-banner {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover,
+  &:active {
+    background: #f1f5f9;
+  }
+}
+
+.discount-check-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .discount-checkbox {
-  --size: 15px;
-  --border-radius: 4px;
+  --size: 18px;
+  --border-radius: 5px;
   --checkbox-background-checked: #2563eb;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: #334155;
+  --border-color-checked: #2563eb;
+  margin: 0;
 }
 
-/* Fare result card */
-.fare-result-card {
-  background: #eff6ff;
-  border: 1.5px solid #bfdbfe;
-  border-radius: 12px;
-  padding: 10px 12px;
+.discount-text-block {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
-.walk-result {
-  background: #f0fdf4;
-  border-color: #bbf7d0;
+.discount-main-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
 
-  .fare-amount-value {
-    color: #16a34a;
+.discount-sub-text {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.discount-pill-tag {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* High Contrast Fare Result Card */
+.fare-result-card {
+  background: #f0f7ff;
+  border: 1.5px solid #93c5fd;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);
+
+  &.walk-result {
+    background: #f0fdf4;
+    border-color: #86efac;
+
+    .fare-amount-value {
+      color: #16a34a;
+    }
   }
 }
 
 .fare-main-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -492,61 +652,133 @@
 }
 
 .fare-amount-label {
-  font-size: 10.5px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: #64748b;
+  color: #475569;
+}
+
+.fare-price-display {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.fare-currency {
+  font-size: 20px;
+  font-weight: 900;
+  color: #2563eb;
 }
 
 .fare-amount-value {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 900;
   color: #2563eb;
-  line-height: 1.1;
+  line-height: 1;
+  letter-spacing: -0.5px;
 }
 
 .free-val {
-  font-size: 18px;
+  font-size: 22px;
+  color: #16a34a;
 }
 
-.fare-time-col {
+.fare-time-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.time-clock-icon {
+  font-size: 16px;
+}
+
+.time-text-wrap {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.fare-time-label {
-  font-size: 10.5px;
+.time-tag {
+  font-size: 9.5px;
   color: #64748b;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
-.fare-time-value {
-  font-size: 14px;
+.time-num {
+  font-size: 13.5px;
   font-weight: 800;
   color: #0f172a;
+  line-height: 1.1;
 }
 
-.fare-breakdown-details {
+.fare-details-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid #bfdbfe;
+  padding-top: 6px;
+}
+
+.fare-savings-row {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  font-size: 11px;
-  color: #475569;
-  border-top: 1px dashed #bfdbfe;
-  padding-top: 4px;
+  gap: 10px;
 }
 
-.discount-save {
-  color: #16a34a;
-  font-weight: 700;
-}
-
-.formula {
+.regular-crossed {
+  font-size: 12px;
   color: #64748b;
-  font-style: italic;
+  font-weight: 600;
+  text-decoration: line-through;
+}
+
+.savings-tag {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #15803d;
+}
+
+.fare-formula-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 11.5px;
+  color: #334155;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.formula-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.formula-text {
+  flex: 1;
+}
+
+.walk-details {
+  flex-direction: row;
+  gap: 8px;
+}
+
+.walk-stat-chip {
+  background: #ffffff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #166534;
+  border: 1px solid #bbf7d0;
 }
 
 /* Action button */
@@ -554,11 +786,11 @@
   --background: #2563eb;
   --color: #ffffff;
   --border-radius: 999px;
-  height: 40px;
-  font-size: 13px;
+  height: 44px;
+  font-size: 14px;
   font-weight: 800;
   text-transform: none;
-  margin-top: 4px;
+  margin-top: 2px;
   --box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
 }
 

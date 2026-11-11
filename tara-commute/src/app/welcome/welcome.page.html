@@ -1,158 +1,155 @@
 <ion-header class="ion-no-border signup-header">
   <ion-toolbar class="signup-toolbar">
-    <ion-buttons slot="start">
-      <ion-button fill="clear" size="small" class="btn-header-back" (click)="onBack()" aria-label="Go back">
-        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="signup-header-title">Create Account</ion-title>
+    <div class="header-inner-container">
+      <ion-buttons slot="start">
+        <ion-button fill="clear" size="small" class="btn-header-back" (click)="onBack()" aria-label="Go back">
+          <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="signup-header-title">Create Account</ion-title>
+      <div class="header-spacer"></div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="welcome-content">
-  <ion-grid class="signup-grid ion-no-padding">
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-sm="10" size-md="8" size-lg="6" class="signup-col">
+  <div class="signup-page-wrapper">
+    <div class="signup-container">
 
-        <!-- Main Registration Ionic Card Component -->
-        <ion-card class="signup-card">
-          <!-- Card Header: App Logo & Brand Title -->
-          <ion-card-header class="signup-card-header ion-text-center">
-            <div class="logo-circle-wrapper">
-              <ion-img src="assets/icon/locarate-logo-dark.svg" alt="TaraCommute Logo" class="signup-logo-img"></ion-img>
-            </div>
-            <ion-card-title class="signup-brand-title">
-              <span class="brand-tara">Tara</span><span class="brand-commute">Commute</span>
-            </ion-card-title>
-            <ion-card-subtitle class="signup-brand-subtitle">
-              Register your student commuter pass
-            </ion-card-subtitle>
-          </ion-card-header>
+      <!-- Main Registration Ionic Card Component -->
+      <ion-card class="signup-card">
+        <!-- Card Header: App Logo & Brand Title -->
+        <ion-card-header class="signup-card-header ion-text-center">
+          <div class="logo-circle-wrapper">
+            <ion-img src="assets/icon/locarate-logo-dark.svg" alt="TaraCommute Logo" class="signup-logo-img"></ion-img>
+          </div>
+          <ion-card-title class="signup-brand-title">
+            <span class="brand-tara">Tara</span><span class="brand-commute">Commute</span>
+          </ion-card-title>
+          <ion-card-subtitle class="signup-brand-subtitle">
+            Register your student commuter pass
+          </ion-card-subtitle>
+        </ion-card-header>
 
-          <!-- Card Content: Form & Actions -->
-          <ion-card-content class="signup-card-content">
-            <form (ngSubmit)="onRegister()" class="signup-ionic-form">
+        <!-- Card Content: Form & Actions -->
+        <ion-card-content class="signup-card-content">
+          <form (ngSubmit)="onRegister()" class="signup-ionic-form">
 
-              <!-- Ionic Form Items List -->
-              <ion-list lines="none" class="signup-item-list">
+            <!-- Ionic Form Items List -->
+            <div class="signup-item-list">
 
-                <!-- 1. Student ID Number -->
-                <ion-item class="custom-ionic-item">
-                  <ion-icon slot="start" name="id-card-outline" class="item-leading-icon" color="primary"></ion-icon>
-                  <ion-input
-                    type="text"
-                    label="Student ID Number"
-                    labelPlacement="floating"
-                    placeholder="e.g. 2026-0001"
-                    [(ngModel)]="studentNo"
-                    name="studentNo"
-                    class="ionic-form-input"
-                    required
-                  ></ion-input>
-                </ion-item>
+              <!-- 1. Username (No open and close parentheses text!) -->
+              <ion-item lines="none" class="custom-ionic-item">
+                <ion-icon slot="start" name="person-circle-outline" class="item-leading-icon" color="primary"></ion-icon>
+                <ion-input
+                  type="text"
+                  label="Username"
+                  labelPlacement="floating"
+                  placeholder="e.g. commuter2026"
+                  [(ngModel)]="username"
+                  name="username"
+                  class="ionic-form-input"
+                  required
+                ></ion-input>
+              </ion-item>
 
-                <!-- 2. Full Name -->
-                <ion-item class="custom-ionic-item">
-                  <ion-icon slot="start" name="person-outline" class="item-leading-icon" color="primary"></ion-icon>
-                  <ion-input
-                    type="text"
-                    label="Full Name"
-                    labelPlacement="floating"
-                    placeholder="e.g. Juan Dela Cruz"
-                    [(ngModel)]="fullName"
-                    name="fullName"
-                    class="ionic-form-input"
-                    required
-                  ></ion-input>
-                </ion-item>
+              <!-- 2. Full Name -->
+              <ion-item lines="none" class="custom-ionic-item">
+                <ion-icon slot="start" name="person-outline" class="item-leading-icon" color="primary"></ion-icon>
+                <ion-input
+                  type="text"
+                  label="Full Name"
+                  labelPlacement="floating"
+                  placeholder="e.g. Juan Dela Cruz"
+                  [(ngModel)]="fullName"
+                  name="fullName"
+                  class="ionic-form-input"
+                  required
+                ></ion-input>
+              </ion-item>
 
-                <!-- 3. Degree Course -->
-                <ion-item class="custom-ionic-item">
-                  <ion-icon slot="start" name="school-outline" class="item-leading-icon" color="primary"></ion-icon>
-                  <ion-select
-                    label="Degree Course"
-                    labelPlacement="floating"
-                    [(ngModel)]="course"
-                    name="course"
-                    interface="action-sheet"
-                    class="ionic-form-select"
-                  >
-                    <ion-select-option value="BSIT">BS Information Technology (BSIT)</ion-select-option>
-                    <ion-select-option value="BSCS">BS Computer Science (BSCS)</ion-select-option>
-                    <ion-select-option value="BSIS">BS Information Systems (BSIS)</ion-select-option>
-                    <ion-select-option value="BSEMC">BS Entertainment & Multimedia</ion-select-option>
-                    <ion-select-option value="BSCPE">BS Computer Engineering</ion-select-option>
-                  </ion-select>
-                </ion-item>
+              <!-- 3. School / Campus -->
+              <ion-item lines="none" class="custom-ionic-item">
+                <ion-icon slot="start" name="school-outline" class="item-leading-icon" color="primary"></ion-icon>
+                <ion-select
+                  label="School"
+                  labelPlacement="floating"
+                  [(ngModel)]="school"
+                  name="school"
+                  interface="action-sheet"
+                  class="ionic-form-select"
+                >
+                  <ion-select-option value="NEUST">NEUST</ion-select-option>
+                  <ion-select-option value="Araullo University">Araullo University</ion-select-option>
+                  <ion-select-option value="Wesleyan University">Wesleyan University</ion-select-option>
+                  <ion-select-option value="CRT">CRT (College of Research & Technology)</ion-select-option>
+                  <ion-select-option value="MV Gallego">MV Gallego Foundation Colleges</ion-select-option>
+                  <ion-select-option value="CLSU">CLSU</ion-select-option>
+                  <ion-select-option value="Other School">Other School</ion-select-option>
+                </ion-select>
+              </ion-item>
 
-                <!-- 4. Year Level -->
-                <ion-item class="custom-ionic-item">
-                  <ion-icon slot="start" name="calendar-outline" class="item-leading-icon" color="primary"></ion-icon>
-                  <ion-select
-                    label="Year Level"
-                    labelPlacement="floating"
-                    [(ngModel)]="yearLevel"
-                    name="yearLevel"
-                    interface="action-sheet"
-                    class="ionic-form-select"
-                  >
-                    <ion-select-option [value]="1">1st Year</ion-select-option>
-                    <ion-select-option [value]="2">2nd Year</ion-select-option>
-                    <ion-select-option [value]="3">3rd Year</ion-select-option>
-                    <ion-select-option [value]="4">4th Year</ion-select-option>
-                  </ion-select>
-                </ion-item>
+              <!-- Specify custom school if 'Other School' chosen -->
+              <ion-item *ngIf="school === 'Other School'" lines="none" class="custom-ionic-item">
+                <ion-icon slot="start" name="business-outline" class="item-leading-icon" color="primary"></ion-icon>
+                <ion-input
+                  type="text"
+                  label="Specify School"
+                  labelPlacement="floating"
+                  placeholder="Enter school name"
+                  [(ngModel)]="customSchool"
+                  name="customSchool"
+                  class="ionic-form-input"
+                ></ion-input>
+              </ion-item>
 
-                <!-- 5. Password -->
-                <ion-item class="custom-ionic-item password-item">
-                  <ion-icon slot="start" name="lock-closed-outline" class="item-leading-icon" color="primary"></ion-icon>
-                  <ion-input
-                    [type]="showPassword ? 'text' : 'password'"
-                    label="Password"
-                    labelPlacement="floating"
-                    placeholder="Create a password"
-                    [(ngModel)]="password"
-                    name="password"
-                    class="ionic-form-input"
-                    required
-                  ></ion-input>
-                  <ion-button fill="clear" slot="end" class="password-toggle-btn" (click)="togglePasswordVisibility()" type="button" aria-label="Toggle password visibility">
-                    <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="icon-only"></ion-icon>
-                  </ion-button>
-                </ion-item>
-
-              </ion-list>
-
-              <!-- Submit Action Button Component -->
-              <ion-button
-                expand="block"
-                shape="round"
-                type="submit"
-                class="btn-submit-signup"
-                [disabled]="isSubmitting"
-              >
-                <ion-spinner *ngIf="isSubmitting" name="dots"></ion-spinner>
-                <ion-text *ngIf="!isSubmitting">Create Account</ion-text>
-              </ion-button>
-
-            </form>
-
-            <!-- Bottom Prompt: Go to Login Component -->
-            <ion-row class="ion-justify-content-center ion-align-items-center signup-footer-row">
-              <ion-col size="12" class="ion-text-center">
-                <ion-text color="medium" class="footer-prompt-text">
-                  Already have a commuter account?
-                </ion-text>
-                <ion-button fill="clear" size="small" class="btn-login-link" (click)="goToLogin()">
-                  <ion-text color="primary"><strong>Log In</strong></ion-text>
+              <!-- 4. Password -->
+              <ion-item lines="none" class="custom-ionic-item password-item">
+                <ion-icon slot="start" name="lock-closed-outline" class="item-leading-icon" color="primary"></ion-icon>
+                <ion-input
+                  [type]="showPassword ? 'text' : 'password'"
+                  label="Password"
+                  labelPlacement="floating"
+                  placeholder="Create a password"
+                  [(ngModel)]="password"
+                  name="password"
+                  class="ionic-form-input"
+                  required
+                ></ion-input>
+                <ion-button fill="clear" slot="end" class="password-toggle-btn" (click)="togglePasswordVisibility()" type="button" aria-label="Toggle password visibility">
+                  <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="icon-only"></ion-icon>
                 </ion-button>
-              </ion-col>
-            </ion-row>
+              </ion-item>
 
-          </ion-card-content>
-        </ion-card>
+            </div>
 
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+            <!-- Submit Action Button Component -->
+            <ion-button
+              expand="block"
+              shape="round"
+              type="submit"
+              class="btn-submit-signup"
+              [disabled]="isSubmitting"
+            >
+              <ion-spinner *ngIf="isSubmitting" name="dots"></ion-spinner>
+              <ion-text *ngIf="!isSubmitting">Create Account</ion-text>
+            </ion-button>
+
+          </form>
+
+          <!-- Bottom Prompt: Go to Login Component -->
+          <div class="signup-footer-row ion-text-center">
+            <span class="footer-prompt-text">
+              Already have a commuter account?
+            </span>
+            <ion-button fill="clear" size="small" class="btn-login-link" (click)="goToLogin()">
+              <ion-text color="primary"><strong>Log In</strong></ion-text>
+            </ion-button>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </div>
 </ion-content>

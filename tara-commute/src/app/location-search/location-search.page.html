@@ -1,221 +1,366 @@
-<ion-content [fullscreen]="true" class="location-search-content">
-  <ion-grid class="search-page-grid">
-
-    <!-- Top Route Input Section -->
-    <ion-row class="route-input-row ion-align-items-center">
-      <!-- Left Track: Origin Dot, Dashed Line, Destination Pin -->
-      <ion-col size="auto" class="route-track-col">
-        <div class="origin-dot">
-          <div class="dot-inner"></div>
-        </div>
-        <div class="track-dashed-line"></div>
-        <div class="dest-pin">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-            <circle cx="12" cy="9" r="2.5" fill="#ffffff"/>
-          </svg>
-        </div>
-      </ion-col>
-
-      <!-- Right Inputs: Start Location & Destination Pills -->
-      <ion-col class="route-inputs-col">
-        <ion-item lines="none" class="input-pill-item">
-          <ion-input
-            type="text"
-            placeholder="Choose Start Location"
-            [(ngModel)]="startLocation"
-            class="pill-ionic-input"
-          ></ion-input>
-          <ion-button fill="clear" slot="end" class="btn-input-icon" (click)="useCurrentLocation()" aria-label="Use current location">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563eb" stroke-width="2">
-              <circle cx="12" cy="12" r="6" />
-              <line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round"/>
-              <line x1="12" y1="19" x2="12" y2="22" stroke-linecap="round"/>
-              <line x1="2" y1="12" x2="5" y2="12" stroke-linecap="round"/>
-              <line x1="19" y1="12" x2="22" y2="12" stroke-linecap="round"/>
-              <circle cx="12" cy="12" r="2" fill="#2563eb" />
-            </svg>
-          </ion-button>
-        </ion-item>
-
-        <div class="dest-wrapper">
-          <ion-item lines="none" class="input-pill-item">
-            <ion-input
-              type="text"
-              placeholder="Search Destination (e.g. SM, Campus, Terminal)"
-              [(ngModel)]="destination"
-              (ionInput)="onDestinationInput($event)"
-              (ionFocus)="onDestinationFocus()"
-              (keyup.enter)="onEstimate()"
-              class="pill-ionic-input"
-            ></ion-input>
-            <ion-button fill="clear" slot="end" class="btn-input-icon" (click)="toggleSuggestions()" aria-label="Destination location">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                <circle cx="12" cy="9" r="2.5" fill="#dbeafe"/>
-              </svg>
-            </ion-button>
-          </ion-item>
-
-          <!-- Live Autocomplete Suggestions Box -->
-          <div *ngIf="showSuggestions" class="suggestions-box">
-            <div class="suggestions-header">
-              <span>Campus & Transit Points (MySQL)</span>
-              <span class="btn-close-box" (click)="showSuggestions = false">&times;</span>
-            </div>
-
-            <div *ngIf="isLoadingLocations" class="ion-text-center ion-padding-vertical">
-              <ion-spinner name="dots" color="primary"></ion-spinner>
-            </div>
-
-            <!-- List of filtered locations -->
-            <div
-              *ngFor="let loc of filteredLocations"
-              class="suggestion-row"
-              (click)="selectLocation(loc)"
-            >
-              <div class="sugg-pin-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                  <circle cx="12" cy="9" r="2.5" fill="#ffffff"/>
-                </svg>
-              </div>
-              <div class="sugg-text-col">
-                <div class="sugg-title">{{ loc.name }}</div>
-                <div class="sugg-sub">{{ loc.category }} &bull; {{ loc.distance_km }} km away</div>
-              </div>
-            </div>
-
-            <!-- When no location matches what was typed (e.g. user typed custom place) -->
-            <div *ngIf="filteredLocations.length === 0 && !isLoadingLocations" class="suggestion-row custom-dest-row" (click)="useCustomSearch()">
-              <div class="sugg-pin-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="#0284c7">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                </svg>
-              </div>
-              <div class="sugg-text-col">
-                <div class="sugg-title">Search on Map: "{{ destination }}"</div>
-                <div class="sugg-sub">Estimate fare to this destination &rarr;</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <!-- Mode Selector Row -->
-    <ion-row class="transport-modes-row ion-justify-content-around ion-align-items-center">
-      <ion-col
-        size="3"
-        class="mode-item ion-text-center"
-        [class.selected-mode]="selectedMode === 'car'"
-        (click)="selectMode('car')"
-      >
-        <ion-img src="assets/icon/mode-car.png" alt="Car" class="mode-icon-img"></ion-img>
-        <ion-text class="mode-label">Car</ion-text>
-      </ion-col>
-
-      <ion-col
-        size="3"
-        class="mode-item ion-text-center"
-        [class.selected-mode]="selectedMode === 'tricycle'"
-        (click)="selectMode('tricycle')"
-      >
-        <ion-img src="assets/icon/mode-tricycle.png" alt="Tricycle" class="mode-icon-img"></ion-img>
-        <ion-text class="mode-label">Tricycle</ion-text>
-      </ion-col>
-
-      <ion-col
-        size="3"
-        class="mode-item ion-text-center"
-        [class.selected-mode]="selectedMode === 'bicycle'"
-        (click)="selectMode('bicycle')"
-      >
-        <ion-img src="assets/icon/mode-bicycle.png" alt="Bicycle" class="mode-icon-img"></ion-img>
-        <ion-text class="mode-label">Bicycle</ion-text>
-      </ion-col>
-
-      <ion-col
-        size="3"
-        class="mode-item ion-text-center"
-        [class.selected-mode]="selectedMode === 'walk'"
-        (click)="selectMode('walk')"
-      >
-        <ion-img src="assets/icon/mode-walk.png" alt="Walk" class="mode-icon-img"></ion-img>
-        <ion-text class="mode-label">Walk</ion-text>
-      </ion-col>
-    </ion-row>
-
-    <!-- Live Fare Calculation Preview Box -->
-    <ion-row class="fare-preview-row ion-justify-content-center" *ngIf="destination">
-      <ion-col size="12" class="fare-preview-col">
-        <div class="route-fare-card">
-          <div class="card-top-row">
-            <span class="preview-title">🧮 Estimated Campus Fare</span>
-            <span class="discount-pill">20% Student Off</span>
-          </div>
-
-          <div class="card-details-row">
-            <div class="detail-block">
-              <span class="lbl">Route Distance</span>
-              <span class="val">{{ farePreview?.distanceKm || 2.5 }} km</span>
-            </div>
-            <div class="detail-block">
-              <span class="lbl">Est. Time</span>
-              <span class="val">{{ farePreview?.estMinutes || 8 }} mins</span>
-            </div>
-            <div class="detail-block fare-block">
-              <span class="lbl">Student Fare</span>
-              <span class="val fare-val" *ngIf="selectedMode !== 'walk'">₱{{ farePreview?.studentFare?.toFixed(2) }}</span>
-              <span class="val free-fare-val" *ngIf="selectedMode === 'walk'">FREE</span>
-            </div>
-          </div>
-
-          <div class="card-footer-note" *ngIf="selectedMode !== 'walk'">
-            Regular: <del>₱{{ farePreview?.regularFare?.toFixed(2) }}</del> &bull; Saved ₱{{ farePreview?.discountAmount?.toFixed(2) }} under Student Discount Act
-          </div>
-          <div class="card-footer-note" *ngIf="selectedMode === 'walk'">
-            🔥 ~{{ farePreview?.caloriesBurned }} kcal &bull; 👟 ~{{ farePreview?.steps }} steps (Healthiest campus route)
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <!-- Center Space if no destination yet -->
-    <ion-row class="center-content-space" *ngIf="!destination" (click)="onEstimate()"></ion-row>
-
-    <!-- Floating Estimate Button on Lower Right -->
-    <ion-row class="estimate-btn-row ion-justify-content-end">
-      <ion-col size="auto">
-        <ion-button shape="round" class="btn-estimate" (click)="onEstimate()">
-          <ion-text>Estimate</ion-text>
+<ion-header class="ion-no-border search-header">
+  <ion-toolbar class="search-toolbar">
+    <div class="header-inner-row">
+      <!-- Mobile Back Button -->
+      <ion-buttons slot="start" class="mobile-only-btn">
+        <ion-button fill="clear" size="small" class="btn-header-back" (click)="goToHome()" aria-label="Go to Home">
+          <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
         </ion-button>
-      </ion-col>
-    </ion-row>
+      </ion-buttons>
 
-    <!-- Bottom Navigation Bar (Route tab active with elevated badge!) -->
-    <ion-row class="bottom-nav-bar ion-align-items-center ion-justify-content-around">
+      <!-- Desktop Brand Logo & Title -->
+      <div class="desktop-brand-logo desktop-only" (click)="goToHome()">
+        <img src="assets/icon/locarate-logo-dark.svg" alt="TaraCommute" class="desktop-logo-img" />
+        <span class="desktop-brand-text">
+          <span class="brand-tara">Tara</span><span class="brand-commute">Commute</span>
+        </span>
+      </div>
+
+      <!-- Mobile Screen Title -->
+      <ion-title class="search-header-title mobile-only">Plan Campus Route & Fare</ion-title>
+
+      <!-- Desktop Website Navigation Bar -->
+      <div class="desktop-nav-menu desktop-only">
+        <button type="button" class="desktop-nav-item" (click)="goToHome()">
+          <ion-icon name="home-outline"></ion-icon>
+          <span>Home</span>
+        </button>
+        <button type="button" class="desktop-nav-item" (click)="goToMap()">
+          <ion-icon name="map-outline"></ion-icon>
+          <span>Campus Map</span>
+        </button>
+        <button type="button" class="desktop-nav-item active">
+          <ion-icon name="navigate-outline"></ion-icon>
+          <span>Route & Fare</span>
+        </button>
+        <button type="button" class="desktop-nav-item" (click)="onProfileClick()">
+          <ion-icon name="person-outline"></ion-icon>
+          <span>Profile</span>
+        </button>
+      </div>
+
+      <!-- Mobile Right Map Action Button -->
+      <ion-buttons slot="end" class="mobile-only-btn">
+        <ion-button fill="clear" size="small" class="btn-header-info" (click)="goToMap()" aria-label="Open Map">
+          <ion-icon name="navigate-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="location-search-content">
+  <div class="search-page-wrapper">
+
+    <!-- Responsive Central Container (Max-width 1040px on PC, 100% on Mobile) -->
+    <div class="search-responsive-shell">
+
+      <!-- Desktop Page Hero Header (Visible on PC / Web) -->
+      <div class="desktop-page-hero desktop-only">
+        <div class="hero-left-content">
+          <span class="hero-badge">Smart Campus Commuter Assistant</span>
+          <h1 class="hero-title">Plan Campus Route & Fare</h1>
+          <p class="hero-subtitle">
+            Calculate accurate distances and compute student-discounted fares in Cabanatuan City under LTFRB and Ordinance No. 050-2026.
+          </p>
+        </div>
+        <div class="hero-right-badge">
+          <div class="discount-hero-card">
+            <span class="disc-percent">20% OFF</span>
+            <span class="disc-lbl">Student Fare Guaranteed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Two-Column Grid on PC / Stacked Column on Mobile -->
+      <div class="search-grid-container">
+
+        <!-- Column A: Route Inputs & Vehicle Selection -->
+        <div class="grid-panel panel-left">
+
+          <!-- 1. Route Input Section (Origin & Destination) -->
+          <div class="route-input-card">
+            <div class="card-section-label">
+              <ion-icon name="location" color="primary"></ion-icon>
+              <span>Transit Points</span>
+            </div>
+
+            <div class="route-inputs-body">
+              <div class="route-track-col">
+                <div class="origin-dot">
+                  <div class="dot-inner"></div>
+                </div>
+                <div class="track-dashed-line"></div>
+                <div class="dest-pin">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                    <circle cx="12" cy="9" r="2.5" fill="#ffffff"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="route-inputs-fields">
+                <!-- Start Location Pill -->
+                <div class="input-pill-wrapper">
+                  <ion-item lines="none" class="input-pill-item">
+                    <ion-input
+                      type="text"
+                      placeholder="Choose Start Location"
+                      [(ngModel)]="startLocation"
+                      class="pill-ionic-input"
+                    ></ion-input>
+                    <ion-button fill="clear" slot="end" class="btn-input-icon" (click)="useCurrentLocation()" aria-label="Use current location">
+                      <ion-spinner *ngIf="isLocating" name="dots" color="primary"></ion-spinner>
+                      <svg *ngIf="!isLocating" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563eb" stroke-width="2">
+                        <circle cx="12" cy="12" r="6" />
+                        <line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round"/>
+                        <line x1="12" y1="19" x2="12" y2="22" stroke-linecap="round"/>
+                        <line x1="2" y1="12" x2="5" y2="12" stroke-linecap="round"/>
+                        <line x1="19" y1="12" x2="22" y2="12" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="2" fill="#2563eb" />
+                      </svg>
+                    </ion-button>
+                  </ion-item>
+                </div>
+
+                <!-- Destination Pill & Autocomplete -->
+                <div class="dest-wrapper">
+                  <ion-item lines="none" class="input-pill-item">
+                    <ion-input
+                      type="text"
+                      placeholder="Search Destination (Campus, Terminal)"
+                      [(ngModel)]="destination"
+                      (ionInput)="onDestinationInput($event)"
+                      (ionFocus)="onDestinationFocus()"
+                      (keyup.enter)="onEstimate()"
+                      class="pill-ionic-input"
+                    ></ion-input>
+                    <ion-button fill="clear" slot="end" class="btn-input-icon" (click)="toggleSuggestions()" aria-label="Destination location">
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                        <circle cx="12" cy="9" r="2.5" fill="#dbeafe"/>
+                      </svg>
+                    </ion-button>
+                  </ion-item>
+
+                  <!-- Autocomplete Suggestions Dropdown -->
+                  <div *ngIf="showSuggestions" class="suggestions-box">
+                    <div class="suggestions-header">
+                      <span>Campus & Transit Points (MySQL)</span>
+                      <span class="btn-close-box" (click)="showSuggestions = false">&times;</span>
+                    </div>
+
+                    <div *ngIf="isLoadingLocations" class="ion-text-center ion-padding-vertical">
+                      <ion-spinner name="dots" color="primary"></ion-spinner>
+                    </div>
+
+                    <div
+                      *ngFor="let loc of filteredLocations"
+                      class="suggestion-row"
+                      (click)="selectLocation(loc)"
+                    >
+                      <div class="sugg-pin-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#2563eb">
+                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                          <circle cx="12" cy="9" r="2.5" fill="#ffffff"/>
+                        </svg>
+                      </div>
+                      <div class="sugg-text-col">
+                        <div class="sugg-title">{{ loc.name }}</div>
+                        <div class="sugg-sub">{{ loc.category }} &bull; {{ loc.distance_km }} km away</div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="filteredLocations.length === 0 && !isLoadingLocations" class="suggestion-row custom-dest-row" (click)="useCustomSearch()">
+                      <div class="sugg-pin-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#0284c7">
+                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                        </svg>
+                      </div>
+                      <div class="sugg-text-col">
+                        <div class="sugg-title">Search on Map: "{{ destination }}"</div>
+                        <div class="sugg-sub">Estimate fare to this destination &rarr;</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Mode Selector: 4 Student Commute Modes -->
+          <div class="modes-card">
+            <div class="card-section-label">
+              <ion-icon name="pricetag-outline" color="primary"></ion-icon>
+              <span>Select Mode of Transport</span>
+            </div>
+
+            <div class="modes-container">
+              <div class="mode-item">
+                <button
+                  type="button"
+                  class="mode-card-btn"
+                  [class.active]="selectedMode === 'jeep'"
+                  (click)="selectMode('jeep')"
+                  aria-label="Jeep"
+                >
+                  <div class="mode-icon-box">
+                    <span class="mode-emoji-icon">🚐</span>
+                  </div>
+                  <span class="mode-card-label">Jeep</span>
+                  <span class="mode-card-rate">LTFRB R3</span>
+                </button>
+              </div>
+
+              <div class="mode-item">
+                <button
+                  type="button"
+                  class="mode-card-btn"
+                  [class.active]="selectedMode === 'tricycle'"
+                  (click)="selectMode('tricycle')"
+                  aria-label="Tricycle"
+                >
+                  <div class="mode-icon-box">
+                    <span class="mode-emoji-icon">🛺</span>
+                  </div>
+                  <span class="mode-card-label">Tricycle</span>
+                  <span class="mode-card-rate">Ord. 050</span>
+                </button>
+              </div>
+
+              <div class="mode-item">
+                <button
+                  type="button"
+                  class="mode-card-btn"
+                  [class.active]="selectedMode === 'bus'"
+                  (click)="selectMode('bus')"
+                  aria-label="Bus"
+                >
+                  <div class="mode-icon-box">
+                    <span class="mode-emoji-icon">🚌</span>
+                  </div>
+                  <span class="mode-card-label">Bus</span>
+                  <span class="mode-card-rate">Campus Bus</span>
+                </button>
+              </div>
+
+              <div class="mode-item">
+                <button
+                  type="button"
+                  class="mode-card-btn"
+                  [class.active]="selectedMode === 'minibus'"
+                  (click)="selectMode('minibus')"
+                  aria-label="Mini Bus"
+                >
+                  <div class="mode-icon-box">
+                    <span class="mode-emoji-icon">🚍</span>
+                  </div>
+                  <span class="mode-card-label">Mini Bus</span>
+                  <span class="mode-card-rate">Modern PUV</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Primary Estimate Action Button -->
+          <div class="action-btn-wrapper">
+            <ion-button expand="block" shape="round" class="btn-estimate" (click)="onEstimate()">
+              <ion-icon name="navigate" class="estimate-btn-icon"></ion-icon>
+              <ion-text>Estimate Campus Route & Fare</ion-text>
+            </ion-button>
+          </div>
+
+        </div>
+
+        <!-- Column B: Live Fare Calculation Card & Popular Campus Hubs -->
+        <div class="grid-panel panel-right">
+
+          <!-- 4. Live Fare Calculation Preview Card (Never Blank!) -->
+          <div class="route-fare-card">
+            <div class="card-top-row">
+              <div class="title-with-icon">
+                <span class="preview-emoji">🧮</span>
+                <span class="preview-title">Estimated Campus Fare</span>
+              </div>
+              <span class="discount-pill">20% Student Rate</span>
+            </div>
+
+            <div class="card-details-row">
+              <div class="detail-block">
+                <span class="lbl">Route Distance</span>
+                <span class="val">{{ farePreview?.distanceKm || 2.5 }} km</span>
+              </div>
+              <div class="detail-block">
+                <span class="lbl">Est. Time</span>
+                <span class="val">{{ farePreview?.estMinutes || 8 }} mins</span>
+              </div>
+              <div class="detail-block fare-block">
+                <span class="lbl">Student Fare</span>
+                <span class="val fare-val">₱{{ (farePreview?.studentFare ?? 11.20).toFixed(2) }}</span>
+              </div>
+            </div>
+
+            <div class="card-footer-note">
+              Regular: <del>₱{{ (farePreview?.regularFare ?? 14.00).toFixed(2) }}</del> &bull; Saved <strong>₱{{ (farePreview?.discountAmount ?? 2.80).toFixed(2) }}</strong> under Student Discount Act (RA 11314)
+            </div>
+            <div class="card-breakdown-sub" *ngIf="farePreview?.breakdown">
+              <span class="breakdown-tag">{{ farePreview?.breakdown }}</span>
+            </div>
+          </div>
+
+          <!-- 5. Popular Campus Destinations (Quick 1-Tap Access) -->
+          <div class="quick-dest-section">
+            <div class="quick-section-header">
+              <ion-icon name="school-outline" class="quick-icon" color="primary"></ion-icon>
+              <span class="quick-title">Popular Campus Destinations</span>
+            </div>
+
+            <div class="quick-chips-grid">
+              <button
+                type="button"
+                *ngFor="let hub of popularHubs"
+                class="hub-chip-btn"
+                [class.selected]="destination === hub.name"
+                (click)="selectQuickHub(hub)"
+              >
+                <span class="hub-emoji">{{ hub.icon }}</span>
+                <div class="hub-info">
+                  <span class="hub-name">{{ hub.name }}</span>
+                  <span class="hub-dist">{{ hub.distance_km }} km &bull; {{ hub.category }}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 6. Mobile Bottom Navigation Bar (Shown on Mobile, Hidden on PC / Web) -->
+    <div class="bottom-nav-bar mobile-only">
       <!-- Tab 1: Home -->
-      <ion-col class="nav-tab ion-text-center">
+      <div class="nav-tab">
         <ion-button fill="clear" class="btn-nav-tab" (click)="goToHome()" aria-label="Home">
           <svg class="nav-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" stroke-width="2.2">
             <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H4a1 1 0 0 1-1-1v-9.5z" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </ion-button>
-      </ion-col>
+      </div>
 
-      <!-- Tab 2: Location Pin -->
-      <ion-col class="nav-tab ion-text-center">
+      <!-- Tab 2: Location Map -->
+      <div class="nav-tab">
         <ion-button fill="clear" class="btn-nav-tab" (click)="goToMap()" aria-label="Location Map">
           <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="12" cy="9" r="2.5" fill="#ffffff" />
           </svg>
         </ion-button>
-      </ion-col>
+      </div>
 
       <!-- Tab 3: Route (Elevated with circular badge) -->
-      <ion-col class="nav-tab active-tab ion-text-center">
+      <div class="nav-tab active-tab">
         <ion-button fill="clear" class="btn-elevated-route" aria-label="Route Estimation">
           <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#2563eb" stroke-width="2.2">
             <circle cx="6" cy="18" r="2.5" fill="#2563eb" />
@@ -223,10 +368,10 @@
             <path d="M6 15.5 C 6 11, 18 13, 18 8.5" stroke-linecap="round" stroke-dasharray="2 3" />
           </svg>
         </ion-button>
-      </ion-col>
+      </div>
 
       <!-- Tab 4: Profile -->
-      <ion-col class="nav-tab ion-text-center">
+      <div class="nav-tab">
         <ion-button fill="clear" class="btn-nav-tab" (click)="onProfileClick()" aria-label="User Profile">
           <svg class="nav-icon" viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#ffffff" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
@@ -234,8 +379,8 @@
             <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.832 2.849" />
           </svg>
         </ion-button>
-      </ion-col>
-    </ion-row>
+      </div>
+    </div>
 
-  </ion-grid>
+  </div>
 </ion-content>

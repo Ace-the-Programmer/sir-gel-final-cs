@@ -8,15 +8,11 @@ import {
   IonButtons,
   IonTitle,
   IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonCard,
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
-  IonList,
   IonItem,
   IonText,
   IonButton,
@@ -35,6 +31,7 @@ import {
   arrowBackOutline,
   schoolOutline,
   personOutline,
+  personCircleOutline,
   idCardOutline,
   lockClosedOutline,
   checkmarkCircleOutline,
@@ -56,15 +53,11 @@ import { StudentService, UserAccount } from '../services/student.service';
     IonButtons,
     IonTitle,
     IonContent,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonCard,
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
     IonCardContent,
-    IonList,
     IonItem,
     IonText,
     IonButton,
@@ -77,10 +70,10 @@ import { StudentService, UserAccount } from '../services/student.service';
   ],
 })
 export class WelcomePage implements OnInit {
-  studentNo: string = '';
+  username: string = '';
   fullName: string = '';
-  course: string = 'BSIT';
-  yearLevel: number = 1;
+  school: string = 'NEUST';
+  customSchool: string = '';
   password: string = '';
   showPassword: boolean = false;
   isSubmitting: boolean = false;
@@ -97,6 +90,7 @@ export class WelcomePage implements OnInit {
       arrowBackOutline,
       schoolOutline,
       personOutline,
+      personCircleOutline,
       idCardOutline,
       lockClosedOutline,
       checkmarkCircleOutline,
@@ -114,19 +108,22 @@ export class WelcomePage implements OnInit {
       if (params['name']) {
         this.fullName = params['name'];
       }
-      if (params['studentNo']) {
-        this.studentNo = params['studentNo'];
+      if (params['username']) {
+        this.username = params['username'];
       }
     });
   }
 
   async onRegister() {
-    const studentNo = this.studentNo.trim();
+    const username = this.username.trim().toLowerCase();
     const fullName = this.fullName.trim();
     const password = this.password.trim();
+    const schoolVal = (this.school === 'Other School' && this.customSchool.trim())
+      ? this.customSchool.trim()
+      : (this.school || 'NEUST');
 
-    if (!studentNo) {
-      await this.showToast('Please enter your Student ID Number', 'warning');
+    if (!username) {
+      await this.showToast('Please enter a username for your commuter account', 'warning');
       return;
     }
 
@@ -152,11 +149,15 @@ export class WelcomePage implements OnInit {
     });
     await loader.present();
 
+    // Auto-generate student ID behind the scenes so database uniqueness constraint is satisfied
+    const generatedStudentNo = 'STU-' + Math.floor(100000 + Math.random() * 900000);
+
     const userPayload: Partial<UserAccount> = {
-      student_no: studentNo,
+      student_no: generatedStudentNo,
+      username: username,
       full_name: fullName,
-      course: this.course,
-      year_level: Number(this.yearLevel),
+      course: schoolVal,
+      year_level: 1,
       password: password,
     };
 
@@ -171,7 +172,7 @@ export class WelcomePage implements OnInit {
         this.router.navigate(['/dashboard'], {
           queryParams: {
             user: userPayload.full_name,
-            studentNo: userPayload.student_no,
+            username: userPayload.username,
           },
         });
       },

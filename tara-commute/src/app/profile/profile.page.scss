@@ -552,6 +552,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+
+  .history-mode-emoji {
+    font-size: 26px;
+    line-height: 1;
+  }
 }
 
 .history-mode-icon {

@@ -65,32 +65,10 @@
                 <span class="field-value text-accent">Active Commuter</span>
               </div>
             </div>
-
-            <!-- API Connection Indicator & Actions -->
-            <div class="pass-footer">
-              <div class="server-status clickable-server" (click)="configureServerIp()" title="Tap to change PC Server IP">
-                <ion-icon name="server-outline"></ion-icon>
-                <span>DB: {{ studentService.getServerHost() }}</span>
-                <ion-icon name="create-outline" class="edit-ip-icon"></ion-icon>
-              </div>
-
-              <div class="pass-actions">
-                <ion-button fill="outline" size="small" class="btn-pass-action" (click)="fetchStudentsFromApi()">
-                  <ion-spinner *ngIf="isLoadingStudents" name="dots" class="pass-spinner"></ion-spinner>
-                  <ion-icon *ngIf="!isLoadingStudents" slot="start" name="sync-outline"></ion-icon>
-                  <span>Sync Data</span>
-                </ion-button>
-
-                <ion-button fill="solid" size="small" class="btn-pass-action-solid" (click)="openAddStudentDialog()">
-                  <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-                  <span>+ Register</span>
-                </ion-button>
-              </div>
-            </div>
           </ion-card-content>
         </ion-card>
 
-        <!-- Collapsible Campus Directory (Live from GET /api/students.php) -->
+        <!-- Collapsible Campus Directory (Read-Only Live GET /api/students.php) -->
         <div class="directory-section">
           <div class="directory-toggle-bar" (click)="toggleDirectory()">
             <div class="dir-title-box">
@@ -104,11 +82,9 @@
           <ion-list *ngIf="showDirectory" lines="full" class="directory-list">
             <ion-item
               *ngFor="let s of studentList"
-              button
               detail="false"
               class="student-item"
               [class.active-item]="s.student_no === currentStudent.student_no"
-              (click)="selectStudentFromList(s)"
             >
               <ion-avatar slot="start" class="student-avatar-circle">
                 <div class="initials">{{ s.full_name ? s.full_name.charAt(0) : 'S' }}</div>
@@ -117,14 +93,17 @@
                 <h2>{{ s.full_name }}</h2>
                 <p>{{ s.course }} • Year {{ s.year_level }} | ID: <span class="id-tag">{{ s.student_no }}</span></p>
               </ion-label>
-              <ion-badge *ngIf="s.student_no === currentStudent.student_no" slot="end" color="success">
-                Current
+              <ion-badge *ngIf="s.student_no === currentStudent.student_no" slot="end" color="primary">
+                You
+              </ion-badge>
+              <ion-badge *ngIf="s.student_no !== currentStudent.student_no" slot="end" color="light">
+                Commuter
               </ion-badge>
             </ion-item>
 
             <ion-item *ngIf="studentList.length === 0 && !isLoadingStudents" lines="none">
               <ion-label color="medium" class="ion-text-center">
-                No students loaded yet. Make sure XAMPP Apache & MySQL are running and click "Sync (GET)".
+                No students loaded yet. Make sure XAMPP Apache & MySQL are running.
               </ion-label>
             </ion-item>
           </ion-list>
@@ -154,7 +133,7 @@
           >
             <ion-card-content class="history-card-inner">
               <ion-avatar class="card-icon-circle">
-                <ion-img [src]="getModeIcon(trip.mode)" [alt]="trip.mode" class="history-mode-icon"></ion-img>
+                <span class="history-mode-emoji">{{ getModeEmoji(trip.mode) }}</span>
               </ion-avatar>
 
               <div class="card-info-col">

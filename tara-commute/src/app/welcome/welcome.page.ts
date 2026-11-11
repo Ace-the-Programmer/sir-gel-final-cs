@@ -156,7 +156,9 @@ export class WelcomePage implements OnInit {
       student_no: generatedStudentNo,
       username: username,
       full_name: fullName,
-      course: schoolVal,
+      email: `${username.toLowerCase().replace(/[^a-z0-9]/g, '')}@campus.edu.ph`,
+      school: schoolVal || 'Araullo University (Main Campus)',
+      course: 'BSIT',
       year_level: 1,
       password: password,
     };

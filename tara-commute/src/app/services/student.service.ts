@@ -263,7 +263,6 @@ export class StudentService {
   }
 
   // Strict live authentication directly against MySQL database users table with BCrypt & Bearer Token
-  // with automatic fallback to live MySQL students table (students.php)
   public login(credentials: { username: string; password: string }): Observable<ApiResponse<UserAccount>> {
     const url = `${this.apiBase}/auth.php?action=login`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -278,61 +277,13 @@ export class StudentService {
         }
       }),
       catchError((error) => {
-        console.warn(`Auth API endpoint notice, checking live MySQL students endpoint:`, error);
-        return this.getStudents().pipe(
-          tap((studentsRes) => {
-            const list = studentsRes?.data || [];
-            const uname = credentials.username.toLowerCase().trim();
-            const matched = list.find((s) =>
-              s.student_no.toLowerCase() === uname ||
-              s.full_name.toLowerCase().includes(uname) ||
-              s.student_no.replace(/[^0-9]/g, '') === uname.replace(/[^0-9]/g, '')
-            );
-
-            const user: UserAccount = matched
-              ? {
-                  id: matched.id,
-                  student_no: matched.student_no,
-                  username: credentials.username,
-                  full_name: matched.full_name,
-                  email: `${matched.student_no.toLowerCase().replace(/[^a-z0-9]/g, '')}@student.ph`,
-                  course: matched.course,
-                  school: 'Araullo University (Main Campus)',
-                  year_level: matched.year_level,
-                  avatar: 'assets/icon/quenie-avatar.png',
-                  auth_token: 'student-auth-' + Date.now(),
-                }
-              : {
-                  id: 100,
-                  student_no: credentials.username.toUpperCase(),
-                  username: credentials.username,
-                  full_name: credentials.username.includes('@') ? credentials.username.split('@')[0] : credentials.username,
-                  email: credentials.username.includes('@') ? credentials.username : `${credentials.username}@student.ph`,
-                  course: 'BSIT',
-                  school: 'Araullo University (Main Campus)',
-                  year_level: 1,
-                  avatar: 'assets/icon/quenie-avatar.png',
-                  auth_token: 'student-auth-' + Date.now(),
-                };
-
-            localStorage.setItem('taracommute_auth_token', user.auth_token!);
-            this.setCurrentUser(user);
-          }),
-          rxjsMap(() => {
-            const current = this.getCurrentUser();
-            return {
-              success: true,
-              message: 'Logged in successfully via MySQL Commuter Roster.',
-              data: current!,
-              token: current?.auth_token,
-            };
-          })
-        );
+        console.error(`Authentication rejected by MySQL auth API (${url}):`, error);
+        throw error;
       })
     );
   }
 
-  // Register real user in MySQL users table (and syncs to students table)
+  // Register real user in MySQL database users table
   public registerUser(payload: Partial<UserAccount>): Observable<ApiResponse<UserAccount>> {
     const url = `${this.apiBase}/auth.php?action=register`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -347,62 +298,8 @@ export class StudentService {
         }
       }),
       catchError((error) => {
-        console.warn(`POST ${url} notice, syncing directly to MySQL students endpoint:`, error);
-        const studentPayload: Student = {
-          student_no: payload.student_no || `2026-${Math.floor(1000 + Math.random() * 9000)}`,
-          full_name: payload.full_name || payload.username || 'Student Commuter',
-          course: payload.course || 'BSIT',
-          year_level: payload.year_level || 1,
-        };
-
-        return this.createStudent(studentPayload).pipe(
-          tap((created) => {
-            const student = created.data || studentPayload;
-            const user: UserAccount = {
-              student_no: student.student_no,
-              username: payload.username || student.student_no,
-              full_name: student.full_name,
-              email: payload.email || `${student.student_no}@student.ph`,
-              course: student.course,
-              school: payload.school || 'Araullo University (Main Campus)',
-              year_level: student.year_level,
-              avatar: 'assets/icon/quenie-avatar.png',
-              auth_token: 'student-auth-' + Date.now(),
-            };
-            localStorage.setItem('taracommute_auth_token', user.auth_token!);
-            this.setCurrentUser(user);
-          }),
-          rxjsMap(() => {
-            const current = this.getCurrentUser();
-            return {
-              success: true,
-              message: 'Account registered and saved to MySQL student database!',
-              data: current!,
-              token: current?.auth_token,
-            };
-          }),
-          catchError((err2) => {
-            // Local fallback if network is completely offline
-            const fallbackUser: UserAccount = {
-              student_no: studentPayload.student_no,
-              username: payload.username || studentPayload.student_no,
-              full_name: studentPayload.full_name,
-              email: payload.email || `${studentPayload.student_no}@student.ph`,
-              course: studentPayload.course,
-              school: payload.school || 'Araullo University (Main Campus)',
-              year_level: studentPayload.year_level,
-              avatar: 'assets/icon/quenie-avatar.png',
-              auth_token: 'student-auth-' + Date.now(),
-            };
-            this.setCurrentUser(fallbackUser);
-            return of({
-              success: true,
-              message: 'Account registered locally.',
-              data: fallbackUser,
-              token: fallbackUser.auth_token,
-            });
-          })
-        );
+        console.error(`Registration rejected by MySQL auth API (${url}):`, error);
+        throw error;
       })
     );
   }

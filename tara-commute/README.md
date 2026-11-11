@@ -1,48 +1,47 @@
 # TaraCommute – Smart Campus Route & Fare Estimation App
 
-A mobile navigation and public transit fare estimation application developed for university students and daily commuters in Cabanatuan City, Nueva Ecija. Built with **Ionic 8**, **Angular 20 Standalone Components**, **Capacitor 8**, and **Leaflet Maps**, backed by a local **PHP & MySQL (XAMPP)** backend.
+A mobile navigation and public transit fare estimation application developed for university students and daily commuters in Cabanatuan City, Nueva Ecija. Built with **Ionic 8**, **Angular 20 Standalone Components**, **Capacitor 8**, and **Leaflet Maps**, backed by a local **PHP & MySQL (XAMPP)** RESTful backend.
 
 ---
 
 ## 📱 Features
 
 - **Standardized Student Fare Matrix**:
-  - Implements official **Cabanatuan City Ordinance No. 050-2026** and **LTFRB Region 3** fare regulations with student discount support:
-    - **Tricycle (Shared / Regular Rapok):** ₱28.00 base (first 3 km) + ₱5.00/km thereafter.
-    - **Solo Tricycle (Special Trip):** ₱56.00 base (first 3 km) + ₱10.00/km thereafter.
-    - **Traditional Public Utility Jeepney (PUJ):** ₱11.25 base (first 4 km) + ₱1.60/km thereafter.
-    - **Modern Jeepney:** ₱13.50 base (first 4 km) + ₱1.92/km thereafter.
-    - **Car / Taxi:** ₱45.00 base + ₱15.00/km (with 10% student promo).
-    - **Bicycle:** ₱15.00 flat campus mobility rate.
-    - **Walk:** FREE (₱0.00) with dynamic step count and calorie burn estimations.
+  - Implements official **Cabanatuan City Ordinance No. 050-2026** and **LTFRB Region 3** fare regulations with a dedicated 1-tap **20% Student Fare Discount** toggle (Republic Act 11314):
+    - **Jeep (Traditional PUJ):** ₱14.00 regular base / ₱11.20 student base (first 4 km) + ₱2.00/km regular / ₱1.60/km student thereafter.
+    - **Tricycle (Shared / Rapok):** ₱35.00 regular base / ₱28.00 student base (first 3 km) + ₱5.00/km regular / ₱4.00/km student thereafter (Cabanatuan Ord. No. 050-2026).
+    - **Bus (Student Campus Bus):** ₱15.00 regular base / ₱12.00 student base (first 5 km) + ₱2.25/km regular / ₱1.80/km student thereafter.
+    - **Mini Bus / Modern PUV:** ₱17.00 regular base / ₱13.60 student base (first 4 km) + ₱2.40/km regular / ₱1.90/km student thereafter.
+
 - **Interactive Campus Map & Live Geolocation**:
-  - High-performance vector map rendered using **Leaflet.js** and OpenStreetMap tiles.
-  - GPS device positioning via `@capacitor/geolocation` with custom blue pulsed commuter pin.
+  - Vector map rendering using **Leaflet.js** and OpenStreetMap tiles.
+  - Device GPS integration via `@capacitor/geolocation` with custom blue pulsing commuter pin.
   - Preloaded with major Cabanatuan campus hubs and transit points:
+    - NEUST Sumacab Campus
     - Araullo University (Main Campus)
-    - Sumacab Campus
+    - Wesleyan University - Philippines
     - SM City Cabanatuan
     - Pacific Mall Cabanatuan
-    - NE Pacific Mall
     - Cabanatuan Central Transport Terminal
-    - SM Mega Center Cabanatuan
-    - Santa Rosa Junction
-- **Route Estimation & Autocomplete**:
-  - Real-time search with instant suggestions for campus landmarks.
-  - Haversine geodesic distance calculation with estimated transit travel times for all modes.
-  - Dynamic route dashed polylines and interactive destination cards.
-- **100% Angular Ionic Standalone Components**:
-  - Modern standalone architecture using `@ionic/angular/standalone`.
-  - Built strictly using official Ionic UI components (`<ion-grid>`, `<ion-row>`, `<ion-col>`, `<ion-card>`, `<ion-card-header>`, `<ion-card-title>`, `<ion-card-content>`, `<ion-list>`, `<ion-item>`, `<ion-label>`, `<ion-text>`, `<ion-badge>`, `<ion-chip>`, `<ion-button>`, `<ion-input>`, `<ion-select>`).
-- **Student Authentication & Digital Commuter Pass**:
-  - Quick registration using Student ID Number, Full Name, Course (BSIT, BSCS, BSIS, etc.), Year Level, and Password.
-  - Digital **Campus Commuter ID Pass** displaying real-time commuter status, course details, and ordinal year levels (e.g. *1st Year*).
-- **PHP & MySQL Database Backend**:
-  - Synchronizes with local XAMPP Apache & MySQL RESTful API (`http-backend/api`):
-    - `POST /api/auth.php` – Student sign-in verification.
-    - `GET/POST /api/students.php` – Commuter directory synchronization & registration.
-    - `GET/POST/DELETE /api/commute_history.php` – Commute trip logging and fare breakdown tracking.
-    - `GET /api/locations.php` – Campus hubs and transit terminals.
+
+- **Location Privacy Protection**:
+  - Protects student residential privacy during live presentations and recordings by omitting raw coordinates from all UI inputs and popups.
+  - Commuter starting origin is masked to the central **Cabanatuan Campus Commuter Hub** (`15.4858, 120.9672`).
+
+- **Responsive Dual Design (PC Website & Mobile Phone)**:
+  - **PC / Desktop Web (`≥ 768px`)**: Renders a 2-column web dashboard with a top navigation bar (Logo, Home, Map, Route & Fare, Profile), hero banner, and hides mobile bottom bars.
+  - **Mobile Phone (`< 768px`)**: Adapts to a mobile app layout with stacked cards and a fixed bottom navigation bar with an elevated Route button.
+
+- **Commuter Authentication & Enterprise Security**:
+  - Streamlined registration form collecting **Username**, **Full Name**, **School** (NEUST, Araullo, Wesleyan, CRT, etc.), and **Password**.
+  - **BCrypt Password Hashing** (`PASSWORD_BCRYPT` with cost factor 12) for secure credential storage.
+  - **Stateless Bearer Token Authentication** using 256-bit cryptographically secure pseudorandom numbers (`bin2hex(random_bytes(32))`).
+  - **Brute-Force Rate Limiting & Account Lockout**: Accounts are automatically locked for 5 minutes after 5 consecutive failed login attempts (HTTP 429).
+  - SQL injection prevention via PHP PDO parameterized prepared statements and HTTP security hardening headers (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`).
+
+- **Commute Trip History (Full CRUD Integration)**:
+  - Users can record completed trips to their personal profile history via HTTP POST.
+  - Personal commute records are loaded directly from MySQL via HTTP GET and can be removed via HTTP DELETE.
 
 ---
 
@@ -52,29 +51,50 @@ A mobile navigation and public transit fare estimation application developed for
 1. Open the **XAMPP Control Panel**.
 2. Start **Apache** and **MySQL**.
 3. Place the backend API folder in your XAMPP `htdocs` directory:
-   `C:/xampp/htdocs/http-backend/`
-4. Verify the backend responds at `http://localhost/http-backend/api/students.php`.
+   ```
+   C:/xampp/htdocs/http-backend/
+   ```
+4. Verify the backend responds at:
+   ```
+   http://localhost/http-backend/api/auth.php?action=users
+   ```
 
 ---
 
 ### 2. Run the Frontend in the Browser
-Inside the `tara-commute` folder:
+
+Navigate into the `tara-commute` project directory:
 
 ```bash
-# Install dependencies (if not already installed)
-npm install
+cd tara-commute
+```
 
-# Start the Angular development server
-npm start
-# or
+Install dependencies (if not already installed):
+
+```bash
+npm install
+```
+
+Start the application with live reload using **`ionic serve`**:
+
+```bash
 ionic serve
 ```
 
-Open your browser at `http://localhost:8100/`. (Press `F12` and toggle device mode to view in mobile view).
+The application will open automatically in your default browser at:
+```
+http://localhost:8100/
+```
+
+* **Desktop View**: View at standard browser window size (`100%` zoom) to see the PC web layout.
+* **Mobile View**: Press `F12` (Developer Tools) and toggle Device Toolbar (`Ctrl + Shift + M`) to view as a mobile phone.
 
 ---
 
-### 3. Build Web Assets
+### 3. Build Web Production Bundle
+
+To compile the production Angular application bundle:
+
 ```bash
 npm run build
 ```
@@ -83,21 +103,33 @@ npm run build
 
 ### 4. Build and Run on Android (Capacitor)
 
-#### Step 1: Sync Capacitor with Android
+#### Step 1: Copy Assets to Android Native Project
 ```bash
-npx cap sync android
+npx cap copy android
 ```
 
-#### Step 2: Open in Android Studio
+#### Step 2: Compile Debug APK using Gradle
+Inside the `tara-commute` folder:
+
+```powershell
+cd android
+.\gradlew assembleDebug
+cd ..
+```
+
+The compiled APK will be generated at:
+```
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+Copy it to the project root for testing:
+```powershell
+Copy-Item "android\app\build\outputs\apk\debug\app-debug.apk" -Destination "Tara-Commute.apk" -Force
+```
+
+#### Step 3: (Optional) Open in Android Studio
 ```bash
 npx cap open android
 ```
-
-#### Step 3: Generate APK
-1. In Android Studio, wait for Gradle sync to complete.
-2. Go to **Build** > **Build Bundle(s) / APK(s)** > **Build APK(s)**.
-3. Locate `app-debug.apk` under:
-   `android/app/build/outputs/apk/debug/app-debug.apk`
 
 ---
 
@@ -110,21 +142,20 @@ sir-gel-final-cs/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── dashboard/           # Main Commuter Dashboard
-│   │   │   ├── home/                # Home Overview & Shortcuts
-│   │   │   ├── location-search/     # Search & Transit Estimation
-│   │   │   ├── login/               # Student ID & Password Sign-in
-│   │   │   ├── map/                 # Leaflet Map & Fare Matrix Calculator
-│   │   │   ├── profile/             # Commuter Pass & Trip History
-│   │   │   ├── services/            # StudentService & API Integration
-│   │   │   ├── welcome/             # Student Onboarding & Sign-up
-│   │   │   ├── app.component.ts     # Root Ionic App Component
+│   │   │   ├── location-search/     # Responsive Route & Fare Planner
+│   │   │   ├── login/               # Secured Sign-In (Username & Password)
+│   │   │   ├── map/                 # Leaflet Map & Interactive Fare Matrix
+│   │   │   ├── profile/             # Commuter Pass & Commute Trip History
+│   │   │   ├── services/            # StudentService (HttpClient & Bearer Auth)
+│   │   │   ├── welcome/             # Simplified Registration (Username & School)
+│   │   │   ├── app.component.ts     # Root Component
 │   │   │   └── app.routes.ts        # Standalone Route Configuration
 │   │   ├── assets/                  # Icons, Logos & Transit Graphics
 │   │   ├── theme/                   # Ionic Theme Colors & Variables
-│   │   ├── global.scss              # Global Styles
-│   │   └── index.html               # SPA Entry Point
+│   │   ├── global.scss              # Global Styling
+│   │   └── index.html               # Single Page Application Entry
 │   ├── capacitor.config.ts          # Capacitor App Configuration
-│   ├── angular.json                 # Angular Build Configuration
+│   ├── angular.json                 # Angular Build & Budget Config
 │   ├── ionic.config.json            # Ionic Project Config
 │   └── package.json                 # Dependencies & Build Scripts
 └── README.md                        # Root Project Documentation
@@ -132,11 +163,12 @@ sir-gel-final-cs/
 
 ---
 
-## 🛠️ Built With
+## 🛠️ Tech Stack
 
-- **Framework:** [Ionic Framework 8](https://ionicframework.com/)
+- **Frontend Framework:** [Ionic Framework 8](https://ionicframework.com/)
 - **Core Engine:** [Angular 20](https://angular.dev/) (Standalone Components)
 - **Native Runtime:** [Capacitor 8](https://capacitorjs.com/)
-- **Mapping:** [Leaflet.js](https://leafletjs.com/)
-- **Backend:** PHP 8.x + MySQL (via XAMPP)
-- **Styling:** SCSS & Ionic CSS Variables
+- **Mapping & Routing:** [Leaflet.js](https://leafletjs.com/) + OpenStreetMap
+- **Backend:** PHP 8.x + MySQL (via XAMPP Apache)
+- **Security:** BCrypt Hashing, Bearer Token Auth, Brute-Force Rate Limiting
+- **Styling:** SCSS & Ionic CSS Variables (Responsive Desktop & Mobile)

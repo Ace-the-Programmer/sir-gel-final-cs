@@ -109,9 +109,11 @@ export class StudentService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // 1. Resolve host: user preference > live cloud endpoint default
+    // 1. Primary Live Cloud Database Endpoint (taracommute-api.elementfx.com)
     const savedHost = localStorage.getItem('taracommute_server_ip');
-    if (savedHost && savedHost !== '192.168.5.199' && savedHost !== 'localhost') {
+    if (savedHost && savedHost.includes('elementfx.com')) {
+      this.serverHost = 'taracommute-api.elementfx.com';
+    } else if (savedHost && !savedHost.startsWith('192.168.') && !savedHost.startsWith('10.') && !savedHost.startsWith('172.') && savedHost !== 'localhost') {
       this.serverHost = savedHost;
     } else {
       this.serverHost = 'taracommute-api.elementfx.com';
